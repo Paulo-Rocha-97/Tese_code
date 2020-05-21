@@ -153,7 +153,6 @@ def mean_st_dev(Num_of_var, Calc_1):
     
     return df
 
-
 # %% Function to calculate r 
  
 def calculate_corelation(Var_1,Var_2):
@@ -203,7 +202,7 @@ def Paired_t_test_r( Var, Ident, DF_mean, DF_st, DF_t, DF_p, DF_r):
                 Vec_st_dev.append(0)
                 Vec_t.append(None)
                 Vec_p.append(None)
-                Vec_p.append(1)
+                Vec_r.append(1)
                 
             else:
                 
@@ -221,7 +220,7 @@ def Paired_t_test_r( Var, Ident, DF_mean, DF_st, DF_t, DF_p, DF_r):
                 del Var_2
                               
                 Var_1, Var_2 = eliminate_none( Var[i], Var[j])
-                
+                                
                 r = calculate_corelation(Var_1,Var_2)
                 
                 t, p = st.ttest_ind(Var_1,Var_2)

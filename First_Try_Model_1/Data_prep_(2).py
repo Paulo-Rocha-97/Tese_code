@@ -124,11 +124,10 @@ def order_inputs( var_1, var_2, var_3, var_4 , var_5, var_6, output):
             list_in.append(var_3[2][i])
             list_in.append(var_4[2][i])
             
-            
             # precipitation 
-            Precip123 = average(var_1[4][i],var_2[4][i],var_3[4][i])
-            list_in.append(Precip123)
-            
+            list_in.append(var_1[4][i])
+            list_in.append(var_2[4][i])
+            list_in.append(var_3[4][i])
             list_in.append(var_4[4][i])
             
             # humidity 
@@ -181,7 +180,7 @@ input_value, output_value = order_inputs( Met_1, Met_2, Met_3, Met_4, St_544, St
 input_var = np.asarray(input_value).astype(np.float32)
 output_var = np.asarray(output_value).astype(np.float32)
 
-# %% Function to eliminate none
+# %% Function to eliminate none.
 # This function will either use the closest value or do an average of the value arround
 
 def clean_None(var):

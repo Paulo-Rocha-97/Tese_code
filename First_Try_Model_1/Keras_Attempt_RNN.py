@@ -111,11 +111,11 @@ opt = keras.optimizers.SGD(learning_rate = Learning_rate, momentum = Momentum)
 
 # Create model
 model = keras.models.Sequential([
-  layers.Dense( N_neurons_1, activation=Activation_1, kernel_initializer=weigth_ini_1, 
+  layers.RNN( N_neurons_1, activation=Activation_1, kernel_initializer=weigth_ini_1, 
                bias_initializer=Bias_ini_1, input_shape=(size_input,)),
   layers.Dense( N_neurons_2, activation=Activation_2, kernel_initializer=weigth_ini_2, 
                bias_initializer=Bias_ini_2 ),
-  layers.Dense(1)
+  layers.RNN(1)
 ])
 
 model.compile(optimizer=opt, loss='mse')
