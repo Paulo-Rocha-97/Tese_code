@@ -90,12 +90,12 @@ def calculate_correlation(Var1,Var2):
 
 # %% Data Prep
 
-Input, Output = pr.load(open ('Data_model_1.p','rb'))
+Input_, Output = pr.load(open ('Data_model_1.p','rb'))
 
 Mins = [ 1, 0, 0, -5, -5, 0, 0, 0, 0, 40, 40, 15, 35, 920, 0, 0]
 Maxs = [ 366, 30, 30, 30, 30, 70, 110, 110, 100, 100, 100, 100, 3200, 985, 350, 125]
 
-Input = Normalize_data_in(Input, Mins, Maxs)
+Input = Normalize_data_in(Input_, Mins, Maxs)
 
 Output = Normalize_data_out(Output,300,0)
 Output = Output.reshape(len(Output),1)
@@ -107,57 +107,55 @@ Output = np.delete(Output, (-1), axis=0)
 Input = np.concatenate((Input,Output_del),1)
 
 test_data_index= 1092
+Validation_data_size=0
 
 input_shape = Input.shape
 
 size_input = input_shape[1]
 
-Train_in = Input[:test_data_index,:]
-Train_out = Output[:test_data_index,:]
+Train_in = Input[:test_data_index-Validation_data_size+1,:]
+Train_out = Output[:test_data_index-Validation_data_size+1,:]
+
+Val_in = Input[test_data_index-Validation_data_size:test_data_index,:]
+Val_out = Output[test_data_index-Validation_data_size:test_data_index,:]
 
 Test_in = Input[test_data_index+1:,:]
 Test_out = Output[test_data_index+1:,:]
+
+Train_in = Train_in.reshape( (Train_in.shape[0], 1, Train_in .shape[1]) )
+Val_in = Val_in.reshape( (Val_in.shape[0], 1, Val_in .shape[1]) )
+Test_in = Test_in.reshape((Test_in.shape[0], 1, Test_in.shape[1]))
         
 # %% General Parameteres
 
-Epochs = 300
-Batch_size = 10
+Epochs = 1000
+Batch_size = 365
 
 # 1st Layer 
-N_neurons_1  = 20
-Activation_1 = keras.layers.LeakyReLU(alpha=0.1)
-weigth_ini_1 = keras.initializers.Constant(0.0)
-Bias_ini_1 = keras.initializers.Constant(1.0)
-
-# 2nd layer
-N_neurons_2  =  6
-Activation_2 = keras.layers.LeakyReLU(alpha=0.1)
-weigth_ini_2 = keras.initializers.Constant(0.0)
-Bias_ini_2 = keras.initializers.Constant(1.0)
+N_neurons_1  = 10
 
 # output layer 
 Constraint = keras.constraints.NonNeg()
 
 #%% Optimizer parameters
 
-Learning_rate = 0.001
-Momentum = 0.5
+Learning_rate = 0.01
+Momentum = 0.3
 opt = keras.optimizers.RMSprop(learning_rate = Learning_rate, momentum = Momentum)
 
 # %% Model Train and evaluate
 
 # Create model
 model = keras.models.Sequential([  
-  layers.LSTM( N_neurons_1, activation=Activation_1, input_shape=(size_input,)),
-  layers.LSTM( N_neurons_2, activation=Activation_2 ),
-  layers.Dense( 1, kernel_constraint = Constraint )
+  layers.LSTM( N_neurons_1, input_shape=[Train_in.shape[1], Train_in.shape[2]] ),
+  layers.Dense( 1, activation='relu')
 ])
 
 model.compile(optimizer=opt, loss='mse')
 
 # Fitting
-data = model.fit(Train_in, Train_out, epochs = Epochs, batch_size = Batch_size, 
-                 verbose=2, use_multiprocessing=True)
+data = model.fit(Train_in, Train_out, epochs=Epochs, batch_size=Batch_size,
+                          verbose=2, shuffle=False)
 
 print('\n Fitting Done \n')
 

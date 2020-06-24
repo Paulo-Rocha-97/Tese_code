@@ -151,7 +151,7 @@ opt = keras.optimizers.RMSprop(learning_rate = Learning_rate, momentum = Momentu
 model = keras.models.Sequential([  
   layers.Dense( N_neurons_1, activation=Activation_1, input_shape=(size_input,)),
   layers.Dense( N_neurons_2, activation=Activation_2 ),
-  layers.Dense( 1, kernel_constraint = Constraint )
+  layers.Dense( 1, activation='relu' )
 ])
 
 model.compile(optimizer=opt, loss='mse')
