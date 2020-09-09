@@ -50,7 +50,7 @@ def month_index(Time):
     
     return month_value
 
-# %% Function to organize inputs into a
+# %% Function to organize inputs 
 
 # data_type = [ day index, type of storage, number of days in the past, 
 #               number of days in the future, outflow type]
@@ -60,9 +60,11 @@ def month_index(Time):
 # Number of days past: from 0 to infinity
 # Number of days in the future: from 0 to infinity
 # outflow type: 0 - unique; 1 - Seperate
-    
+# week day info: 0 - week_combine_holiday 1 - week day binary 2 - week day in number
+# holiday info: 0 - week_combine_holiday 1 - national holiday 2 - national and galiza holiday
+# remove caudal ecologigo: 0 - not remove; 1 - remove caudal ecologico
 
-def order_vars( Dam, data_type ):
+def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type ):
     
     in_final=[]
     out_final=[]
@@ -70,8 +72,8 @@ def order_vars( Dam, data_type ):
     in_final_sec=[]
     out_final_sec=[]
     
-    Min = [ 0, 225, 80, 0, 0, 0, 0, 0 ]
-    Max = [ 365, 260, 320, 300, 250, 10, 130, 130]
+    Min = [ 0, 225, 80, 0, 0, 0, 0, 0 , 0]
+    Max = [ 365, 260, 320, 300, 250, 10, 130, 130, 7]
     
     day_i = day_index()
     
@@ -133,19 +135,63 @@ def order_vars( Dam, data_type ):
             for j in range(0,data_type[3]):
                 x = Normalize_data(Dam[4][i+j], Max[3], Min[3])
                 list_in.append(x)
+                
+        # Week and holiday info 
+                
+        if data_type[5] == 0 or data_type[5] == 0:
+            x = W_c[i]
+            list_in.append(x)
+        
+        else:
+            # week info
+            if data_type [5] == 1:
+                x = W_b[i]
+                list_in.append(x)
+                
+            else:
+                x = Normalize_data(W_n[i], Max[8], Min[8])
+                list_in.append(x)
+            
+            # holiday info
+            if data_type [6] == 1:
+                x = N_holiday[i]
+                list_in.append(x)
+            else:
+                x = G_holiday[i]
+                list_in.append(x)           
 
         # Outflow
                 
         if data_type[4] == 0:
-            y = Normalize_data(Dam[5][i], Max[4], Min[4])
-            list_out.append(y)
+            
+            if data_type[7] == 1 and Dam[5][i] != None :
+                
+                month = month_index(Dam[0][i]) - 1
+                
+                y = Normalize_data(Dam[5][i] - Eco_outflow[ month ], Max[4], Min[4])
+                list_out.append(y)
+                
+            else:
+                y = Normalize_data(Dam[5][i], Max[4], Min[4])
+                list_out.append(y)
+                
         elif data_type[4] ==1:
+            
             y = Normalize_data(Dam[6][i], Max[5], Min[5])
             list_out.append(y)
             y = Normalize_data(Dam[7][i], Max[6], Min[6])
             list_out.append(y)
-            y = Normalize_data(Dam[8][i], Max[7], Min[7])
-            list_out.append(y)
+            
+            if data_type[7] == 1 and Dam[8][i] != None :
+            
+                month = month_index(Dam[0][i]) - 1
+                y = Normalize_data(Dam[8][i]  - Eco_outflow[ month ], Max[7], Min[7])
+                list_out.append(y)
+                
+            else:
+
+                y = Normalize_data(Dam[8][i], Max[7], Min[7])
+                list_out.append(y)
             
         y = Normalize_data(Dam[5][i], Max[4], Min[4])
         list_in_sec.append(y)
@@ -158,7 +204,7 @@ def order_vars( Dam, data_type ):
             
     return in_final, out_final, time_plot, in_final_sec, out_final_sec 
 
-# %% Function to clean any rowa with missing data
+# %% Function to clean any row with missing data
     
 def clean_nan(Input, Output, Time_plot, Input_2, Output_2 ):
     
@@ -230,8 +276,11 @@ def Normalize_data(Var_1,Max_value,Min_value):
 def generate_data( save, data_type ):
     
     _, _, Portodemouros = pr.load(open("Dams.p","rb"))
+    N_holiday, G_holiday, W_n, W_b, W_c  = pr.load(open("Time.p","rb"))
     
-    input_value, output_value, time_plot, input_value_sec, output_value_sec = order_vars( Portodemouros, data_type )
+    Eco_outflow = [15,15,11.9,9.6,8.6,7.9,5,5,5,8.9,11.9,15]
+    
+    input_value, output_value, time_plot, input_value_sec, output_value_sec = order_vars( Portodemouros, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type )
     
     input_var = np.asarray(input_value).astype(np.float32)
     output_var = np.asarray(output_value).astype(np.float32)

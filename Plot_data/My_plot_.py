@@ -64,12 +64,12 @@ def make_plot_line( path, Name, Time, Y_name, *args ):
     plt.savefig(path+'/'+name+'.png')
     plt.close()
     
-def make_plot_marker_line( path, Name, Time, Y_name, *args ):
+def make_plot_marker_line_( path, Name, Time, Y_name, *args ):
     
     import os
     import matplotlib.pyplot as plt
     
-    plt.rcParams.update({'font.size': 80})
+    # plt.rcParams.update({'font.size': 8})
 
     comp = len(args)
     
@@ -85,7 +85,7 @@ def make_plot_marker_line( path, Name, Time, Y_name, *args ):
             
         color = ['r','r','b','b','g','g','c','c','m','m','y','y','k','k']*n_int
     
-    plt.figure(figsize=(100,50))
+    plt.figure()
 
     if comp == 1:
         
@@ -119,5 +119,5 @@ def make_plot_marker_line( path, Name, Time, Y_name, *args ):
     if not os.path.exists(path):
         os.makedirs(path)
 
-    plt.savefig(path+'/'+name+'.png')
+    plt.savefig(path+'/'+name+'.png', dpi=3000)
     plt.close()

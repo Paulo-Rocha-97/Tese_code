@@ -278,7 +278,7 @@ def build_MLP_sec(input_var, output_var, time_plot, data_index, hidden_layers_in
                          validation_data = (Val_in, Val_out), verbose=show_progress, use_multiprocessing=True)
             
     print('\n Fitting Done \n')
-i
+
     # Evaluate
     error = model.evaluate(Test_in, Test_out, verbose=0)
     RMSE = tf.math.sqrt(error)
