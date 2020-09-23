@@ -72,8 +72,19 @@ def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type
     in_final_sec=[]
     out_final_sec=[]
     
-    Min = [ 0, 225, 80, 0, 0, 0, 0, 0 , 0]
-    Max = [ 365, 260, 320, 300, 250, 10, 130, 130, 7]
+    # Min and Max index explanation
+    # 0 - days
+    # 1 - Heigth (m)
+    # 2 - Volume (Hm^3)
+    # 3 - Inflow
+    # 4 - Outflow total
+    # 5 - Out Bottom
+    # 6 - Out Flood
+    # 7 - Out Power
+    # 8 - Week days
+    
+    Min = [   0, 158, 0.4,   5,   0,  0,   0,  0, 0]
+    Max = [ 365, 171, 3.2, 230, 230, 50, 180, 90, 7]
     
     day_i = day_index()
     
@@ -275,12 +286,12 @@ def Normalize_data(Var_1,Max_value,Min_value):
     
 def generate_data( save, data_type ):
     
-    _, _, Portodemouros = pr.load(open("Dams.p","rb"))
+    Touro, _, _ = pr.load(open("Dams.p","rb"))
     N_holiday, G_holiday, W_n, W_b, W_c  = pr.load(open("Time.p","rb"))
     
     Eco_outflow = [15,15,11.9,9.6,8.6,7.9,5,5,5,8.9,11.9,15]
     
-    input_value, output_value, time_plot, input_value_sec, output_value_sec = order_vars( Portodemouros, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type )
+    input_value, output_value, time_plot, input_value_sec, output_value_sec = order_vars( Touro, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type )
     
     input_var = np.asarray(input_value).astype(np.float32)
     output_var = np.asarray(output_value).astype(np.float32)
@@ -291,7 +302,7 @@ def generate_data( save, data_type ):
     
     if save == 1:
     
-        name = 'Data_model_2.p'
+        name = 'Data_model_4.p'
         
         pr.dump ( [input_var, output_var, time_plot, input_var_sec, output_var_sec] , open( name, "wb" ) )
         

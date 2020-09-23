@@ -1,6 +1,7 @@
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
+import matplotlib.pyplot as plt
 from tensorflow.keras import layers
 from My_plot_ import  make_plot_line as make_plot
 from My_plot_ import  make_plot_line_nosave as make_plot_ns
@@ -165,7 +166,7 @@ def build_MLP_main(input_var, output_var, time_plot, data_index, hidden_layers_i
         print('R flood: %3f \nR Bottom: %3f \nR Power: %3f'% (r[0],r[1],r[2]))
      
     # Make plots  
-    path ='C:/Users/Paulo_Rocha/Desktop/Tese/Tese_code/Model_2/Results/' + name_model + '/'
+    path ='C:/Users/Paulo_Rocha/Desktop/Tese/Tese_code/Model_4/Results/' + name_model + '/'
         
     Epochs_axis = []
     for i in range(test_parameters[0]):
@@ -177,18 +178,18 @@ def build_MLP_main(input_var, output_var, time_plot, data_index, hidden_layers_i
         
         Test_out[:,0] = Denormalize_data(Test_out[:,0], 250, 0)
         Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], 250, 0) 
-        make_plot_ns(path, 'Model_2_outflow', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Total Outflow')
+        make_plot_ns(path, 'Model_4_outflow', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Total Outflow')
     
     else:
         Test_out[:,0] = Denormalize_data(Test_out[:,0], 10, 0)
         Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], 10, 0) 
-        make_plot_ns(path, 'Model_2_Bottom', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Outflow Flood')
+        make_plot_ns(path, 'Model_4_Bottom', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Outflow Flood')
         Test_out[:,1] = Denormalize_data(Test_out[:,1], 130, 0)
         Test_out_pred[:,1] = Denormalize_data(Test_out_pred[:,1], 130, 0) 
-        make_plot_ns(path, 'Model_2_Flood', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,1], 'Real Data', Test_out_pred[:,1], 'Estimation Outflow Bottom')
+        make_plot_ns(path, 'Model_4_Flood', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,1], 'Real Data', Test_out_pred[:,1], 'Estimation Outflow Bottom')
         Test_out[:,2] = Denormalize_data(Test_out[:,2], 130, 0)
         Test_out_pred[:,2] = Denormalize_data(Test_out_pred[:,2], 130, 0) 
-        make_plot_ns(path, 'Model_2_Power', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,2], 'Real Data', Test_out_pred[:,2], 'Estimation Outflow Power')
+        make_plot_ns(path, 'Model_4_Power', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,2], 'Real Data', Test_out_pred[:,2], 'Estimation Outflow Power')
     
     # Introduce save feature here    
     save_model =int(input('\nDo you wish to save? : '),10)
@@ -197,23 +198,23 @@ def build_MLP_main(input_var, output_var, time_plot, data_index, hidden_layers_i
             
         if output_shape[1] == 1:
 
-            make_plot(path, 'Model_2_outflow', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Total Outflow')
+            make_plot(path, 'Model_4_outflow', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Total Outflow')
         else:
 
-            make_plot(path, 'Model_2_Bottom', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Outflow Flood')
-            make_plot(path, 'Model_2_Flood', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,1], 'Real Data', Test_out_pred[:,1], 'Estimation Outflow Bottom')
-            make_plot(path, 'Model_2_Power', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,2], 'Real Data', Test_out_pred[:,2], 'Estimation Outflow Power')
+            make_plot(path, 'Model_4_Bottom', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Outflow Flood')
+            make_plot(path, 'Model_4_Flood', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,1], 'Real Data', Test_out_pred[:,1], 'Estimation Outflow Bottom')
+            make_plot(path, 'Model_4_Power', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,2], 'Real Data', Test_out_pred[:,2], 'Estimation Outflow Power')
        
         # Plot loss while training 
         if data_index[1]==data_index[0]:
-            make_plot(path, 'Model_2_training', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'])
+            make_plot(path, 'Model_4_training', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'])
         else:
-            make_plot(path, 'Model_2_training', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'], 'Training', history.history['val_loss'], 'Validation')
+            make_plot(path, 'Model_4_training', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'], 'Training', history.history['val_loss'], 'Validation')
             
         model_json = model.to_json()
-        with open( path + "model2_" + name_model + ".json", "w") as json_file:
+        with open( path + "model4_" + name_model + ".json", "w") as json_file:
             json_file.write(model_json)
-        model.save_weights( path + "model2_" + name_model +".h5" )
+        model.save_weights( path + "model4_" + name_model +".h5" )
         
         print('\n Model Saved')
         
@@ -293,7 +294,7 @@ def build_MLP_sec(input_var, output_var, time_plot, data_index, hidden_layers_in
     print('R Storage: %3f'% (r))
      
     # Make plots  
-    path ='C:/Users/Paulo_Rocha/Desktop/Tese/Tese_code/Model_2/Results/' + name_model + '/'
+    path ='C:/Users/Paulo_Rocha/Desktop/Tese/Tese_code/Model_4/Results/' + name_model + '/'
         
     Epochs_axis = []
     for i in range(test_parameters[0]):
@@ -305,13 +306,13 @@ def build_MLP_sec(input_var, output_var, time_plot, data_index, hidden_layers_in
     
         Test_out[:,0] = Denormalize_data(Test_out[:,0], 260, 225)
         Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], 260, 225)
-        make_plot_ns(path, 'Model_2_sec_storage', time_scale, 'Date', 'Storage(m)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Storage')
+        make_plot_ns(path, 'Model_4_sec_storage', time_scale, 'Date', 'Storage(m)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Storage')
         
     elif data_type[1] == 2:
         
         Test_out[:,0] = Denormalize_data(Test_out[:,0], 320, 80)
         Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], 320, 80)
-        make_plot_ns(path, 'Model_2_sec_storage', time_scale, 'Date', 'Storage(Hm^3)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Storage')
+        make_plot_ns(path, 'Model_4_sec_storage', time_scale, 'Date', 'Storage(Hm^3)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Storage')
     
     # feature to activate save
     save_model =int(input('\nDo you wish to save? : '),10)
@@ -320,22 +321,22 @@ def build_MLP_sec(input_var, output_var, time_plot, data_index, hidden_layers_in
         
         if data_type[1] == 1: 
         
-            make_plot(path, 'Model_2_sec_storage', time_scale, 'Date', 'Storage(m)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Storage')
+            make_plot(path, 'Model_4_sec_storage', time_scale, 'Date', 'Storage(m)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Storage')
 
         elif data_type[1] == 2:
             
-            make_plot(path, 'Model_2_sec_storage', time_scale, 'Date', 'Storage(Hm^3)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Storage')  
+            make_plot(path, 'Model_4_sec_storage', time_scale, 'Date', 'Storage(Hm^3)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Storage')  
        
         # Plot loss while training 
         if data_index[1]==data_index[0]:
-            make_plot(path, 'Model_2_training_sec', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'])
+            make_plot(path, 'Model_4_training_sec', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'])
         else:
-            make_plot(path, 'Model_2_training_sec', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'], 'Training', history.history['val_loss'], 'Validation')
+            make_plot(path, 'Model_4_training_sec', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'], 'Training', history.history['val_loss'], 'Validation')
             
         model_json = model.to_json()
-        with open( path + "model2_sec_" + name_model + ".json", "w") as json_file:
+        with open( path + "model4_sec_" + name_model + ".json", "w") as json_file:
             json_file.write(model_json)
-        model.save_weights( path + "model2_sec_" + name_model +".h5" )
+        model.save_weights( path + "model4_sec_" + name_model +".h5" )
         
         print('\n Model Saved')
         
@@ -431,7 +432,7 @@ def build_LSTM(input_var, output_var, time_plot, data_index, hidden_layer_info, 
         print('R flood: %3f \nR Bottom: %3f \nR Power: %3f'% (r[0],r[1],r[2]))
      
     # Make plots  
-    path ='C:/Users/Paulo_Rocha/Desktop/Tese/Tese_code/Model_2/Results/' + name_model + '/'
+    path ='C:/Users/Paulo_Rocha/Desktop/Tese/Tese_code/Model_4/Results/' + name_model + '/'
         
     Epochs_axis = []
     for i in range(test_parameters[0]):
@@ -443,18 +444,18 @@ def build_LSTM(input_var, output_var, time_plot, data_index, hidden_layer_info, 
         
         Test_out[:,0] = Denormalize_data(Test_out[:,0], 250, 0)
         Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], 250, 0) 
-        make_plot_ns(path, 'Model_2_outflow', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Total Outflow')
+        make_plot_ns(path, 'Model_4_outflow', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Total Outflow')
     
     else:
         Test_out[:,0] = Denormalize_data(Test_out[:,0], 10, 0)
         Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], 10, 0) 
-        make_plot_ns(path, 'Model_2_Bottom', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Outflow Flood')
+        make_plot_ns(path, 'Model_4_Bottom', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Outflow Flood')
         Test_out[:,1] = Denormalize_data(Test_out[:,1], 130, 0)
         Test_out_pred[:,1] = Denormalize_data(Test_out_pred[:,1], 130, 0) 
-        make_plot_ns(path, 'Model_2_Flood', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,1], 'Real Data', Test_out_pred[:,1], 'Estimation Outflow Bottom')
+        make_plot_ns(path, 'Model_4_Flood', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,1], 'Real Data', Test_out_pred[:,1], 'Estimation Outflow Bottom')
         Test_out[:,2] = Denormalize_data(Test_out[:,2], 130, 0)
         Test_out_pred[:,2] = Denormalize_data(Test_out_pred[:,2], 130, 0) 
-        make_plot_ns(path, 'Model_2_Power', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,2], 'Real Data', Test_out_pred[:,2], 'Estimation Outflow Power')
+        make_plot_ns(path, 'Model_4_Power', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,2], 'Real Data', Test_out_pred[:,2], 'Estimation Outflow Power')
     
     # Introduce save feature here    
     save_model =int(input('\nDo you wish to save? : '),10)
@@ -463,23 +464,23 @@ def build_LSTM(input_var, output_var, time_plot, data_index, hidden_layer_info, 
             
         if output_shape[1] == 1:
 
-            make_plot(path, 'Model_2_outflow', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Total Outflow')
+            make_plot(path, 'Model_4_outflow', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Total Outflow')
         else:
 
-            make_plot(path, 'Model_2_Bottom', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Outflow Flood')
-            make_plot(path, 'Model_2_Flood', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,1], 'Real Data', Test_out_pred[:,1], 'Estimation Outflow Bottom')
-            make_plot(path, 'Model_2_Power', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,2], 'Real Data', Test_out_pred[:,2], 'Estimation Outflow Power')
+            make_plot(path, 'Model_4_Bottom', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Outflow Flood')
+            make_plot(path, 'Model_4_Flood', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,1], 'Real Data', Test_out_pred[:,1], 'Estimation Outflow Bottom')
+            make_plot(path, 'Model_4_Power', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,2], 'Real Data', Test_out_pred[:,2], 'Estimation Outflow Power')
        
         # Plot loss while training 
         if data_index[1]==data_index[0]:
-            make_plot(path, 'Model_2_training', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'])
+            make_plot(path, 'Model_4_training', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'])
         else:
-            make_plot(path, 'Model_2_training', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'], 'Training', history.history['val_loss'], 'Validation')
+            make_plot(path, 'Model_4_training', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'], 'Training', history.history['val_loss'], 'Validation')
             
         model_json = model.to_json()
-        with open( path + "model2_" + name_model + ".json", "w") as json_file:
+        with open( path + "model4_" + name_model + ".json", "w") as json_file:
             json_file.write(model_json)
-        model.save_weights( path + "model2_" + name_model +".h5" )
+        model.save_weights( path + "model4_" + name_model +".h5" )
         
         print('\n Model Saved')
         

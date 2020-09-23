@@ -1,9 +1,9 @@
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
+import matplotlib.pyplot as plt
 from tensorflow.keras import layers
-from My_plot_ import  make_plot_line as make_plot
-from My_plot_ import  make_plot_line_nosave as make_plot_ns
+
 
 # %% Function to calculate mean and st dev
 
@@ -128,13 +128,11 @@ def build_MLP_main(input_var, output_var, time_plot, data_index, hidden_layers_i
         history = model.fit(Train_in, Train_out, epochs = test_parameters[0], batch_size = test_parameters[1],
                          validation_data = (Val_in, Val_out), verbose=show_progress, use_multiprocessing=True)
             
-    print('\n Fitting Done \n')
-
     # Evaluate
     error = model.evaluate(Test_in, Test_out, verbose=0)
     RMSE = tf.math.sqrt(error)
 
-    print('MSE: %3f \nRMSE: %3f'% (error,RMSE))
+    print('\nMSE: %2f \nRMSE: %2f'% (error,RMSE))
     
     Test_out_pred = model.predict(Test_in, verbose=0)
 
@@ -146,11 +144,9 @@ def build_MLP_main(input_var, output_var, time_plot, data_index, hidden_layers_i
     MAE_ = np.mean(abs(Test_out[:,0] - Test_out_pred[:,0]))
     MAE.append(MAE_)
     
-    if output_shape[1] == 1:
+    print('r: %2f'% (r[0]))
     
-        print('R Outflow: %3f'% (r[0]))      
-        
-    else:
+    if output_shape[1] != 1:
         
         r_ = calculate_correlation(Test_out_pred[:,1], Test_out[:,1])
         r.append(r_)
@@ -161,62 +157,7 @@ def build_MLP_main(input_var, output_var, time_plot, data_index, hidden_layers_i
         r.append(r_)
         MAE_ = np.mean(abs(Test_out[:,2] - Test_out_pred[:,2]))
         MAE.append(MAE_)
-        
-        print('R flood: %3f \nR Bottom: %3f \nR Power: %3f'% (r[0],r[1],r[2]))
-     
-    # Make plots  
-    path ='C:/Users/Paulo_Rocha/Desktop/Tese/Tese_code/Model_2/Results/' + name_model + '/'
-        
-    Epochs_axis = []
-    for i in range(test_parameters[0]):
-        Epochs_axis.append(i+1)
-        
-    # Save full model and plots
-        
-    if output_shape[1] == 1:
-        
-        Test_out[:,0] = Denormalize_data(Test_out[:,0], 250, 0)
-        Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], 250, 0) 
-        make_plot_ns(path, 'Model_2_outflow', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Total Outflow')
-    
-    else:
-        Test_out[:,0] = Denormalize_data(Test_out[:,0], 10, 0)
-        Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], 10, 0) 
-        make_plot_ns(path, 'Model_2_Bottom', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Outflow Flood')
-        Test_out[:,1] = Denormalize_data(Test_out[:,1], 130, 0)
-        Test_out_pred[:,1] = Denormalize_data(Test_out_pred[:,1], 130, 0) 
-        make_plot_ns(path, 'Model_2_Flood', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,1], 'Real Data', Test_out_pred[:,1], 'Estimation Outflow Bottom')
-        Test_out[:,2] = Denormalize_data(Test_out[:,2], 130, 0)
-        Test_out_pred[:,2] = Denormalize_data(Test_out_pred[:,2], 130, 0) 
-        make_plot_ns(path, 'Model_2_Power', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,2], 'Real Data', Test_out_pred[:,2], 'Estimation Outflow Power')
-    
-    # Introduce save feature here    
-    save_model =int(input('\nDo you wish to save? : '),10)
-    
-    if save_model == 1:
-            
-        if output_shape[1] == 1:
-
-            make_plot(path, 'Model_2_outflow', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Total Outflow')
-        else:
-
-            make_plot(path, 'Model_2_Bottom', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Outflow Flood')
-            make_plot(path, 'Model_2_Flood', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,1], 'Real Data', Test_out_pred[:,1], 'Estimation Outflow Bottom')
-            make_plot(path, 'Model_2_Power', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,2], 'Real Data', Test_out_pred[:,2], 'Estimation Outflow Power')
-       
-        # Plot loss while training 
-        if data_index[1]==data_index[0]:
-            make_plot(path, 'Model_2_training', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'])
-        else:
-            make_plot(path, 'Model_2_training', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'], 'Training', history.history['val_loss'], 'Validation')
-            
-        model_json = model.to_json()
-        with open( path + "model2_" + name_model + ".json", "w") as json_file:
-            json_file.write(model_json)
-        model.save_weights( path + "model2_" + name_model +".h5" )
-        
-        print('\n Model Saved')
-        
+          
     return r, RMSE, MAE
 
 # %% Build MLP sec
@@ -276,68 +217,16 @@ def build_MLP_sec(input_var, output_var, time_plot, data_index, hidden_layers_in
         history = model.fit(Train_in, Train_out, epochs = test_parameters[0], batch_size = test_parameters[1],
                          validation_data = (Val_in, Val_out), verbose=show_progress, use_multiprocessing=True)
             
-    print('\n Fitting Done \n')
-
     # Evaluate
     error = model.evaluate(Test_in, Test_out, verbose=0)
     RMSE = tf.math.sqrt(error)
 
-    print('MSE: %3f \nRMSE: %3f'% (error,RMSE))
-    
     Test_out_pred = model.predict(Test_in, verbose=0)
         
     r = calculate_correlation(Test_out_pred[:,0], Test_out[:,0])
     
     MAE = np.mean(abs(Test_out - Test_out_pred))
-    
-    print('R Storage: %3f'% (r))
-     
-    # Make plots  
-    path ='C:/Users/Paulo_Rocha/Desktop/Tese/Tese_code/Model_2/Results/' + name_model + '/'
-        
-    Epochs_axis = []
-    for i in range(test_parameters[0]):
-        Epochs_axis.append(i+1)
-        
-    # Save full model and plots
-        
-    if data_type[1] == 1: 
-    
-        Test_out[:,0] = Denormalize_data(Test_out[:,0], 260, 225)
-        Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], 260, 225)
-        make_plot_ns(path, 'Model_2_sec_storage', time_scale, 'Date', 'Storage(m)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Storage')
-        
-    elif data_type[1] == 2:
-        
-        Test_out[:,0] = Denormalize_data(Test_out[:,0], 320, 80)
-        Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], 320, 80)
-        make_plot_ns(path, 'Model_2_sec_storage', time_scale, 'Date', 'Storage(Hm^3)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Storage')
-    
-    # feature to activate save
-    save_model =int(input('\nDo you wish to save? : '),10)
-    
-    if save_model == 1:
-        
-        if data_type[1] == 1: 
-        
-            make_plot(path, 'Model_2_sec_storage', time_scale, 'Date', 'Storage(m)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Storage')
 
-        elif data_type[1] == 2:
-            
-            make_plot(path, 'Model_2_sec_storage', time_scale, 'Date', 'Storage(Hm^3)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Storage')  
-       
-        # Plot loss while training 
-        if data_index[1]==data_index[0]:
-            make_plot(path, 'Model_2_training_sec', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'])
-        else:
-            make_plot(path, 'Model_2_training_sec', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'], 'Training', history.history['val_loss'], 'Validation')
-            
-        model_json = model.to_json()
-        with open( path + "model2_sec_" + name_model + ".json", "w") as json_file:
-            json_file.write(model_json)
-        model.save_weights( path + "model2_sec_" + name_model +".h5" )
-        
-        print('\n Model Saved')
         
     return r, RMSE, MAE
     
@@ -394,13 +283,9 @@ def build_LSTM(input_var, output_var, time_plot, data_index, hidden_layer_info, 
         history = model.fit(Train_in, Train_out, epochs = test_parameters[0], batch_size = test_parameters[1],
                          validation_data = (Val_in, Val_out), verbose=2, use_multiprocessing=True)
             
-    print('\n Fitting Done \n')
-
     # Evaluate
     error = model.evaluate(Test_in, Test_out, verbose=0)
     RMSE = tf.math.sqrt(error)
-
-    print('MSE: %3f \nRMSE: %3f'% (error,RMSE))
     
     Test_out_pred = model.predict(Test_in, verbose=0)
 
@@ -412,12 +297,8 @@ def build_LSTM(input_var, output_var, time_plot, data_index, hidden_layer_info, 
     MAE_ = np.mean(abs(Test_out[:,0] - Test_out_pred[:,0]))
     MAE.append(MAE_)
     
-    if output_shape[1] == 1:
-    
-        print('R Outflow: %3f'% (r[0]))      
-        
-    else:
-        
+    if output_shape[1] != 1:
+     
         r_ = calculate_correlation(Test_out_pred[:,1], Test_out[:,1])
         r.append(r_)
         MAE_ = np.mean(abs(Test_out[:,1] - Test_out_pred[:,1]))
@@ -428,59 +309,5 @@ def build_LSTM(input_var, output_var, time_plot, data_index, hidden_layer_info, 
         MAE_ = np.mean(abs(Test_out[:,2] - Test_out_pred[:,2]))
         MAE.append(MAE_)
         
-        print('R flood: %3f \nR Bottom: %3f \nR Power: %3f'% (r[0],r[1],r[2]))
-     
-    # Make plots  
-    path ='C:/Users/Paulo_Rocha/Desktop/Tese/Tese_code/Model_2/Results/' + name_model + '/'
-        
-    Epochs_axis = []
-    for i in range(test_parameters[0]):
-        Epochs_axis.append(i+1)
-        
-    # Save full model and plots
-        
-    if output_shape[1] == 1:
-        
-        Test_out[:,0] = Denormalize_data(Test_out[:,0], 250, 0)
-        Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], 250, 0) 
-        make_plot_ns(path, 'Model_2_outflow', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Total Outflow')
-    
-    else:
-        Test_out[:,0] = Denormalize_data(Test_out[:,0], 10, 0)
-        Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], 10, 0) 
-        make_plot_ns(path, 'Model_2_Bottom', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Outflow Flood')
-        Test_out[:,1] = Denormalize_data(Test_out[:,1], 130, 0)
-        Test_out_pred[:,1] = Denormalize_data(Test_out_pred[:,1], 130, 0) 
-        make_plot_ns(path, 'Model_2_Flood', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,1], 'Real Data', Test_out_pred[:,1], 'Estimation Outflow Bottom')
-        Test_out[:,2] = Denormalize_data(Test_out[:,2], 130, 0)
-        Test_out_pred[:,2] = Denormalize_data(Test_out_pred[:,2], 130, 0) 
-        make_plot_ns(path, 'Model_2_Power', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,2], 'Real Data', Test_out_pred[:,2], 'Estimation Outflow Power')
-    
-    # Introduce save feature here    
-    save_model =int(input('\nDo you wish to save? : '),10)
-    
-    if save_model == 1:
-            
-        if output_shape[1] == 1:
-
-            make_plot(path, 'Model_2_outflow', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Total Outflow')
-        else:
-
-            make_plot(path, 'Model_2_Bottom', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Outflow Flood')
-            make_plot(path, 'Model_2_Flood', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,1], 'Real Data', Test_out_pred[:,1], 'Estimation Outflow Bottom')
-            make_plot(path, 'Model_2_Power', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,2], 'Real Data', Test_out_pred[:,2], 'Estimation Outflow Power')
-       
-        # Plot loss while training 
-        if data_index[1]==data_index[0]:
-            make_plot(path, 'Model_2_training', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'])
-        else:
-            make_plot(path, 'Model_2_training', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'], 'Training', history.history['val_loss'], 'Validation')
-            
-        model_json = model.to_json()
-        with open( path + "model2_" + name_model + ".json", "w") as json_file:
-            json_file.write(model_json)
-        model.save_weights( path + "model2_" + name_model +".h5" )
-        
-        print('\n Model Saved')
         
     return r, RMSE, MAE

@@ -5,11 +5,11 @@ from NN_build import build_MLP_sec
 
 from NN_build import build_LSTM
 import pickle as pr
-from Data_Prep_Model_2 import generate_data
+from Data_Prep_Model_4 import generate_data
 
 # %% Set optmizer
 
-train_percentage = 0.75
+train_percentage = 0.7
 validation_perentagem = 0.1
 
 # model ='LSTM'
@@ -37,7 +37,7 @@ validation_perentagem = 0.1
     
 #     build_LSTM(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model)
     
-Data = [0,2,3,3,0,1,3,1]
+Data= [1,1,3,3,0,0,0,1]
 
 # data_type = [ day index, type of storage, number of days in the past, 
 #               number of days in the future, outflow type]
@@ -80,11 +80,11 @@ if run_model == 0 or run_model == 2:
         hidden_layer_info[0] = [10,'relu']
         hidden_layer_info[1] = [10,'relu']
         
-        test_parameters = [200,50]
+        test_parameters = [500,50]
         
         show_progress = 2
         
-        print('\nMain Model 2')
+        print('\nMain Model 4')
         
         r, RMSE, MAE = build_MLP_main(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model, Data, show_progress)
 
@@ -112,7 +112,7 @@ if run_model == 1 or run_model == 2:
     
     show_progress = 2
     
-    print('\nSecondary Model 2\n')
+    print('\nSecondary Model 4\n')
     
     r_sec, RMSE_sec, MAE_sec = build_MLP_sec(input_var_sec, output_var_sec, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model, Data, show_progress)
 

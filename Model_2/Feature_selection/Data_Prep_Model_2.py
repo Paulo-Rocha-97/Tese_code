@@ -60,8 +60,8 @@ def month_index(Time):
 # Number of days past: from 0 to infinity
 # Number of days in the future: from 0 to infinity
 # outflow type: 0 - unique; 1 - Seperate
-# week day info: 0 - week_combine_holiday 1 - week day binary 2 - week day in number
-# holiday info: 0 - week_combine_holiday 1 - national holiday 2 - national and galiza holiday
+# week day info: 0 - week_combine_holiday 1 - week day binary 2 - week day in number 3 - none
+# holiday info: 0 - week_combine_holiday 1 - national holiday 2 - national and galiza holiday 3 - none
 # remove caudal ecologigo: 0 - not remove; 1 - remove caudal ecologico
 
 def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type ):
