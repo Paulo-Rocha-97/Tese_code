@@ -9,7 +9,7 @@ from Data_Prep_Model_4 import generate_data
 
 # %% Set optmizer
 
-train_percentage = 0.7
+train_percentage = 0.75
 validation_perentagem = 0.1
 
 # model ='LSTM'
@@ -37,7 +37,7 @@ validation_perentagem = 0.1
     
 #     build_LSTM(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model)
     
-Data= [1,1,3,3,0,0,0,1]
+Data= [1,1,1,1,0,0,0,1]
 
 # data_type = [ day index, type of storage, number of days in the past, 
 #               number of days in the future, outflow type]
@@ -56,12 +56,10 @@ model_type = 0
              
 save_model = 0
 
-if save_model == 1:
-    name_model = input('Name_model:')
-    run_model = 2
-else:
-    name_model = '1st'
-    run_model = 0
+name_model = 'Example'
+
+run_model = 1
+
         
 input_var, output_var, time_plot, input_var_sec, output_var_sec = generate_data( 0, Data)
 data_index=[int(train_percentage*len(time_plot)),int((train_percentage+validation_perentagem)*len(time_plot))]
@@ -100,15 +98,16 @@ if run_model == 0 or run_model == 2:
 
 if run_model == 1 or run_model == 2: 
     
-    Learning_rate = 0.0001
-    Momentum = 0.2
+    Learning_rate = 0.0005
+    
+    Momentum = 0.5
     opt = keras.optimizers.RMSprop(learning_rate = Learning_rate, momentum = Momentum)
     
     hidden_layer_info=[0]
     
     hidden_layer_info[0] = [2,'relu']
     
-    test_parameters = [300,10]
+    test_parameters = [500,50]
     
     show_progress = 2
     

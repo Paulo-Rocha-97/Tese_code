@@ -104,7 +104,7 @@ R, RMSE, MAE, N_error, Data = feature_selections_results(name_file)
 Y=np.array( [0,1,2,3,4,5,0,1,2,3,4,5,0,1,2,3,4,5,0,1,2,3,4,5,0,1,2,3,4,5,0,1,2,3,4,5])
 X=np.array( [0,0,0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5])
 
-path = 'C:/Users/Paulo_Rocha/Desktop/Tese/Tese_code/Model_3/Feature_Selection/Results/Plots'
+path = 'C:/Users/Paulo_Rocha/Desktop/Tese/Tese_code/Model_4/Feature_Selection/Results/Plots'
 Name_r = 'Number of days before and after (r)'
 plot_name = 'N_days_r'
 

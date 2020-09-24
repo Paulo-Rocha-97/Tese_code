@@ -37,7 +37,7 @@ validation_perentagem = 0.1
     
 #     build_LSTM(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model)
     
-Data= [1,1,3,3,0,0,0,1]
+Data= [1,1,1,1,0,0,0,1]
 
 # data_type = [ day index, type of storage, number of days in the past, 
 #               number of days in the future, outflow type]
@@ -54,14 +54,12 @@ Data= [1,1,3,3,0,0,0,1]
 
 model_type = 0
              
-save_model = 0
+save_model = 1
 
-if save_model == 1:
-    name_model = input('Name_model:')
-    run_model = 2
-else:
-    name_model = '1st'
-    run_model = 0
+name_model = 'Example_2'
+
+run_model = 1
+
         
 input_var, output_var, time_plot, input_var_sec, output_var_sec = generate_data( 0, Data)
 data_index=[int(train_percentage*len(time_plot)),int((train_percentage+validation_perentagem)*len(time_plot))]
@@ -84,7 +82,7 @@ if run_model == 0 or run_model == 2:
         
         show_progress = 2
         
-        print('\nMain Model 2')
+        print('\nMain Model 1')
         
         r, RMSE, MAE = build_MLP_main(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model, Data, show_progress)
 
@@ -112,7 +110,7 @@ if run_model == 1 or run_model == 2:
     
     show_progress = 2
     
-    print('\nSecondary Model 2\n')
+    print('\nSecondary Model 1\n')
     
     r_sec, RMSE_sec, MAE_sec = build_MLP_sec(input_var_sec, output_var_sec, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model, Data, show_progress)
 

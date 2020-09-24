@@ -1,11 +1,12 @@
 
 import time
+import winsound
 from tensorflow import keras
 from NN_build import build_MLP_main
 # from NN_build import build_LSTM
 import numpy as np
 import pickle as pr
-from Data_Prep_Model_3 import generate_data
+from Data_Prep_Model_4 import generate_data
 
 # set optimizer settings
 
@@ -154,4 +155,6 @@ print('\nTime in seconds to run: %3f'% (time_taken))
 
 pr.dump( [ Data, Results_r_s, Results_r_t, Results_r_1, Results_r_2, Results_r_3, Results_MAE_s, Results_MAE_t, Results_MAE_1, Results_MAE_2, Results_MAE_3, Results_RMSE , time_taken ] , open('Feature_selection_days_of_delay.p','wb'))
 
-
+frequency = 2500  # Set Frequency To 2500 Hertz
+duration = 1000  # Set Duration To 1000 ms == 1 second
+winsound.Beep(frequency, duration)

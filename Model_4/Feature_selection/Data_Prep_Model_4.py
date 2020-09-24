@@ -286,12 +286,12 @@ def Normalize_data(Var_1,Max_value,Min_value):
     
 def generate_data( save, data_type ):
     
-    _, Brandariz, _ = pr.load(open("Dams.p","rb"))
+    Touro, _, _ = pr.load(open("Dams.p","rb"))
     N_holiday, G_holiday, W_n, W_b, W_c  = pr.load(open("Time.p","rb"))
     
     Eco_outflow = [15,15,11.9,9.6,8.6,7.9,5,5,5,8.9,11.9,15]
     
-    input_value, output_value, time_plot, input_value_sec, output_value_sec = order_vars( Brandariz, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type )
+    input_value, output_value, time_plot, input_value_sec, output_value_sec = order_vars( Touro, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type )
     
     input_var = np.asarray(input_value).astype(np.float32)
     output_var = np.asarray(output_value).astype(np.float32)
@@ -302,7 +302,7 @@ def generate_data( save, data_type ):
     
     if save == 1:
     
-        name = 'Data_model_2.p'
+        name = 'Data_model_4.p'
         
         pr.dump ( [input_var, output_var, time_plot, input_var_sec, output_var_sec] , open( name, "wb" ) )
         

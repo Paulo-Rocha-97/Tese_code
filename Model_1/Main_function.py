@@ -1,11 +1,9 @@
 
 from tensorflow import keras
-from NN_build import build_MLP_main
-from NN_build import build_MLP_sec
-
+from NN_build import build_MLP
 from NN_build import build_LSTM
 import pickle as pr
-from Data_Prep_Model_2 import generate_data
+from Data_Prep_Model_1 import generate_data
 
 # %% Set optmizer
 
@@ -37,7 +35,7 @@ validation_perentagem = 0.1
     
 #     build_LSTM(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model)
     
-Data = [0,2,3,3,0,1,3,1]
+Data = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 
 # data_type = [ day index, type of storage, number of days in the past, 
 #               number of days in the future, outflow type]
@@ -56,69 +54,45 @@ model_type = 0
              
 save_model = 0
 
-run_model = 2
-
-name_model = 'Example'
+name_model = 'Example_2'
 
 # name_model = input('Name_model:')
     
-input_var, output_var, time_plot, input_var_sec, output_var_sec = generate_data( 0, Data)
+input_var, output_var, time_plot = generate_data(1, 0, Data)
 data_index=[int(train_percentage*len(time_plot)),int((train_percentage+validation_perentagem)*len(time_plot))]
 
 #%% Main Model
-if run_model == 0 or run_model == 2: 
     
-    Learning_rate = 0.005
-    Momentum = 0.2
-    opt = keras.optimizers.RMSprop(learning_rate = Learning_rate, momentum = Momentum)
-    
-    if model_type == 0:
-        
-        hidden_layer_info=[0,0]
-        
-        hidden_layer_info[0] = [10,'relu']
-        hidden_layer_info[1] = [10,'relu']
-        
-        test_parameters = [200,50]
-        
-        show_progress = 2
-        
-        print('\nMain Model 2')
-        
-        r, RMSE, MAE = build_MLP_main(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model, Data, show_progress)
+Learning_rate = 0.005
+Momentum = 0.2
+opt = keras.optimizers.RMSprop(learning_rate = Learning_rate, momentum = Momentum)
 
-    else:
-
-        hidden_layer_info=[8]
-        
-        test_parameters = [500,10]
-        
-        r, RMSE, MAE = build_LSTM(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model)
-
-#%% Run Secondary
-
-if run_model == 1 or run_model == 2: 
+if model_type == 0:
     
-    Learning_rate = 0.0001
-    Momentum = 0.2
-    opt = keras.optimizers.RMSprop(learning_rate = Learning_rate, momentum = Momentum)
+    hidden_layer_info=[0,0]
     
-    hidden_layer_info=[0]
+    hidden_layer_info[0] = [10,'relu']
+    hidden_layer_info[1] = [10,'relu']
     
-    hidden_layer_info[0] = [2,'relu']
-    
-    test_parameters = [300,10]
+    test_parameters = [400,50]
     
     show_progress = 2
     
-    print('\nSecondary Model 2\n')
+    print('\nMain Model 1')
     
-    r_sec, RMSE_sec, MAE_sec = build_MLP_sec(input_var_sec, output_var_sec, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model, Data, show_progress)
+    r, RMSE, MAE = build_MLP(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model, Data, show_progress)
+
+else:
+
+    hidden_layer_info=[8]
+    
+    test_parameters = [500,10]
+    
+    r, RMSE, MAE = build_LSTM(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model)
 
 if save_model == 1:
     
     pr.dump( [ Data, r, MAE, RMSE ] , open('Results/'+name_model+'/'+'Value_quality.p','wb'))
-    pr.dump( [ Data, r_sec, MAE_sec, RMSE_sec ] , open('Results/'+name_model+'/'+'Value_quality_sec.p','wb'))
 
     print('\n---------- DONE ----------' )
 
