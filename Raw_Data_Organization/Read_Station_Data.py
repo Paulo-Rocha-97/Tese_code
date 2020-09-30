@@ -8,7 +8,7 @@ import datetime as dt
 
 def account_missing_data_s (Data):
     
-    Time_ref = create_time()
+    Time_ref = create_time(2014)
         
     comp = len(Time_ref)
         
@@ -134,7 +134,7 @@ def read_and_cut(name_file):
         if Data_2[1][i] is not None:
             Var_2[i] = Data_2[1][i]
     
-    Time_ref = create_time()
+    Time_ref = create_time(2014)
     
     Data_ = [Time_ref,Type,Var_1,Var_2]
     

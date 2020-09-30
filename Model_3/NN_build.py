@@ -325,6 +325,10 @@ def build_MLP_sec(input_var, output_var, time_plot, data_index, hidden_layers_in
 
         elif data_type[1] == 2:
             
+            del Test_out_pred[0,0]
+            
+            del Test_out[-1,0]
+            
             make_plot(path, 'Model_3_sec_storage', time_scale, 'Date', 'Storage(Hm^3)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Storage')  
        
         # Plot loss while training 

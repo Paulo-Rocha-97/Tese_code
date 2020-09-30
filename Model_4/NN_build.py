@@ -70,7 +70,7 @@ def Denormalize_data( Var, Max_value, Min_value ):
 # test parameters (list) -->  [Epochs, Batch size]
 
     
-def build_MLP_main(input_var, output_var, time_plot, data_index, hidden_layers_info, opt, test_parameters, name_model, data_type, show_progress ):
+def build_MLP_main(input_var, output_var, time_plot, data_index, hidden_layers_info, opt, test_parameters, name_model, data_type, show_progress, Max, Min ):
 
 
     input_shape = input_var.shape
@@ -176,19 +176,19 @@ def build_MLP_main(input_var, output_var, time_plot, data_index, hidden_layers_i
         
     if output_shape[1] == 1:
         
-        Test_out[:,0] = Denormalize_data(Test_out[:,0], 250, 0)
-        Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], 250, 0) 
+        Test_out[:,0] = Denormalize_data(Test_out[:,0], Max[4], Min[4])
+        Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], Max[4], Min[4]) 
         make_plot_ns(path, 'Model_4_outflow', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Total Outflow')
     
     else:
-        Test_out[:,0] = Denormalize_data(Test_out[:,0], 10, 0)
-        Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], 10, 0) 
+        Test_out[:,0] = Denormalize_data(Test_out[:,0], Max[5], Min[5])
+        Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], Max[5], Min[5]) 
         make_plot_ns(path, 'Model_4_Bottom', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Outflow Flood')
-        Test_out[:,1] = Denormalize_data(Test_out[:,1], 130, 0)
-        Test_out_pred[:,1] = Denormalize_data(Test_out_pred[:,1], 130, 0) 
+        Test_out[:,1] = Denormalize_data(Test_out[:,1], Max[6], Min[6])
+        Test_out_pred[:,1] = Denormalize_data(Test_out_pred[:,1], Max[6], Min[6]) 
         make_plot_ns(path, 'Model_4_Flood', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,1], 'Real Data', Test_out_pred[:,1], 'Estimation Outflow Bottom')
         Test_out[:,2] = Denormalize_data(Test_out[:,2], 130, 0)
-        Test_out_pred[:,2] = Denormalize_data(Test_out_pred[:,2], 130, 0) 
+        Test_out_pred[:,2] = Denormalize_data(Test_out_pred[:,2], Max[7], Min[7]) 
         make_plot_ns(path, 'Model_4_Power', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,2], 'Real Data', Test_out_pred[:,2], 'Estimation Outflow Power')
     
     # Introduce save feature here    
@@ -304,14 +304,14 @@ def build_MLP_sec(input_var, output_var, time_plot, data_index, hidden_layers_in
         
     if data_type[1] == 1: 
     
-        Test_out[:,0] = Denormalize_data(Test_out[:,0], 260, 225)
-        Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], 260, 225)
+        Test_out[:,0] = Denormalize_data(Test_out[:,0], Max[1], Min[1])
+        Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], Max[1], Max[1])
         make_plot_ns(path, 'Model_4_sec_storage', time_scale, 'Date', 'Storage(m)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Storage')
         
     elif data_type[1] == 2:
         
-        Test_out[:,0] = Denormalize_data(Test_out[:,0], 320, 80)
-        Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], 320, 80)
+        Test_out[:,0] = Denormalize_data(Test_out[:,0], Max[2], Min[2])
+        Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], Max[2], Min[2])
         make_plot_ns(path, 'Model_4_sec_storage', time_scale, 'Date', 'Storage(Hm^3)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Storage')
     
     # feature to activate save

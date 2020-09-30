@@ -37,7 +37,7 @@ validation_perentagem = 0.1
     
 #     build_LSTM(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model)
     
-Data = [0,2,3,3,0,1,3,1]
+Data = [0,1,3,1,0,1,3,1]
 
 # data_type = [ day index, type of storage, number of days in the past, 
 #               number of days in the future, outflow type]
@@ -54,9 +54,9 @@ Data = [0,2,3,3,0,1,3,1]
 
 model_type = 0
              
-save_model = 0
+save_model = 1
 
-run_model = 2
+run_model = 1
 
 name_model = 'Example'
 
@@ -107,7 +107,7 @@ if run_model == 1 or run_model == 2:
     
     hidden_layer_info[0] = [2,'relu']
     
-    test_parameters = [300,10]
+    test_parameters = [150,10]
     
     show_progress = 2
     
@@ -115,9 +115,12 @@ if run_model == 1 or run_model == 2:
     
     r_sec, RMSE_sec, MAE_sec = build_MLP_sec(input_var_sec, output_var_sec, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model, Data, show_progress)
 
-if save_model == 1:
+if save_model == 1 and run_model == 0 or 2:
     
     pr.dump( [ Data, r, MAE, RMSE ] , open('Results/'+name_model+'/'+'Value_quality.p','wb'))
+    
+elif save_model == 1 and run_model == 1 or 2:
+
     pr.dump( [ Data, r_sec, MAE_sec, RMSE_sec ] , open('Results/'+name_model+'/'+'Value_quality_sec.p','wb'))
 
     print('\n---------- DONE ----------' )

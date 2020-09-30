@@ -319,7 +319,7 @@ def build_MLP_sec(input_var, output_var, time_plot, data_index, hidden_layers_in
     if save_model == 1:
         
         if data_type[1] == 1: 
-        
+                    
             make_plot(path, 'Model_2_sec_storage', time_scale, 'Date', 'Storage(m)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Storage')
 
         elif data_type[1] == 2:

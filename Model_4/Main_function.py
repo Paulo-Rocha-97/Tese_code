@@ -54,15 +54,18 @@ Data= [1,1,1,1,0,0,0,1]
 
 model_type = 0
              
-save_model = 0
+save_model = 1
 
 name_model = 'Example'
 
 run_model = 1
 
+Min = [   0, 145, 2.5,   5,   0,  0,   0,  0, 0]
+Max = [ 365, 150, 4.5, 200, 200, 50, 180, 60, 7]
         
-input_var, output_var, time_plot, input_var_sec, output_var_sec = generate_data( 0, Data)
+input_var, output_var, time_plot, input_var_sec, output_var_sec = generate_data( 0, Data, Max, Min)
 data_index=[int(train_percentage*len(time_plot)),int((train_percentage+validation_perentagem)*len(time_plot))]
+
 
 #%% Main Model
 if run_model == 0 or run_model == 2: 
@@ -84,7 +87,7 @@ if run_model == 0 or run_model == 2:
         
         print('\nMain Model 4')
         
-        r, RMSE, MAE = build_MLP_main(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model, Data, show_progress)
+        r, RMSE, MAE = build_MLP_main(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model, Data, show_progress, Max, Min)
 
     else:
 
@@ -98,7 +101,7 @@ if run_model == 0 or run_model == 2:
 
 if run_model == 1 or run_model == 2: 
     
-    Learning_rate = 0.0005
+    Learning_rate = 0.005
     
     Momentum = 0.5
     opt = keras.optimizers.RMSprop(learning_rate = Learning_rate, momentum = Momentum)
@@ -115,9 +118,12 @@ if run_model == 1 or run_model == 2:
     
     r_sec, RMSE_sec, MAE_sec = build_MLP_sec(input_var_sec, output_var_sec, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model, Data, show_progress)
 
-if save_model == 1:
+if save_model == 1 and ( run_model == 0 or run_model == 2 ):
     
     pr.dump( [ Data, r, MAE, RMSE ] , open('Results/'+name_model+'/'+'Value_quality.p','wb'))
+    
+elif save_model == 1 and run_model == 1 or 2:
+
     pr.dump( [ Data, r_sec, MAE_sec, RMSE_sec ] , open('Results/'+name_model+'/'+'Value_quality_sec.p','wb'))
 
     print('\n---------- DONE ----------' )

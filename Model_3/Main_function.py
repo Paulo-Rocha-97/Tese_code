@@ -56,7 +56,7 @@ model_type = 0
              
 save_model = 1
 
-name_model = 'Example_2'
+name_model = 'Example'
 
 run_model = 1
 
@@ -82,7 +82,7 @@ if run_model == 0 or run_model == 2:
         
         show_progress = 2
         
-        print('\nMain Model 1')
+        print('\nMain Model 3')
         
         r, RMSE, MAE = build_MLP_main(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model, Data, show_progress)
 
@@ -98,7 +98,7 @@ if run_model == 0 or run_model == 2:
 
 if run_model == 1 or run_model == 2: 
     
-    Learning_rate = 0.0001
+    Learning_rate = 0.005
     Momentum = 0.2
     opt = keras.optimizers.RMSprop(learning_rate = Learning_rate, momentum = Momentum)
     
@@ -106,17 +106,22 @@ if run_model == 1 or run_model == 2:
     
     hidden_layer_info[0] = [2,'relu']
     
-    test_parameters = [300,10]
+    test_parameters = [500,50]
     
     show_progress = 2
     
-    print('\nSecondary Model 1\n')
+    print('\nSecondary Model 2\n')
     
     r_sec, RMSE_sec, MAE_sec = build_MLP_sec(input_var_sec, output_var_sec, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model, Data, show_progress)
 
-if save_model == 1:
+# %% save model
+
+if save_model == 1 and ( run_model == 0 or run_model == 2):
     
     pr.dump( [ Data, r, MAE, RMSE ] , open('Results/'+name_model+'/'+'Value_quality.p','wb'))
+    
+elif save_model == 1 and  ( run_model == 0 or run_model == 2):
+
     pr.dump( [ Data, r_sec, MAE_sec, RMSE_sec ] , open('Results/'+name_model+'/'+'Value_quality_sec.p','wb'))
 
     print('\n---------- DONE ----------' )

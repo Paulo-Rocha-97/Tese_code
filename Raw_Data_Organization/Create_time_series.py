@@ -2,10 +2,9 @@
 
 import datetime as dt
 
-def create_time ():
+def create_time (year):
 
     # Start Information
-    year = 2014
     month = 1
     day = 1
     

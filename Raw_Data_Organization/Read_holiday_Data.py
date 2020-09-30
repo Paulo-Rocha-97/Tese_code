@@ -10,7 +10,7 @@ import pickle as pr
 from datetime import datetime as dt
 from Create_time_series import create_time
 
-Time = create_time()
+Time = create_time(2014)
 
 file_national = open('Holiday_Week_Value/National_holiday.txt')
 file_galiza = open('Holiday_Week_Value/Galiza_holiday.txt')

@@ -87,9 +87,9 @@ def clean_Dam (value):
 
 # %% Execute clean
 
-Touro = clean_Dam(Touro)
-Brandariz = clean_Dam(Brandariz)
-Portodemouros = clean_Dam(Portodemouros)
+# Touro = clean_Dam(Touro)
+# Brandariz = clean_Dam(Brandariz)
+# Portodemouros = clean_Dam(Portodemouros)
 
 # %% Clear outlier 
 
@@ -140,8 +140,6 @@ for i in range(comp-1,-1,-1):
 
 # %% Complete the full time series
         
-Time_ref = create_time()
-
 def account_missing_data (Data,Time_ref):
         
     comp = len(Time_ref)
@@ -178,14 +176,17 @@ def account_missing_data (Data,Time_ref):
         
     return Result
 
-Touro = account_missing_data(Touro, Time_ref)
+Time_1 = create_time(2010)
+Time_2 = create_time(1990)
 
-Brandariz = account_missing_data(Brandariz, Time_ref)
+Touro = account_missing_data(Touro, Time_1)
 
-Portodemouros = account_missing_data(Portodemouros,Time_ref)
+Brandariz = account_missing_data(Brandariz, Time_1)
+
+Portodemouros = account_missing_data(Portodemouros,Time_2)
 
 
 # %% Save Data 
 
-pr.dump( [ Touro , Brandariz , Portodemouros ], open( "Dams.p", "wb" ) )
+pr.dump( [ Touro , Brandariz , Portodemouros ], open( "Dams_full_time_series.p", "wb" ) )
 
