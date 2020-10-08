@@ -37,7 +37,7 @@ validation_perentagem = 0.1
     
 #     build_LSTM(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model)
     
-Data= [1,1,1,1,0,0,0,1]
+Data= [1,2,1,1,0,0,0,1]
 
 # data_type = [ day index, type of storage, number of days in the past, 
 #               number of days in the future, outflow type]
@@ -104,6 +104,7 @@ if run_model == 1 or run_model == 2:
     
     hidden_layer_info=[0]
     
+
     hidden_layer_info[0] = [2,'relu']
     
     test_parameters = [500,50]

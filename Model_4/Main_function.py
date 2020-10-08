@@ -58,7 +58,7 @@ save_model = 1
 
 name_model = 'Example'
 
-run_model = 1
+run_model = 0
 
 Min = [   0, 145, 2.5,   5,   0,  0,   0,  0, 0]
 Max = [ 365, 150, 4.5, 200, 200, 50, 180, 60, 7]
