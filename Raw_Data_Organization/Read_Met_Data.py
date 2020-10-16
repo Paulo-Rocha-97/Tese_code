@@ -22,9 +22,7 @@
 Files_name = ['Met_1_T.csv','Met_1_H.csv','Met_1_C.csv','Met_1_I.csv','Met_1_P.csv',
               'Met_2_T.csv','Met_2_H.csv','Met_2_C.csv','Met_2_I.csv','Met_2_P.csv',
               'Met_3_T.csv','Met_3_H.csv','Met_3_C.csv','Met_3_I.csv',
-              'Met_4_T.csv','Met_4_H.csv','Met_4_C.csv','Met_4_I.csv','Met_4_P.csv',
-              'Met_5_T.csv','Met_5_H.csv','Met_5_C.csv','Met_5_I.csv','Met_5_P.csv',
-              'Met_6_T.csv','Met_6_H.csv','Met_6_C.csv','Met_6_I.csv','Met_6_P.csv']
+              'Met_4_T.csv','Met_4_H.csv','Met_4_C.csv','Met_4_I.csv','Met_4_P.csv']
 
 dir_files = 'C:\\Users\\Paulo_Rocha\\Desktop\\Tese\\Tese_code\\Raw_Data_Organization\\Met_data'
 
@@ -35,10 +33,9 @@ import pickle as pr
 
 # %% Create Time Series
 
-def create_time ():
+def create_time (year):
 
     # Start Information
-    year = 2014
     month = 1
     day = 1
     
@@ -73,16 +70,16 @@ def create_time ():
             year = year + 1
             day = 1
             
-        elif month == 2 and ( year != 2016 or year != 2012 ) and day == 28:
+        elif month == 2 and ( year!= 2012 or year != 2016 or year != 2012 ) and day == 28:
             
             day = 1
             month = 3
             
-        elif month == 2 and ( year == 2016 or  year == 2012 ) and day == 28 :
+        elif month == 2 and ( year!= 2012 or year == 2016 or  year == 2012 ) and day == 28 :
             
             day = 29
             
-        elif month == 2 and ( year == 2016 or  year == 2012 ) and day == 29 :
+        elif month == 2 and ( year == 2012 or year == 2016 or  year == 2012 ) and day == 29 :
             
             day = 1 
             month = 3
@@ -99,7 +96,7 @@ def create_time ():
 
 def account_missing_data_s (Data):
     
-    Time_ref = create_time()
+    Time_ref = create_time(2014)
         
     comp = len(Time_ref)
         
@@ -139,6 +136,7 @@ def read_csv(dir_files, name_file):
         
         Temp_value = Data[i][1].replace ('\n','')
         Temp_value = Temp_value.replace ('"','')
+        Temp_value = Temp_value.replace (';','')
         
         if float(Temp_value) == -9999:
             Value.append( None )
@@ -164,7 +162,7 @@ def Compile_multiple_CSV ( Num_of_var, Files_name, dir_files):
 
     range_read = Num_data[Num_of_var-1] 
     
-    Time_ref = create_time()
+    Time_ref = create_time(2014)
     
     Comp = len(Time_ref)
     
@@ -175,7 +173,7 @@ def Compile_multiple_CSV ( Num_of_var, Files_name, dir_files):
     for i in range( 0,  range_read ):
         
         index = Index_file_name[Num_of_var - 1] + i
-        
+                
         name_file = Files_name[ index ] 
         
         A = read_csv(dir_files, name_file)
@@ -222,15 +220,7 @@ Met_4 = Compile_multiple_CSV( 4, Files_name, dir_files)
 
 print( 'Met_4 is complete!' )
 
-Met_5 = Compile_multiple_CSV( 5, Files_name, dir_files)
-
-print( 'Met_5 is complete!' )
-
-Met_6 = Compile_multiple_CSV( 6, Files_name, dir_files)
-
-print( 'Met_6 is complete!' )
-
-# pr.dump( [ Met_1, Met_2, Met_3, Met_4, Met_5, Met_6 ], open( "Met.p", "wb" ) )
+pr.dump( [ Met_1, Met_2, Met_3, Met_4], open( "Met.p", "wb" ) )
 
 # %% Function to create an average variable
 
@@ -281,4 +271,4 @@ def averaging_lists(Var_1, Var_2, Var_3, Var_4):
     
 Met_ave = averaging_lists(Met_1, Met_2, Met_3, Met_4) 
 
-pr.dump( [ Met_ave ], open( "Met_Average.p", "wb" ) )
+# pr.dump( [ Met_ave ], open( "Met_Average.p", "wb" ) )

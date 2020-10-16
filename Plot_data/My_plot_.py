@@ -49,7 +49,6 @@ def make_plot_line( path, Name, Time, Y_name, *args ):
 
     plt.xlabel('Date')
     plt.ylabel(Y_name)
-    plt.title(Name)
     plt.grid(linewidth=5.0)
     plt.grid(linewidth=3.0)
     plt.legend(prop={'size': 60})
@@ -57,7 +56,7 @@ def make_plot_line( path, Name, Time, Y_name, *args ):
     if not os.path.exists(path):
         os.makedirs(path)
 
-    plt.savefig(path+'/'+name+'.png')
+    plt.savefig(path+'/'+name+'.png',dpi=3000)
     plt.close()
     
 def make_plot_marker_line_( path, Name, Time, Y_name, *args ):
@@ -108,7 +107,6 @@ def make_plot_marker_line_( path, Name, Time, Y_name, *args ):
 
     plt.xlabel('Date')
     plt.ylabel(Y_name)
-    plt.title(Name)
     plt.grid()
 
     if not os.path.exists(path):

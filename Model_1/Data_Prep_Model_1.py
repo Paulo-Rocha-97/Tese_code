@@ -370,7 +370,7 @@ def Normalize_data(Var_1,Max_value,Min_value):
 def generate_data( n_days_delays, save, data_in_use):
     
     St_544, St_546 = pr.load(open ('Station.p','rb'))
-    Met_1, Met_2, Met_3, Met_4, _, _ = pr.load(open("Met.p","rb"))
+    Met_1, Met_2, Met_3, Met_4 = pr.load(open("Met.p","rb"))
     _, _, Portodemouros = pr.load(open("Dams.p","rb"))
     
     input_value, output_value = order_inputs( Met_1, Met_2, Met_3, Met_4, St_544, St_546, Portodemouros, n_days_delays, data_in_use )

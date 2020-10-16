@@ -8,7 +8,7 @@ import datetime as dt
 
 def account_missing_data_s (Data):
     
-    Time_ref = create_time(2014)
+    Time_ref = create_time(2009)
         
     comp = len(Time_ref)
         
@@ -30,7 +30,7 @@ def account_missing_data_s (Data):
 
 # %% Read data from Stations
 
-def read_and_cut(name_file):
+def read_and_cut(name_file,cut_year):
 
     dir_file='Flow_Data/'+ name_file
     
@@ -92,7 +92,7 @@ def read_and_cut(name_file):
         Time = Data_1[0][i]
         Ano = Time.year
 
-        if  Ano < 2014:
+        if  Ano < cut_year:
 
            del Data_1[0][i]
            del Data_1[1][i]
@@ -104,7 +104,7 @@ def read_and_cut(name_file):
         Time = Data_2[0][i]
         Ano = Time.year
 
-        if  Ano < 2014:
+        if  Ano < cut_year:
 
            del Data_2[0][i]
            del Data_2[1][i]
@@ -112,7 +112,9 @@ def read_and_cut(name_file):
     Data_1 = account_missing_data_s (Data_1)
     Data_2 = account_missing_data_s (Data_2)
             
-    comp=1657
+    Time_ref = create_time(cut_year)
+    
+    comp=len(Time_ref)
     
     Type = [2] * comp
     Var_1 = [None]*comp
@@ -133,17 +135,16 @@ def read_and_cut(name_file):
             
         if Data_2[1][i] is not None:
             Var_2[i] = Data_2[1][i]
-    
-    Time_ref = create_time(2014)
-    
+        
     Data_ = [Time_ref,Type,Var_1,Var_2]
     
     return Data_
 
-
 # %% Execute
 
-St_544 = read_and_cut('544_data_caudal.txt')
-St_546 = read_and_cut('546_data_caudal.txt')
+cut_year = 2014
 
-pr.dump( [St_544, St_546], open( "Station.p", "wb" ) )
+St_544 = read_and_cut('544_data_caudal.txt',cut_year)
+St_546 = read_and_cut('546_data_caudal.txt',cut_year)
+
+pr.dump( [St_544, St_546], open( "Stations.p", "wb" ) )

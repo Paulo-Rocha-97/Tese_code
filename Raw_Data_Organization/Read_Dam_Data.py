@@ -61,7 +61,7 @@ Portodemouros = switch_rows(Portodemouros)
 
 # %% Fucntion to cut previous than 2014
 
-def clean_Dam (value):
+def clean_Dam (value,year):
 
     comp = len(value[0])
 
@@ -71,7 +71,7 @@ def clean_Dam (value):
             Time.to_pydatetime()
             Ano = Time.year
 
-            if  Ano < 2014:
+            if  Ano < year:
 
                del value[0][i]
                del value[1][i]
@@ -86,10 +86,10 @@ def clean_Dam (value):
     return value
 
 # %% Execute clean
-
-# Touro = clean_Dam(Touro)
-# Brandariz = clean_Dam(Brandariz)
-# Portodemouros = clean_Dam(Portodemouros)
+    
+Touro = clean_Dam(Touro,2014)
+Brandariz = clean_Dam(Brandariz,2014)
+Portodemouros = clean_Dam(Portodemouros,2005)
 
 # %% Clear outlier 
 
@@ -176,8 +176,8 @@ def account_missing_data (Data,Time_ref):
         
     return Result
 
-Time_1 = create_time(2010)
-Time_2 = create_time(1990)
+Time_1 = create_time(2014)
+Time_2 = create_time(2005)
 
 Touro = account_missing_data(Touro, Time_1)
 
@@ -188,5 +188,5 @@ Portodemouros = account_missing_data(Portodemouros,Time_2)
 
 # %% Save Data 
 
-pr.dump( [ Touro , Brandariz , Portodemouros ], open( "Dams_full_time_series.p", "wb" ) )
+pr.dump( [ Touro , Brandariz , Portodemouros ], open( "Dams.p", "wb" ) )
 
