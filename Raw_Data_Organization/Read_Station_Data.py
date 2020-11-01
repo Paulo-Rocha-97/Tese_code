@@ -8,7 +8,7 @@ import datetime as dt
 
 def account_missing_data_s (Data):
     
-    Time_ref = create_time(2009)
+    Time_ref = create_time(2014)
         
     comp = len(Time_ref)
         
@@ -111,7 +111,7 @@ def read_and_cut(name_file,cut_year):
            
     Data_1 = account_missing_data_s (Data_1)
     Data_2 = account_missing_data_s (Data_2)
-            
+    
     Time_ref = create_time(cut_year)
     
     comp=len(Time_ref)
@@ -119,11 +119,11 @@ def read_and_cut(name_file,cut_year):
     Type = [2] * comp
     Var_1 = [None]*comp
     Var_2 = [None]*comp    
-    
+        
     for i in range (comp):
         
         if Data_1[1][i] is None and Data_2[1][i] is None:
-            
+
             Type[i] = 0
             
         elif Data_1[1][i] is not None and Data_2[1][i] is not None:
@@ -132,7 +132,7 @@ def read_and_cut(name_file,cut_year):
         
         if  Data_1[1][i] is not None:
             Var_1[i] = Data_1[1][i]
-            
+                        
         if Data_2[1][i] is not None:
             Var_2[i] = Data_2[1][i]
         
@@ -147,4 +147,4 @@ cut_year = 2014
 St_544 = read_and_cut('544_data_caudal.txt',cut_year)
 St_546 = read_and_cut('546_data_caudal.txt',cut_year)
 
-pr.dump( [St_544, St_546], open( "Stations.p", "wb" ) )
+pr.dump( [St_544, St_546], open( "Station.p", "wb" ) )

@@ -89,7 +89,7 @@ def clean_Dam (value,year):
     
 Touro = clean_Dam(Touro,2014)
 Brandariz = clean_Dam(Brandariz,2014)
-Portodemouros = clean_Dam(Portodemouros,2005)
+Portodemouros = clean_Dam(Portodemouros,2014)
 
 # %% Clear outlier 
 
