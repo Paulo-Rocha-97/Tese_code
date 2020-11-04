@@ -17,9 +17,7 @@ opt = keras.optimizers.RMSprop(learning_rate = Learning_rate, momentum = Momentu
 train_percentage = 0.70
 validation_perentagem = 0.10
   
-name_file = 'Results//Feature_selection_all_2.p'
-
-Data,_,_,_,_ =pr.load(open(name_file,'rb'))
+Data=[1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 
 Size_data = Data.shape
 
@@ -74,6 +72,6 @@ time_taken = Final_time - Initial_time
 
 print('\nTime inm seconds to run: %3f'% (time_taken))
 
-pr.dump( [ Data, Results_r, Results_MAE, Results_RMSE , time_taken ] , open('Feature_selection_all.p','wb'))
+pr.dump( [ Data, Results_r, Results_MAE, Results_RMSE , time_taken ] , open('Feature_selection_single_input.p','wb'))
 
 

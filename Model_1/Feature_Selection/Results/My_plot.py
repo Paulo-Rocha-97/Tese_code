@@ -11,8 +11,6 @@ def make_plot_line( path, Name, Time, Y_name, *args ):
     import os
     import matplotlib.pyplot as plt
     
-    plt.rcParams.update({'font.size': 80})
-
     comp = len(args)
     
     if comp < 8: 
@@ -54,14 +52,13 @@ def make_plot_line( path, Name, Time, Y_name, *args ):
     plt.xlabel('Date')
     plt.ylabel(Y_name)
     plt.title(Name)
-    plt.grid(linewidth=5.0)
-    plt.grid(linewidth=3.0)
-    plt.legend(prop={'size': 60})
+    plt.grid()
+    plt.legend()
 
     if not os.path.exists(path):
         os.makedirs(path)
 
-    plt.savefig(path+'/'+name+'.png')
+    plt.savefig(path+'/'+name+'.png', dpi=3000)
     plt.close()
     
 def make_plot_marker_line( path, Name, Time, Y_name, *args ):
@@ -69,8 +66,6 @@ def make_plot_marker_line( path, Name, Time, Y_name, *args ):
     import os
     import matplotlib.pyplot as plt
     
-    plt.rcParams.update({'font.size': 80})
-
     comp = len(args)
     
     if comp < 8: 
@@ -113,11 +108,12 @@ def make_plot_marker_line( path, Name, Time, Y_name, *args ):
     plt.ylabel(Y_name)
     plt.title(Name)
     plt.grid(linewidth=5.0)
-    plt.grid(linewidth=3.0)
-    plt.legend(prop={'size': 60})
+    plt.grid()
+    plt.legend()
+
 
     if not os.path.exists(path):
         os.makedirs(path)
 
-    plt.savefig(path+'/'+name+'.png')
+    plt.savefig(path+'/'+name+'.png',dpi = 300)
     plt.close()

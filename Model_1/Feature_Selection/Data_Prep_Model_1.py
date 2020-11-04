@@ -26,7 +26,7 @@ def day_index():
             
     return day_c
 
-# %% Function to organize inputs into a
+# %% Function to organize inputs 
 
 def order_inputs( var_1, var_2, var_3, var_4 , var_5, var_6, output, n_days_delayed, data_in_use ):
     
@@ -321,7 +321,7 @@ def order_inputs( var_1, var_2, var_3, var_4 , var_5, var_6, output, n_days_dela
         
     return var_final, out_final
 
-# %% Function to clean any rowa with missing data
+# %% Function to clean any row with missing data
     
 def clean_nan(Input, Output, Time_plot):
     
@@ -339,7 +339,7 @@ def clean_nan(Input, Output, Time_plot):
                 
     return Input, Output, Time_plot
 
-# %% Function To Normalize data Output 
+# %% Function to normalize data output 
 
 def Normalize_data(Var_1,Max_value,Min_value):
       

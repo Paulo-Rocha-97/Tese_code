@@ -32,9 +32,18 @@ def feature_selections_results(name_file):
                 Av_rsme = Av_rsme + Results_RMSE[i,j]
                 cont = cont +1
         
-        R_mean.append((Av_r/cont))
-        RSME_mean.append((Av_rsme/cont))
-        MAE_mean.append((Av_mae/cont))
+        if cont == 0:
+            
+            R_mean.append(0)
+            RSME_mean.append(0)
+            MAE_mean.append(0)
+            
+        else:
+            
+            R_mean.append((Av_r/cont))
+            RSME_mean.append((Av_rsme/cont))
+            MAE_mean.append((Av_mae/cont))
+        
         N_error_vec.append(N_error)
         
     
@@ -59,7 +68,6 @@ def make_plot_point( path, Name, X, Y_1, Y_2, Y_3, X_Axis, Y_name_1, Y_name_2, Y
     ax3.scatter(X, Y_3, s = 2000, color ='green')
     ax3.axhline(Y_3[0], color='orange', linestyle='--', linewidth=6.0)
 
-    
     ax1.minorticks_on()
     ax2.minorticks_on()
     ax3.minorticks_on()
@@ -83,9 +91,10 @@ def make_plot_point( path, Name, X, Y_1, Y_2, Y_3, X_Axis, Y_name_1, Y_name_2, Y
         os.makedirs(path)
 
     plt.savefig(path+'/'+file_name+'.png')
-    plt.close()
-
-name_file = 'Feature_selection_all_2.p'
+     
+# %% Call file
+    
+name_file = 'Feature_selection_all.p'
 
 R_mean, RSME_mean, MAE_mean, N_error, Data = feature_selections_results(name_file)
 

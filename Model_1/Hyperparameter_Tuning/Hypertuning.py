@@ -61,19 +61,19 @@ def model_creation(hp):
 
 tuner = kt.RandomSearch(model_creation,
                         objective = 'mse',
-                        max_trials = 10,
+                        max_trials = 5,
                         seed=None, 
                         hyperparameters=None, 
                         tune_new_entries=True, 
                         allow_new_entries=True,
                         directory = path,
-                        project_name = 'Teste_model_1' )
+                        project_name = 'Teste_model_5' )
 
 tuner.search_space_summary()
 
 tuner.search(x=Train_in,
              y=Train_out,
-             epochs=100,
+             epochs=500,
              validation_data=(Test_in, Test_out))
 
 tuner.results_summary()
