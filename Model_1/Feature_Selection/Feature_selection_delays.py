@@ -21,7 +21,7 @@ Data=[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 Size_data = 10
 
 save_model = 0
-Number_of_test_for_model = 20 
+Number_of_test_for_model = 60
 
 Results_r = np.zeros((Size_data,Number_of_test_for_model))
 Results_RMSE = np.zeros((Size_data,Number_of_test_for_model))
@@ -46,7 +46,7 @@ for i in range(10):
         hidden_layer_info=[0,0]
 
         hidden_layer_info[0] = [ input_size , 'relu' ]
-        hidden_layer_info[1] = [ 10 , 'relu' ]
+        hidden_layer_info[1] = [ 15 , 'relu' ]
 
         test_parameters = [600,100]
 

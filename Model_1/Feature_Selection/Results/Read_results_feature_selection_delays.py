@@ -78,7 +78,7 @@ def make_plot_point( path, Name, X, Y_1, Y_2, Y_3, X_Axis, Y_name_1, Y_name_2, Y
     ax3.grid(b=True, which='major', color='#666666', linestyle='-', linewidth=4.0)
     ax3.grid(b=True, which='minor', color='#999999', linestyle='-', linewidth=4.0, alpha=0.2)
 
-    if not os.path.exists(path):
+    if not os.path.exists(path): 
         os.makedirs(path)
 
     plt.savefig(path+'/'+file_name+'.png')
