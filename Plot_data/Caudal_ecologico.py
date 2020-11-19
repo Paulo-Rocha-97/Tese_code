@@ -1,7 +1,6 @@
 # this functionn plots and calculates the values of the minimum outflow for reach month
 
 import pickle as pr
-import datetime as dt
 
 #%% This function calculates the values of minimum value within each month
 
@@ -59,52 +58,56 @@ def complete_for_years( Caudal_ref, n_year ):
         
         for j in range(len(Caudal_ref)):
             
-            if i < 28:
+            if i < (n_year-1):
             
                 Caudal.append(Caudal_ref[j])
                 
-            elif i == 28 and j <7 :
+            elif i == (n_year-1) and j <7 :
                 
                 Caudal.append(Caudal_ref[j])
                 
     return Caudal
+
+#%% Counter the number of years 
+
+def counter_years(Time_year):
+
+    cont = 1
+    
+    for i in range(1,len(Time_year)):
+        
+        if Time_year[i] != Time_year[i-1] :
+            
+            cont = cont+1
+        
+    return cont
 # %% define label for x
     
-def month_x_axes (X):
+def month_x_axes (X,Time_year):
     
-    time_in_month = []
-    time_in_year = []
-    W=[]
+    
+    year_axis = []
     Z=[]
     Q=[]
-    
-    j=1
-    l=1990
-    
-    for i in range(343):
         
+    j=1
+    
+    for i in range(len(X)):
         if j==1 or j==7:
             
             if j==1:
                 
-                time_in_month.append('January')
-                time_in_year.append(l)
+                year_axis.append(Time_year[i])
                 Q.append(i)
-                
-            else:
-                time_in_month.append('July')
-            
-            W.append(i)
-        
+                    
         if j==12:
             j=1
-            l=l+1
         else:
             j=j+1
         
         Z.append(i)
     
-    return time_in_month, W, Z, time_in_year, Q
+    return Z,Q,year_axis
 
 #%% define this specific plot
 
@@ -114,8 +117,8 @@ def make_plot( path, Name, Time_month, Time_year, Y_name, Values ):
     import matplotlib.pyplot as plt
     
     Caudal_ref = [15,15,11.9,9.6,8.6,7.9,5,5,5,8.9,11.9,15]
-    
-    X_axes, W, Z, time_in_year, Q = month_x_axes(Values)
+
+    Z,Q,year_axis = month_x_axes(Values, Time_year)
     
     Y = Y_name.split('(')
     Y_ = Y[0]
@@ -123,8 +126,10 @@ def make_plot( path, Name, Time_month, Time_year, Y_name, Values ):
     
     name = Name + '_' + Y_.replace(' ','_')
 
-    Caudal = complete_for_years( Caudal_ref, 29 )
+    n_year = counter_years(Time_year)
     
+    Caudal = complete_for_years( Caudal_ref, n_year )
+        
     fig = plt.figure(figsize=(16,6))
     ax1 = fig.add_subplot(111)
     
@@ -132,7 +137,7 @@ def make_plot( path, Name, Time_month, Time_year, Y_name, Values ):
     ax1.plot(Z, Caudal,'b', linewidth=0.6, label = 'Reference value', marker='.')
         
     ax1.set_xticks(Q)
-    ax1.set_xticklabels(time_in_year,rotation=60)
+    ax1.set_xticklabels(year_axis ,rotation=60)
     
     
     ax1.set_xlabel('Year')
@@ -149,9 +154,9 @@ def make_plot( path, Name, Time_month, Time_year, Y_name, Values ):
     
 #%% execute
 
-_,_,Portodemouros = pr.load(open('Dams_full_time_series.p','rb'))
+_,_,Portodemouros = pr.load(open('Dams.p','rb'))
 
 path = 'C:/Users/Paulo_Rocha/Desktop/Tese/Tese_code/Plot_Data/General_plots';
 
 Values, Time_month, Time_year = define_minimum(Portodemouros)
-make_plot(path, 'Caudal_ecologico_all_years', Time_month, Time_year, r'$Outflow (m^3/s)$', Values)
+make_plot(path, 'Caudal_ecologico_2010_', Time_month, Time_year, r'Outflow (m^3/s)$', Values)

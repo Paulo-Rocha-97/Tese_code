@@ -15,6 +15,7 @@
 # Output (storage preditor):
 #   - Storage volume (t) 
 
+import datetime as dt
 import pickle as pr
 import numpy as np
 
@@ -82,8 +83,8 @@ def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type
     # 7 - Out Power
     # 8 - Week days
     
-    Min = [   0, 145, 2.5,   5,   0,  0,   0,  0, 0]
-    Max = [ 365, 150, 4.5, 200, 200, 50, 180, 60, 7]
+    Min = [   0, 158, 0.4,   5,   0,  0,   0,  0, 0]
+    Max = [ 365, 171, 3.2, 230, 230, 50, 180, 90, 7]
     
     day_i = day_index()
     
@@ -174,16 +175,27 @@ def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type
                 
         if data_type[4] == 0:
             
-            if data_type[7] == 1 and Dam[5][i] != None :
+            if data_type[7] == 1 
                 
-                month = month_index(Dam[0][i]) - 1
+                if Dam[5][i] != None and Dam[5][i-1] != None:
                 
-                y = Normalize_data(Dam[5][i] - Eco_outflow[ month ], Max[4], Min[4])
-                list_out.append(y)
+                    month = month_index(Dam[0][i]) - 1
+                    month_ = month_index(Dam[0][i-1]) - 1
+                    
+                    y = Normalize_data(Dam[5][i] - Eco_outflow[ month ], Max[4], Min[4])
+                    list_out.append(y)
+                    x = Normalize_data(Dam[5][i-1] - Eco_outflow[ month_ ], Max[4], Min[4])
+                    list_in.append(x)
+                    
+                else:
+                     list_out.append(None)
+                     list_in.append(None)
                 
             else:
                 y = Normalize_data(Dam[5][i], Max[4], Min[4])
                 list_out.append(y)
+                x = Normalize_data(Dam[5][i-1], Max[4], Min[4])
+                list_in.append(x)
                 
         elif data_type[4] ==1:
             
@@ -191,17 +203,33 @@ def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type
             list_out.append(y)
             y = Normalize_data(Dam[7][i], Max[6], Min[6])
             list_out.append(y)
+            x = Normalize_data(Dam[6][i-1], Max[5], Min[5])
+            list_in.append(x)
+            x = Normalize_data(Dam[7][i-1], Max[6], Min[6])
+            list_in.append(x)
             
-            if data_type[7] == 1 and Dam[8][i] != None :
+            if data_type[7] == 1 
             
-                month = month_index(Dam[0][i]) - 1
-                y = Normalize_data(Dam[8][i]  - Eco_outflow[ month ], Max[7], Min[7])
-                list_out.append(y)
+                if Dam[8][i] != None and Dam[8][i-1] != None:
+            
+                    month = month_index(Dam[0][i]) - 1
+                    month_ = month_index(Dam[0][i-1]) - 1
+        
+                    y = Normalize_data(Dam[8][i] - Eco_outflow[ month ], Max[7], Min[7])
+                    list_out.append(y)
+                    x = Normalize_data(Dam[8][i-1] - Eco_outflow[ month_ ], Max[7], Min[7])
+                    list_in.append(x)
+                    
+                else:
+                     list_out.append(None)
+                     list_in.append(None)
                 
             else:
 
                 y = Normalize_data(Dam[8][i], Max[7], Min[7])
                 list_out.append(y)
+                x = Normalize_data(Dam[8][i-1], Max[7], Min[7])
+                list_in.append(x)
             
         w = Normalize_data(Dam[5][i], Max[4], Min[4])
         y = Normalize_data(Dam[4][i], Max[3], Min[3]) 
@@ -292,7 +320,7 @@ def generate_data( save, data_type ):
     
     Eco_outflow = [15,15,11.9,9.6,8.6,7.9,5,5,5,8.9,11.9,15]
     
-    input_value, output_value, time_plot, input_value_sec, output_value_sec = order_vars( Touro, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type )
+    input_value, output_value, time_plot, input_value_sec, output_value_sec = order_vars( Brandariz, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type )
     
     input_var = np.asarray(input_value).astype(np.float32)
     output_var = np.asarray(output_value).astype(np.float32)
@@ -303,7 +331,7 @@ def generate_data( save, data_type ):
     
     if save == 1:
     
-        name = 'Data_model_4.p'
+        name = 'Data_model_2.p'
         
         pr.dump ( [input_var, output_var, time_plot, input_var_sec, output_var_sec] , open( name, "wb" ) )
         

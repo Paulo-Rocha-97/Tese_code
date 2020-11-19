@@ -89,7 +89,7 @@ def clean_Dam (value,year):
     
 Touro = clean_Dam(Touro,2014)
 Brandariz = clean_Dam(Brandariz,2014)
-Portodemouros = clean_Dam(Portodemouros,2014)
+Portodemouros = clean_Dam(Portodemouros,2013)
 
 # %% Clear outlier 
 
@@ -177,7 +177,7 @@ def account_missing_data (Data,Time_ref):
     return Result
 
 Time_1 = create_time(2014)
-Time_2 = create_time(2005)
+Time_2 = create_time(2013)
 
 Touro = account_missing_data(Touro, Time_1)
 

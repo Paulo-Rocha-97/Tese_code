@@ -10,8 +10,8 @@ from Data_Prep_Model_4 import generate_data
 
 # set optimizer settings
 
-Learning_rate = 0.0001
-Momentum = 0.5
+Learning_rate = 0.0005
+Momentum = 0.2
 opt = keras.optimizers.RMSprop(learning_rate = Learning_rate, momentum = Momentum)
 
 train_percentage = 0.75
@@ -103,12 +103,14 @@ for i in range(Size_data[0]):
         input_var, output_var, time_plot, input_var_sec, output_var_sec = generate_data( 0, data_in_use)
         data_index = [int(train_percentage*len(time_plot)),int((train_percentage+validation_perentagem)*len(time_plot))]
 
+        input_size = input_var.shape[1]
+
         hidden_layers_info=[0,0]
     
-        hidden_layers_info[0] = [10,'relu']
+        hidden_layers_info[0] = [input_size,'relu']
         hidden_layers_info[1] = [10,'relu']
         
-        test_parameters = [400,40]
+        test_parameters = [600,100]
         
         name_model = '_'
         

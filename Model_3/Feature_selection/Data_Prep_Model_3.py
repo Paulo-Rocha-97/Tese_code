@@ -175,16 +175,27 @@ def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type
                 
         if data_type[4] == 0:
             
-            if data_type[7] == 1 and Dam[5][i] != None :
+            if data_type[7] == 1:
                 
-                month = month_index(Dam[0][i]) - 1
+                if Dam[5][i] != None and Dam[5][i-1] != None:
                 
-                y = Normalize_data(Dam[5][i] - Eco_outflow[ month ], Max[4], Min[4])
-                list_out.append(y)
+                    month = month_index(Dam[0][i]) - 1
+                    month_ = month_index(Dam[0][i-1]) - 1
+                    
+                    y = Normalize_data(Dam[5][i] - Eco_outflow[ month ], Max[4], Min[4])
+                    list_out.append(y)
+                    x = Normalize_data(Dam[5][i-1] - Eco_outflow[ month_ ], Max[4], Min[4])
+                    list_in.append(x)
+                    
+                else:
+                     list_out.append(None)
+                     list_in.append(None)
                 
             else:
                 y = Normalize_data(Dam[5][i], Max[4], Min[4])
                 list_out.append(y)
+                x = Normalize_data(Dam[5][i-1], Max[4], Min[4])
+                list_in.append(x)
                 
         elif data_type[4] ==1:
             
@@ -192,17 +203,33 @@ def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type
             list_out.append(y)
             y = Normalize_data(Dam[7][i], Max[6], Min[6])
             list_out.append(y)
+            x = Normalize_data(Dam[6][i-1], Max[5], Min[5])
+            list_in.append(x)
+            x = Normalize_data(Dam[7][i-1], Max[6], Min[6])
+            list_in.append(x)
             
-            if data_type[7] == 1 and Dam[8][i] != None :
+            if data_type[7] == 1 :
             
-                month = month_index(Dam[0][i]) - 1
-                y = Normalize_data(Dam[8][i]  - Eco_outflow[ month ], Max[7], Min[7])
-                list_out.append(y)
+                if Dam[8][i] != None and Dam[8][i-1] != None:
+            
+                    month = month_index(Dam[0][i]) - 1
+                    month_ = month_index(Dam[0][i-1]) - 1
+        
+                    y = Normalize_data(Dam[8][i] - Eco_outflow[ month ], Max[7], Min[7])
+                    list_out.append(y)
+                    x = Normalize_data(Dam[8][i-1] - Eco_outflow[ month_ ], Max[7], Min[7])
+                    list_in.append(x)
+                    
+                else:
+                     list_out.append(None)
+                     list_in.append(None)
                 
             else:
 
                 y = Normalize_data(Dam[8][i], Max[7], Min[7])
                 list_out.append(y)
+                x = Normalize_data(Dam[8][i-1], Max[7], Min[7])
+                list_in.append(x)
             
         w = Normalize_data(Dam[5][i], Max[4], Min[4])
         y = Normalize_data(Dam[4][i], Max[3], Min[3]) 
@@ -304,7 +331,7 @@ def generate_data( save, data_type ):
     
     if save == 1:
     
-        name = 'Data_model_2.p'
+        name = 'Data_model_3.p'
         
         pr.dump ( [input_var, output_var, time_plot, input_var_sec, output_var_sec] , open( name, "wb" ) )
         

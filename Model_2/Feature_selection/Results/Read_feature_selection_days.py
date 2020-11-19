@@ -20,7 +20,7 @@ def feature_selections_results(name_file):
         Av_rsme = 0
         Av_mae = 0
         
-        for j in range(8):
+        for j in range(Results_r.shape[1]):
             
             if np.isnan(Results_r[i,j]) or Results_r[i,j] < 0:
                 
@@ -74,28 +74,38 @@ def matriz_organize(val,n):
 
 # %% Plot making function
 
-def make_plot_3d( path, Name, X, Y, Z, X_name, Y_name, Z_name, file_name ):
+def make_plot_3d( path, Name, X, Y, Z, X_name, Y_name, Z_name, file_name , extrema):
     
     import os
     import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import Axes3D
-          
+    
+    if extrema =='min':
+        
+        value_index = min(Z)
+    else:
+        value_index = max(Z)
+    
+    for i in range(len(Z)):
+        if Z[i] == value_index:
+            index = i
+        
     fig = plt.figure()
     ax = plt.axes()
     fig.suptitle(Name)
     
-    a = ax.scatter( X, Y, c=Z, cmap='tab10', s=50 )
+    a = ax.scatter( X, Y, c=Z, cmap='tab20', s=50 )
     fig.colorbar(a)
+    a = ax.plot( X[index], Y[index] , 'ko' , markersize=25 , fillstyle='none')
     
     if not os.path.exists(path):
         os.makedirs(path)
 
-    plt.savefig(path+'/'+file_name+'.png',dpi=3000)
+    plt.savefig(path+'/'+file_name+'.png',dpi=300)
 
 
 # %% To read feature_selection_all_2
 
-name_file = 'Feature_selection_days_of_delay.p'
+name_file = 'Feature_selection_days_of_delay_.p'
 
 R, RMSE, MAE, N_error, Data = feature_selections_results(name_file)
 
@@ -109,14 +119,14 @@ path = 'C:/Users/Paulo_Rocha/Desktop/Tese/Tese_code/Model_2/Feature_Selection/Re
 Name_r = 'Number of days before and after (r)'
 plot_name = 'N_days_r'
 
-make_plot_3d( path, Name_r, X, Y, R, 'Days before', 'Days lags', 'r validation', plot_name )
+make_plot_3d( path, Name_r, X, Y, R, 'Days before', 'Days lags', 'r validation', plot_name ,'max')
 
 Name_r = 'Number of days before and after (RMSE)'
 plot_name = 'N_days_RMSE'
 
-make_plot_3d( path, Name_r, X, Y, RMSE, 'Days before', 'Days lags', 'r validation', plot_name )
+make_plot_3d( path, Name_r, X, Y, RMSE, 'Days before', 'Days lags', 'r validation', plot_name ,'min')
 Name_r = 'Number of days before and after (MAE)'
 plot_name = 'N_days_MAE'
 
-make_plot_3d( path, Name_r, X, Y, MAE, 'Days before', 'Days lags', 'r validation', plot_name )
+make_plot_3d( path, Name_r, X, Y, MAE, 'Days before', 'Days lags', 'r validation', plot_name ,'min')
 

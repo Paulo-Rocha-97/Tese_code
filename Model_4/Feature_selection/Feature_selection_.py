@@ -2,15 +2,15 @@
 import time
 from tensorflow import keras
 from NN_build import build_MLP_main
-# from NN_build import build_LSTM
+
 import numpy as np
 import pickle as pr
-from Data_Prep_Model_3 import generate_data
+from Data_Prep_Model_4 import generate_data
 
 # set optimizer settings
 
-Learning_rate = 0.0001
-Momentum = 0.5
+Learning_rate = 0.0005
+Momentum = 0.2
 opt = keras.optimizers.RMSprop(learning_rate = Learning_rate, momentum = Momentum)
 
 train_percentage = 0.75
@@ -18,42 +18,42 @@ validation_perentagem = 0.10
 
 # Set diferent test data
 
-Data= np.array([[1,1,0,0,0,0,0,1],
-                [1,1,0,1,0,0,0,1],
-                [1,1,0,2,0,0,0,1],
-                [1,1,0,3,0,0,0,1],
-                [1,1,0,4,0,0,0,1],
-                [1,1,0,5,0,0,0,1],
-                [1,1,1,0,0,0,0,1],
-                [1,1,1,1,0,0,0,1],
+Data= np.array([[2,1,1,2,0,0,0,1],
                 [1,1,1,2,0,0,0,1],
-                [1,1,1,3,0,0,0,1],
-                [1,1,1,4,0,0,0,1],
-                [1,1,1,5,0,0,0,1],
-                [1,1,2,0,0,0,0,1],
-                [1,1,2,1,0,0,0,1],
-                [1,1,2,2,0,0,0,1],
-                [1,1,2,3,0,0,0,1],
-                [1,1,2,4,0,0,0,1],
-                [1,1,2,5,0,0,0,1],
-                [1,1,3,0,0,0,0,1],
-                [1,1,3,1,0,0,0,1],
-                [1,1,3,2,0,0,0,1],
-                [1,1,3,3,0,0,0,1],
-                [1,1,3,4,0,0,0,1],
-                [1,1,3,5,0,0,0,1],
-                [1,1,4,0,0,0,0,1],
-                [1,1,4,1,0,0,0,1],
-                [1,1,4,2,0,0,0,1],
-                [1,1,4,3,0,0,0,1],
-                [1,1,4,4,0,0,0,1],
-                [1,1,4,5,0,0,0,1],
-                [1,1,5,0,0,0,0,1],
-                [1,1,5,1,0,0,0,1],
-                [1,1,5,2,0,0,0,1],
-                [1,1,5,3,0,0,0,1],
-                [1,1,5,4,0,0,0,1],
-                [1,1,5,5,0,0,0,1],
+                [0,1,1,2,0,0,0,1],
+                [2,1,1,2,1,0,0,1],
+                [1,1,1,2,1,0,0,1],
+                [0,1,1,2,1,0,0,1],
+                [2,1,1,2,0,1,2,1],
+                [1,1,1,2,0,1,2,1],
+                [0,1,1,2,0,1,2,1],
+                [2,1,1,2,1,1,2,1],
+                [1,1,1,2,1,1,2,1],
+                [0,1,1,2,1,1,2,1],
+                [2,1,1,2,0,2,2,1],
+                [1,1,1,2,0,2,2,1],
+                [0,1,1,2,0,2,2,1],
+                [2,1,1,2,1,2,2,1],
+                [1,1,1,2,1,2,2,1],
+                [0,1,1,2,1,2,2,1],
+                [2,2,1,2,0,0,0,1],
+                [1,2,1,2,0,0,0,1],
+                [0,2,1,2,0,0,0,1],
+                [2,2,1,2,1,0,0,1],
+                [1,2,1,2,1,0,0,1],
+                [0,2,1,2,1,0,0,1],
+                [2,2,1,2,0,1,2,1],
+                [1,2,1,2,0,1,2,1],
+                [0,2,1,2,0,1,2,1],
+                [2,2,1,2,1,1,2,1],
+                [1,2,1,2,1,1,2,1],
+                [0,2,1,2,1,1,2,1],
+                [2,2,1,2,0,2,2,1],
+                [1,2,1,2,0,2,2,1],
+                [0,2,1,2,0,2,2,1],
+                [2,2,1,2,1,2,2,1],
+                [1,2,1,2,1,2,2,1],
+                [0,2,1,2,1,2,2,1],
                 ])
 
 # data_type = [ day index, type of storage, number of days in the past, 
@@ -72,7 +72,7 @@ Data= np.array([[1,1,0,0,0,0,0,1],
 Size_data = Data.shape
 
 save_model = 0
-Number_of_test_for_model = 20
+Number_of_test_for_model = 15
 
 Results_r_s = np.zeros((Size_data[0],Number_of_test_for_model))
 Results_r_t = np.zeros((Size_data[0],Number_of_test_for_model))
@@ -104,10 +104,12 @@ for i in range(Size_data[0]):
 
         hidden_layers_info=[0,0]
     
-        hidden_layers_info[0] = [10,'relu']
+        input_size = input_var.shape[1]
+    
+        hidden_layers_info[0] = [ input_size ,'relu']
         hidden_layers_info[1] = [10,'relu']
         
-        test_parameters = [400,40]
+        test_parameters = [500,100]
         
         name_model = '_'
         
@@ -152,6 +154,6 @@ time_taken = Final_time - Initial_time
 
 print('\nTime in seconds to run: %3f'% (time_taken))
 
-pr.dump( [ Data, Results_r_s, Results_r_t, Results_r_1, Results_r_2, Results_r_3, Results_MAE_s, Results_MAE_t, Results_MAE_1, Results_MAE_2, Results_MAE_3, Results_RMSE , time_taken ] , open('Feature_selection_days_of_delay.p','wb'))
+pr.dump( [ Data, Results_r_s, Results_r_t, Results_r_1, Results_r_2, Results_r_3, Results_MAE_s, Results_MAE_t, Results_MAE_1, Results_MAE_2, Results_MAE_3, Results_RMSE , time_taken ] , open('Feature_selection_all.p','wb'))
 
 

@@ -1,7 +1,6 @@
 
 from tensorflow import keras
 from NN_build import build_MLP
-from NN_build import build_LSTM
 import pickle as pr
 from Data_Prep_Model_1 import generate_data
 
@@ -27,8 +26,6 @@ Data = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 # week day info: 0 - week_combine_holiday 1 - week day binary 2 - week day in number
 # holiday info: 0 - week_combine_holiday 1 - national holiday 2 - national and galiza holiday
 # remove caudal ecologigo: 0 - not remove; 1 - remove caudal ecologico
-
-model_type = 'MLP'
              
 name_model = 'Example_2'
     
@@ -37,24 +34,21 @@ data_index=[int(train_percentage*len(time_plot)),int((train_percentage+validatio
 
 #%% Main Model
     
-if model_type == 'MLP':
-    
-    hidden_layer_info=[0,0]
-    
-    hidden_layer_info[0] = [10,'relu']
-    hidden_layer_info[1] = [10,'relu']
-    
-    test_parameters = [400,50]
-    
-    show_progress = 2
-    
-    print('\nMain Model 1')
-    
-    r, RMSE, MAE, save_model = build_MLP(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model, Data, show_progress)
 
-else:
+    
+hidden_layer_info=[0,0]
 
-    print('what')
+hidden_layer_info[0] = [15,'relu']
+hidden_layer_info[1] = [15,'relu']
+
+test_parameters = [400,50]
+
+show_progress = 2
+
+print('\nMain Model 1')
+
+r, RMSE, MAE, save_model = build_MLP(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model, Data, show_progress)
+
     
 if save_model == 1:
     

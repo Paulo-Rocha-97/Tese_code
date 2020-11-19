@@ -2,15 +2,15 @@
 import time
 from tensorflow import keras
 from NN_build import build_MLP_main
-# from NN_build import build_LSTM
+
 import numpy as np
 import pickle as pr
 from Data_Prep_Model_2 import generate_data
 
 # set optimizer settings
 
-Learning_rate = 0.0001
-Momentum = 0.5
+Learning_rate = 0.0005
+Momentum = 0.2
 opt = keras.optimizers.RMSprop(learning_rate = Learning_rate, momentum = Momentum)
 
 train_percentage = 0.75
@@ -104,10 +104,12 @@ for i in range(Size_data[0]):
 
         hidden_layers_info=[0,0]
     
-        hidden_layers_info[0] = [10,'relu']
+        input_size = input_var.shape[1]
+    
+        hidden_layers_info[0] = [ input_size ,'relu']
         hidden_layers_info[1] = [10,'relu']
         
-        test_parameters = [500,50]
+        test_parameters = [600,100]
         
         name_model = '_'
         

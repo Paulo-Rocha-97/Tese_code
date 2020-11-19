@@ -10,10 +10,10 @@ import pickle as pr
 from datetime import datetime as dt
 from Create_time_series import create_time
 
-Time = create_time(2014)
+Time = create_time(2013)
 
-file_national = open('Holiday_Week_Value/National_holiday.txt')
-file_galiza = open('Holiday_Week_Value/Galiza_holiday.txt')
+file_national = open('Holiday_Week_Value/2005_National_holiday.txt')
+file_galiza = open('Holiday_Week_Value/2005_Galiza_holiday.txt')
 
 Lines_n = file_national.readlines()
 Lines_g = file_galiza.readlines()
@@ -118,4 +118,4 @@ for i in range(len(Time)):
     else:
         Week_Combine.append(0)
 
-pr.dump( [ National_holiday, National_galiza_holiday, Week, Week_binary, Week_Combine ], open( "Time.p", "wb" ) )
+pr.dump( [ National_holiday, National_galiza_holiday, Week, Week_binary, Week_Combine ], open( "Time_model_2.p", "wb" ) )
