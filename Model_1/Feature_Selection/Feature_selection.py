@@ -10,19 +10,21 @@ n_days_delays = 3
 
 # %% Set optmizer
 
-Learning_rate = 0.0001
+Learning_rate = 0.0005
 Momentum = 0.2
 opt = keras.optimizers.RMSprop(learning_rate = Learning_rate, momentum = Momentum)
 
 train_percentage = 0.70
 validation_perentagem = 0.10
   
-Data,_,_,_,_= pr.load(open('Results/Feature_selection_all.p','rb'))
-
+Data=np.array([[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+               [1,1,1,1,1,2,2,2,1,2,2,1,1,2,2,2,2,2,2,2,1,1,1],
+               [1,2,2,2,2,2,2,2,2,1,1,1,1,2,2,2,2,2,2,2,1,1,1]
+               ])
 Size_data = Data.shape
 
 save_model = 0
-Number_of_test_for_model = 60
+Number_of_test_for_model = 20
 
 Results_r = np.zeros((Size_data[0],Number_of_test_for_model))
 Results_RMSE = np.zeros((Size_data[0],Number_of_test_for_model))
@@ -48,10 +50,10 @@ for i in range(Size_data[0]):
 
         hidden_layer_info=[0,0]
 
-        hidden_layer_info[0] = [ input_size , 'relu' ]
-        hidden_layer_info[1] = [ 15 , 'relu' ]
+        hidden_layer_info[0] = [ 50 , 'relu' ]
+        hidden_layer_info[1] = [ 20 , 'relu' ]
 
-        test_parameters = [500,50]
+        test_parameters = [450,50]
 
         name_model = '_'
         
@@ -72,6 +74,4 @@ time_taken = Final_time - Initial_time
 
 print('\nTime inm seconds to run: %3f'% (time_taken))
 
-pr.dump( [ Data, Results_r, Results_MAE, Results_RMSE , time_taken ] , open('Feature_selection.p','wb'))
-
-
+pr.dump( [ Data, Results_r, Results_MAE, Results_RMSE , time_taken ] , open('Feature_selection_test.p','wb'))

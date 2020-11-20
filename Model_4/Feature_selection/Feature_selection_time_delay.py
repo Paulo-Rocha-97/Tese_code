@@ -73,7 +73,7 @@ Data= np.array([[1,1,0,0,0,0,0,1],
 Size_data = Data.shape
 
 save_model = 0
-Number_of_test_for_model = 20
+Number_of_test_for_model = 10
 
 Results_r_s = np.zeros((Size_data[0],Number_of_test_for_model))
 Results_r_t = np.zeros((Size_data[0],Number_of_test_for_model))
@@ -107,10 +107,10 @@ for i in range(Size_data[0]):
 
         hidden_layers_info=[0,0]
     
-        hidden_layers_info[0] = [input_size,'relu']
+        hidden_layers_info[0] = [10,'relu']
         hidden_layers_info[1] = [10,'relu']
         
-        test_parameters = [600,100]
+        test_parameters = [350,50]
         
         name_model = '_'
         

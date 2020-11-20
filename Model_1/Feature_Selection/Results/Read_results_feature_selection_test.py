@@ -59,7 +59,6 @@ def make_plot_point( path, Name, X, Y_1, Y_2, Y_3, X_Axis, Y_name_1, Y_name_2, Y
     ax3.scatter(X, Y_3, s = 2000, color ='green')
     ax3.axhline(Y_3[0], color='orange', linestyle='--', linewidth=6.0)
 
-    
     ax1.minorticks_on()
     ax2.minorticks_on()
     ax3.minorticks_on()
@@ -83,7 +82,6 @@ def make_plot_point( path, Name, X, Y_1, Y_2, Y_3, X_Axis, Y_name_1, Y_name_2, Y
         os.makedirs(path)
 
     plt.savefig(path+'/'+file_name+'.png')
-    plt.close()
 
 
 # %% To read feature_selection_all_2
@@ -98,8 +96,8 @@ name_file = 'Feature_selection_test.p'
 
 R_mean_1, RSME_mean_1, MAE_mean_1, N_error_1, Data_1 = feature_selections_results(name_file)
 
-X_1 = [1,2,3,4,5,6]
-X_1_ticks =['Control','Statistical','Outflow','Averaging Type','Removing Type','Combining']
+X_1 = [1,2,3]
+X_1_ticks =['Control','Statistical','Hypothesis']
 Name_1 = 'Tested hipotesis'
 path = 'C:/Users/Paulo_Rocha/Desktop/Tese/Tese_code/Model_1/Feature_Selection/Results/Plots'
 

@@ -105,7 +105,7 @@ def make_plot_3d( path, Name, X, Y, Z, X_name, Y_name, Z_name, file_name , extre
 
 # %% To read feature_selection_all_2
 
-name_file = 'Feature_selection_days_of_delay_.p'
+name_file = 'Feature_selection_days_of_delay.p'
 
 R, RMSE, MAE, N_error, Data = feature_selections_results(name_file)
 

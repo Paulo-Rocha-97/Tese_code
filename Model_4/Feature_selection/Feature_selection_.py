@@ -21,39 +21,21 @@ validation_perentagem = 0.10
 Data= np.array([[2,1,1,2,0,0,0,1],
                 [1,1,1,2,0,0,0,1],
                 [0,1,1,2,0,0,0,1],
-                [2,1,1,2,1,0,0,1],
-                [1,1,1,2,1,0,0,1],
-                [0,1,1,2,1,0,0,1],
                 [2,1,1,2,0,1,2,1],
                 [1,1,1,2,0,1,2,1],
                 [0,1,1,2,0,1,2,1],
-                [2,1,1,2,1,1,2,1],
-                [1,1,1,2,1,1,2,1],
-                [0,1,1,2,1,1,2,1],
                 [2,1,1,2,0,2,2,1],
                 [1,1,1,2,0,2,2,1],
                 [0,1,1,2,0,2,2,1],
-                [2,1,1,2,1,2,2,1],
-                [1,1,1,2,1,2,2,1],
-                [0,1,1,2,1,2,2,1],
                 [2,2,1,2,0,0,0,1],
                 [1,2,1,2,0,0,0,1],
                 [0,2,1,2,0,0,0,1],
-                [2,2,1,2,1,0,0,1],
-                [1,2,1,2,1,0,0,1],
-                [0,2,1,2,1,0,0,1],
                 [2,2,1,2,0,1,2,1],
                 [1,2,1,2,0,1,2,1],
                 [0,2,1,2,0,1,2,1],
-                [2,2,1,2,1,1,2,1],
-                [1,2,1,2,1,1,2,1],
-                [0,2,1,2,1,1,2,1],
                 [2,2,1,2,0,2,2,1],
                 [1,2,1,2,0,2,2,1],
-                [0,2,1,2,0,2,2,1],
-                [2,2,1,2,1,2,2,1],
-                [1,2,1,2,1,2,2,1],
-                [0,2,1,2,1,2,2,1],
+                [0,2,1,2,0,2,2,1]
                 ])
 
 # data_type = [ day index, type of storage, number of days in the past, 
@@ -72,7 +54,7 @@ Data= np.array([[2,1,1,2,0,0,0,1],
 Size_data = Data.shape
 
 save_model = 0
-Number_of_test_for_model = 15
+Number_of_test_for_model = 10
 
 Results_r_s = np.zeros((Size_data[0],Number_of_test_for_model))
 Results_r_t = np.zeros((Size_data[0],Number_of_test_for_model))
@@ -106,10 +88,10 @@ for i in range(Size_data[0]):
     
         input_size = input_var.shape[1]
     
-        hidden_layers_info[0] = [ input_size ,'relu']
+        hidden_layers_info[0] = [10,'relu']
         hidden_layers_info[1] = [10,'relu']
         
-        test_parameters = [500,100]
+        test_parameters = [350,50]
         
         name_model = '_'
         

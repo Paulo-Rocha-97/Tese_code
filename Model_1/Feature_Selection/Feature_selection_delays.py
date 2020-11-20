@@ -9,7 +9,7 @@ from Data_Prep_Model_1 import generate_data
 
 # %% Set optmizer
 
-Learning_rate = 0.0001
+Learning_rate = 0.0005
 Momentum = 0.2
 opt = keras.optimizers.RMSprop(learning_rate = Learning_rate, momentum = Momentum)
 
@@ -21,7 +21,7 @@ Data=[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 Size_data = 10
 
 save_model = 0
-Number_of_test_for_model = 60
+Number_of_test_for_model = 10
 
 Results_r = np.zeros((Size_data,Number_of_test_for_model))
 Results_RMSE = np.zeros((Size_data,Number_of_test_for_model))
@@ -45,10 +45,10 @@ for i in range(10):
 
         hidden_layer_info=[0,0]
 
-        hidden_layer_info[0] = [ input_size , 'relu' ]
-        hidden_layer_info[1] = [ 15 , 'relu' ]
+        hidden_layer_info[0] = [ 40 , 'relu' ]
+        hidden_layer_info[1] = [ 20 , 'relu' ]
 
-        test_parameters = [600,100]
+        test_parameters = [350,50]
 
         name_model = '_'
         
