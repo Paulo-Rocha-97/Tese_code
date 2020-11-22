@@ -71,9 +71,6 @@ def feature_selections_results(name_file):
                     Av_r_3 = Av_r_3 + Results_r_3[i,j]
                     
                     cont_s = cont_s + 1
-            
-                if cont_index == 5:
-                    cont_index = 0
                 
         
         if cont_index < 3 :
@@ -94,7 +91,10 @@ def feature_selections_results(name_file):
             MAE_3_mean.append((Av_mae_3/cont_s))
             N_error_vec_s.append(N_error_s)
 
-        cont_index = cont_index +1
+        if cont_index == 5:
+            cont_index = 0
+        else:
+            cont_index = cont_index +1
                     
             
     R = dict([('Global',R_t_mean),
@@ -113,25 +113,30 @@ def feature_selections_results(name_file):
     N_ERROR = dict([('Global',N_error_vec_t),
                     ('Separate',N_error_vec_s)])
             
-    return  R, MAE, RSME, N_ERROR, Data
+    return  R_t_mean, MAE_t_mean, RSME_t_mean, N_ERROR, Data
 
 # %% Plot definitiond
 
-def make_plot_point( path, Name, R, MAE, RSME, file_name ):
+def make_plot_point( path, Name, R, MAE, RMSE, file_name ):
     
     import os
     import matplotlib.pyplot as plt
     
-    fig, (ax1, ax2, ax3) = plt.subplots(3, sharex=True, figsize=(100,100))
+    X=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]
+    
+    fig, (ax1, ax2, ax3) = plt.subplots(3, sharex=True, figsize=(10,10))
     fig.suptitle(Name)
     
-    ax1.scatter( R , s = 2000, color ='red')
-    ax1.axhline(Y_1[0], color='orange', linestyle='--', linewidth=6.0)
-    ax2.scatter(X, Y_2, s = 2000, color ='blue')
-    ax2.axhline(Y_2[0], color='orange', linestyle='--', linewidth=6.0)
-    ax3.scatter(X, Y_3, s = 2000, color ='green')
-    ax3.axhline(Y_3[0], color='orange', linestyle='--', linewidth=6.0)
-    
+    ax1.scatter(X, R , s = 20, color ='red')
+    ax1.axhline(R[0], color='orange', linestyle='--')
+    ax1.set_ylim([min(R)-0.001, max(R)+0.001])
+    ax2.scatter(X, MAE, s = 20, color ='blue')
+    ax2.axhline(MAE[0], color='orange', linestyle='--')
+    ax2.set_ylim([min(MAE)-0.0002, max(MAE)+0.0002 ])
+    ax3.scatter(X, RMSE, s = 20, color ='green')
+    ax3.axhline(RMSE[0], color='orange', linestyle='--')
+    ax3.set_ylim([min(RMSE)-0.0002, max(RMSE)+0.0002] )
+        
     ax1.minorticks_on()
     ax2.minorticks_on()
     ax3.minorticks_on()
@@ -140,28 +145,29 @@ def make_plot_point( path, Name, R, MAE, RSME, file_name ):
     ax2.tick_params(axis='x', which='minor', bottom=False)
     ax3.tick_params(axis='x', which='minor', bottom=False)
     
-    plt.xticks(X, X_Axis)
-    ax1.set_ylabel(Y_name_1)
-    ax1.grid(b=True, which='major', color='#666666', linestyle='-', linewidth=4.0)
-    ax1.grid(b=True, which='minor', color='#999999', linestyle='-', linewidth=4.0, alpha=0.2)
-    ax2.set_ylabel(Y_name_2)
-    ax2.grid(b=True, which='major', color='#666666', linestyle='-', linewidth=4.0)
-    ax2.grid(b=True, which='minor', color='#999999', linestyle='-', linewidth=4.0, alpha=0.2)
-    ax3.set_ylabel(Y_name_3)
-    ax3.grid(b=True, which='major', color='#666666', linestyle='-', linewidth=4.0)
-    ax3.grid(b=True, which='minor', color='#999999', linestyle='-', linewidth=4.0, alpha=0.2)
+    ax1.set_ylabel('r')
+    ax1.grid(b=True, which='major', color='#666666', linestyle='-', linewidth=1.0)
+    ax1.grid(b=True, which='minor', color='#999999', linestyle='-', linewidth=1.0, alpha=0.2)
+    ax2.set_ylabel('MAE')
+    ax2.grid(b=True, which='major', color='#666666', linestyle='-', linewidth=1.0)
+    ax2.grid(b=True, which='minor', color='#999999', linestyle='-', linewidth=1.0, alpha=0.2)
+    ax3.set_ylabel('RMSE')
+    ax3.grid(b=True, which='major', color='#666666', linestyle='-', linewidth=1.0)
+    ax3.grid(b=True, which='minor', color='#999999', linestyle='-', linewidth=1.0, alpha=0.2)
 
     if not os.path.exists(path):
         os.makedirs(path)
 
     plt.savefig(path+'/'+file_name+'.png')
-    plt.close()
-
-
 
 #%% Execute 
     
 name_file = 'Feature_selection_all.p'
 
-R, MAE, RSME, N_ERROR, Data = feature_selections_results(name_file)
+R, MAE, RMSE, N_ERROR, Data = feature_selections_results(name_file)
 
+path = 'C:/Users/Paulo_Rocha/Desktop/Tese/Tese_code/Model_2/Feature_Selection/Results/Var_layer/Plots'
+
+file_name = 'Tested hypothesis'
+
+make_plot_point( path, file_name, R, MAE, RMSE, file_name )
