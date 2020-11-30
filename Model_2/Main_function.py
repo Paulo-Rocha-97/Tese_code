@@ -2,16 +2,16 @@
 from tensorflow import keras
 from NN_build import build_MLP_main
 from NN_build import build_MLP_sec
-
+import os
 import pickle as pr
 from Data_Prep_Model_2 import generate_data
 
 # %% Set optmizer
 
-train_percentage = 0.75
-validation_perentagem = 0.10
+train_percentage = 0.70
+validation_perentagem = 0.15
 
-Data = [2,1,2,4,1,0,0,1]
+Data = [2,1,2,1,0,2,2,1]
 
 # data_type = [ day index, type of storage, number of days in the past, 
 #               number of days in the future, outflow type]
@@ -28,9 +28,9 @@ Data = [2,1,2,4,1,0,0,1]
              
 save_model = 1
 
-run_model = 0
+run_model = 1
 
-name_model = 'Example'
+name_model = 'Sec_Storage_m'
 
 # name_model = input('Name_model:')
     
@@ -63,15 +63,15 @@ if run_model == 0 or run_model == 2:
 
 if run_model == 1 or run_model == 2: 
     
-    Learning_rate = 0.0001
+    Learning_rate = 0.001
     Momentum = 0.2
     opt = keras.optimizers.RMSprop(learning_rate = Learning_rate, momentum = Momentum)
     
     hidden_layer_info=[0]
     
-    hidden_layer_info[0] = [2,'relu']
+    hidden_layer_info[0] = [3,'relu']
     
-    test_parameters = [150,10]
+    test_parameters = [100,50]
     
     show_progress = 2
     
@@ -79,13 +79,23 @@ if run_model == 1 or run_model == 2:
     
     r_sec, RMSE_sec, MAE_sec = build_MLP_sec(input_var_sec, output_var_sec, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model, Data, show_progress)
 
-if save_model == 1 and run_model == 0 or 2:
-    
-    pr.dump( [ Data, r, MAE, RMSE ] , open('Results/'+name_model+'/'+'Value_quality.p','wb'))
-    
-elif save_model == 1 and run_model == 1 or 2:
+# %% Save files 
 
-    pr.dump( [ Data, r_sec, MAE_sec, RMSE_sec ] , open('Results/'+name_model+'/'+'Value_quality_sec.p','wb'))
+path = os.getcwd()
+
+if save_model == 1 and (run_model == 0 or run_model == 2):
+    
+    if not os.path.exists(path+'Results\\'+name_model):
+        os.makedirs(path+'Results\\'+name_model)
+    
+    pr.dump( [ Data, r, MAE, RMSE ] , open(path+'Results\\'+name_model+'\\'+'Value_quality.p','wb'))
+    
+elif save_model == 1 and (run_model == 1 or run_model == 2):
+
+    if not os.path.exists(path+'\\Results\\'+name_model):
+        os.makedirs(path+'\\Results\\'+name_model)
+    
+    pr.dump( [ Data, r_sec, MAE_sec, RMSE_sec ] , open(path+'\\Results\\'+name_model+'\\'+'Value_quality_sec.p','wb'))
 
     print('\n---------- DONE ----------' )
 

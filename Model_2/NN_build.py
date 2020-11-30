@@ -340,4 +340,3 @@ def build_MLP_sec(input_var, output_var, time_plot, data_index, hidden_layers_in
         print('\n Model Saved')
         
     return r, RMSE, MAE
-    

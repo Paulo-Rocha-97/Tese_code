@@ -175,7 +175,7 @@ def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type
                 
         if data_type[4] == 0:
             
-            if data_type[7] == 1 
+            if data_type[7] == 1:
                 
                 if Dam[5][i] != None and Dam[5][i-1] != None:
                 
@@ -208,7 +208,7 @@ def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type
             x = Normalize_data(Dam[7][i-1], Max[6], Min[6])
             list_in.append(x)
             
-            if data_type[7] == 1 
+            if data_type[7] == 1:
             
                 if Dam[8][i] != None and Dam[8][i-1] != None:
             
@@ -320,7 +320,7 @@ def generate_data( save, data_type ):
     
     Eco_outflow = [15,15,11.9,9.6,8.6,7.9,5,5,5,8.9,11.9,15]
     
-    input_value, output_value, time_plot, input_value_sec, output_value_sec = order_vars( Brandariz, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type )
+    input_value, output_value, time_plot, input_value_sec, output_value_sec = order_vars( Touro, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type )
     
     input_var = np.asarray(input_value).astype(np.float32)
     output_var = np.asarray(output_value).astype(np.float32)

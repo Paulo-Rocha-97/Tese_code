@@ -1,7 +1,6 @@
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
-import matplotlib.pyplot as plt
 from tensorflow.keras import layers
 from My_plot_ import  make_plot_line as make_plot
 from My_plot_ import  make_plot_line_nosave as make_plot_ns
@@ -209,12 +208,12 @@ def build_MLP_main(input_var, output_var, time_plot, data_index, hidden_layers_i
         if data_index[1]==data_index[0]:
             make_plot(path, 'Model_3_training', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'])
         else:
-            make_plot(path, 'Model_3_training', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'], 'Training', history.history['val_loss'], 'Validation')
+            make_plot(path, 'Model_2_training', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'], 'Training', history.history['val_loss'], 'Validation')
             
         model_json = model.to_json()
         with open( path + "model3_" + name_model + ".json", "w") as json_file:
             json_file.write(model_json)
-        model.save_weights( path + "model2_" + name_model +".h5" )
+        model.save_weights( path + "model3_" + name_model +".h5" )
         
         print('\n Model Saved')
         
@@ -320,14 +319,10 @@ def build_MLP_sec(input_var, output_var, time_plot, data_index, hidden_layers_in
     if save_model == 1:
         
         if data_type[1] == 1: 
-        
+                    
             make_plot(path, 'Model_3_sec_storage', time_scale, 'Date', 'Storage(m)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Storage')
 
         elif data_type[1] == 2:
-            
-            del Test_out_pred[0,0]
-            
-            del Test_out[-1,0]
             
             make_plot(path, 'Model_3_sec_storage', time_scale, 'Date', 'Storage(Hm^3)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Storage')  
        
@@ -341,150 +336,6 @@ def build_MLP_sec(input_var, output_var, time_plot, data_index, hidden_layers_in
         with open( path + "model3_sec_" + name_model + ".json", "w") as json_file:
             json_file.write(model_json)
         model.save_weights( path + "model3_sec_" + name_model +".h5" )
-        
-        print('\n Model Saved')
-        
-    return r, RMSE, MAE
-    
-# %% Build LSTM
-    
-# Data_index (list) --> [ index(row) for data to test, index(row) for data to validate]
-
-# Hidden_layers_info (list of list) --> as many fields as hidden layers each containing a list with:
-#                               [Number of neurons]  - subject to adding more
-
-# opt --> keras optmizer object
-    
-# test parameters (list) -->  [Epochs, Batch size]
-
-def build_LSTM(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model):
-    
-    output_shape = output_var.shape
-    
-    if output_shape[1]==1:
-        output_var = output_var.reshape(len(output_var),1)
-    
-    Train_in = input_var[:data_index[0],:]
-    Train_out = output_var[:data_index[0],:]
-    
-    Val_in = input_var[data_index[0]+1:data_index[1],:]
-    Val_out = output_var[data_index[0]+1:data_index[1],:]
-    
-    Test_in = input_var[data_index[1]+1:,:]
-    Test_out = output_var[data_index[1]+1:,:]
-    
-    time_scale = time_plot[data_index[1]+1:]
-    
-    Train_in = Train_in.reshape( (Train_in.shape[0], 1, Train_in .shape[1]) )
-    Val_in = Val_in.reshape( (Val_in.shape[0], 1, Val_in .shape[1]) )
-    Test_in = Test_in.reshape((Test_in.shape[0], 1, Test_in.shape[1]))
-    
-    # Model Train and evaluate
-    
-    # Create model
-    model = keras.models.Sequential()
-    
-    model.add(layers.LSTM(hidden_layer_info[0], input_shape=[Train_in.shape[1], Train_in.shape[2]] ))
- 
-    model.add(layers.Dense( output_shape[1], activation='relu' ))
-
-    model.compile(optimizer=opt, loss='mse')
-
-    # Fitting
-    
-    if data_index[1]==data_index[0]:
-        history = model.fit(Train_in, Train_out, epochs = test_parameters[0], 
-                         batch_size = test_parameters[1], verbose=2, use_multiprocessing=True)
-    else:
-        history = model.fit(Train_in, Train_out, epochs = test_parameters[0], batch_size = test_parameters[1],
-                         validation_data = (Val_in, Val_out), verbose=2, use_multiprocessing=True)
-            
-    print('\n Fitting Done \n')
-
-    # Evaluate
-    error = model.evaluate(Test_in, Test_out, verbose=0)
-    RMSE = tf.math.sqrt(error)
-
-    print('MSE: %3f \nRMSE: %3f'% (error,RMSE))
-    
-    Test_out_pred = model.predict(Test_in, verbose=0)
-
-    r = []
-    MAE = []
-    
-    r_ = calculate_correlation(Test_out_pred[:,0], Test_out[:,0])
-    r.append(r_)
-    MAE_ = np.mean(abs(Test_out[:,0] - Test_out_pred[:,0]))
-    MAE.append(MAE_)
-    
-    if output_shape[1] == 1:
-    
-        print('R Outflow: %3f'% (r[0]))      
-        
-    else:
-        
-        r_ = calculate_correlation(Test_out_pred[:,1], Test_out[:,1])
-        r.append(r_)
-        MAE_ = np.mean(abs(Test_out[:,1] - Test_out_pred[:,1]))
-        MAE.append(MAE_)
-        
-        r_ = calculate_correlation(Test_out_pred[:,2], Test_out[:,2])
-        r.append(r_)
-        MAE_ = np.mean(abs(Test_out[:,2] - Test_out_pred[:,2]))
-        MAE.append(MAE_)
-        
-        print('R flood: %3f \nR Bottom: %3f \nR Power: %3f'% (r[0],r[1],r[2]))
-     
-    # Make plots  
-    path ='C:/Users/Paulo_Rocha/Desktop/Tese/Tese_code/Model_3/Results/' + name_model + '/'
-        
-    Epochs_axis = []
-    for i in range(test_parameters[0]):
-        Epochs_axis.append(i+1)
-        
-    # Save full model and plots
-        
-    if output_shape[1] == 1:
-        
-        Test_out[:,0] = Denormalize_data(Test_out[:,0], 250, 0)
-        Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], 250, 0) 
-        make_plot_ns(path, 'Model_3_outflow', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Total Outflow')
-    
-    else:
-        Test_out[:,0] = Denormalize_data(Test_out[:,0], 10, 0)
-        Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], 10, 0) 
-        make_plot_ns(path, 'Model_3_Bottom', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Outflow Flood')
-        Test_out[:,1] = Denormalize_data(Test_out[:,1], 130, 0)
-        Test_out_pred[:,1] = Denormalize_data(Test_out_pred[:,1], 130, 0) 
-        make_plot_ns(path, 'Model_3_Flood', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,1], 'Real Data', Test_out_pred[:,1], 'Estimation Outflow Bottom')
-        Test_out[:,2] = Denormalize_data(Test_out[:,2], 130, 0)
-        Test_out_pred[:,2] = Denormalize_data(Test_out_pred[:,2], 130, 0) 
-        make_plot_ns(path, 'Model_3_Power', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,2], 'Real Data', Test_out_pred[:,2], 'Estimation Outflow Power')
-    
-    # Introduce save feature here    
-    save_model =int(input('\nDo you wish to save? : '),10)
-    
-    if save_model == 1:
-            
-        if output_shape[1] == 1:
-
-            make_plot(path, 'Model_3_outflow', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Total Outflow')
-        else:
-
-            make_plot(path, 'Model_3_Bottom', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Outflow Flood')
-            make_plot(path, 'Model_3_Flood', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,1], 'Real Data', Test_out_pred[:,1], 'Estimation Outflow Bottom')
-            make_plot(path, 'Model_3_Power', time_scale, 'Date', 'Outflow (m^3/s)', Test_out[:,2], 'Real Data', Test_out_pred[:,2], 'Estimation Outflow Power')
-       
-        # Plot loss while training 
-        if data_index[1]==data_index[0]:
-            make_plot(path, 'Model_3_training', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'])
-        else:
-            make_plot(path, 'Model_3_training', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'], 'Training', history.history['val_loss'], 'Validation')
-            
-        model_json = model.to_json()
-        with open( path + "model3_" + name_model + ".json", "w") as json_file:
-            json_file.write(model_json)
-        model.save_weights( path + "model3_" + name_model +".h5" )
         
         print('\n Model Saved')
         

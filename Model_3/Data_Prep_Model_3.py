@@ -97,7 +97,7 @@ def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type
         end = data_type[3]-1
     
     # start organizing 
-    for i in range(data_type[2] , comp - end):
+    for i in range(data_type[2]+1 , comp - end):
         
         list_in=[]
         list_out=[]
@@ -125,12 +125,16 @@ def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type
             list_in.append(x)
             x = Normalize_data(Dam[2][i-1], Max[1], Min[1])
             list_in_sec.append(x)
+            x = Normalize_data(Dam[2][i-2], Max[1], Min[1])
+            list_in_sec.append(x)
             y = Normalize_data(Dam[2][i], Max[1], Min[1])
             list_out_sec.append(y)
         elif data_type[1] == 2:
             x = Normalize_data(Dam[3][i-1], Max[2], Min[2])
             list_in.append(x)
             x = Normalize_data(Dam[3][i-1], Max[2], Min[2])
+            list_in_sec.append(x)
+            x = Normalize_data(Dam[3][i-2], Max[2], Min[2])
             list_in_sec.append(x)
             y = Normalize_data(Dam[3][i], Max[2], Min[2])
             list_out_sec.append(y)
@@ -175,7 +179,7 @@ def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type
                 
         if data_type[4] == 0:
             
-            if data_type[7] == 1 
+            if data_type[7] == 1:
                 
                 if Dam[5][i] != None and Dam[5][i-1] != None:
                 
@@ -208,7 +212,7 @@ def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type
             x = Normalize_data(Dam[7][i-1], Max[6], Min[6])
             list_in.append(x)
             
-            if data_type[7] == 1 
+            if data_type[7] == 1 :
             
                 if Dam[8][i] != None and Dam[8][i-1] != None:
             
@@ -331,7 +335,7 @@ def generate_data( save, data_type ):
     
     if save == 1:
     
-        name = 'Data_model_2.p'
+        name = 'Data_model_3.p'
         
         pr.dump ( [input_var, output_var, time_plot, input_var_sec, output_var_sec] , open( name, "wb" ) )
         

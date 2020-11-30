@@ -33,7 +33,7 @@ def make_plot_line( path, Name, Time, Y_name, *args ):
         
         name = Name + '_' + Y_.replace(' ','_')
 
-        plt.plot(Time, args[0],'r', linewidth=6.0, label = Y_name)
+        plt.plot(Time, args[0],'r', linewidth=1.4, label = Y_name)
 
     else:
         
@@ -45,18 +45,16 @@ def make_plot_line( path, Name, Time, Y_name, *args ):
         
         for i in range(comp-1):
             if (i % 2) == 0:
-                plt.plot(Time, args[i], color[i], linewidth=6.0, label = args[i+1])
+                plt.plot(Time, args[i], color[i], linewidth=1.4, label = args[i+1])
 
     plt.xlabel('Date')
     plt.ylabel(Y_name)
-    plt.grid(linewidth=5.0)
-    plt.grid(linewidth=3.0)
-    plt.legend(prop={'size': 60})
+    plt.grid(linewidth=1.0)
 
     if not os.path.exists(path):
         os.makedirs(path)
 
-    plt.savefig(path+'/'+name+'.png',dpi=3000)
+    plt.savefig(path+'/'+name+'.png',dpi=300)
     plt.close()
     
 def make_plot_marker_line_( path, Name, Time, Y_name, *args ):

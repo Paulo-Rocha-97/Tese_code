@@ -93,49 +93,49 @@ Portodemouros = clean_Dam(Portodemouros,2013)
 
 # %% Clear outlier 
 
-comp =len(Brandariz[1])
+# comp =len(Brandariz[1])
 
-for i in range(comp-1,-1,-1):
+# for i in range(comp-1,-1,-1):
 
-    if Brandariz[2][i] == 0 : 
+#     if Brandariz[2][i] == 0 : 
     
-        del Brandariz[0][i]
-        del Brandariz[1][i]
-        del Brandariz[2][i]
-        del Brandariz[3][i]
-        del Brandariz[4][i]
-        del Brandariz[5][i]
-        del Brandariz[6][i]
-        del Brandariz[7][i]
-        del Brandariz[8][i]
+#         del Brandariz[0][i]
+#         del Brandariz[1][i]
+#         del Brandariz[2][i]
+#         del Brandariz[3][i]
+#         del Brandariz[4][i]
+#         del Brandariz[5][i]
+#         del Brandariz[6][i]
+#         del Brandariz[7][i]
+#         del Brandariz[8][i]
         
-    if Brandariz[3][i] == 0 : 
+#     if Brandariz[3][i] == 0 : 
     
-        del Brandariz[0][i]
-        del Brandariz[1][i]
-        del Brandariz[2][i]
-        del Brandariz[3][i]
-        del Brandariz[4][i]
-        del Brandariz[5][i]
-        del Brandariz[6][i]
-        del Brandariz[7][i]
-        del Brandariz[8][i]
+#         del Brandariz[0][i]
+#         del Brandariz[1][i]
+#         del Brandariz[2][i]
+#         del Brandariz[3][i]
+#         del Brandariz[4][i]
+#         del Brandariz[5][i]
+#         del Brandariz[6][i]
+#         del Brandariz[7][i]
+#         del Brandariz[8][i]
         
-comp =len(Touro[1])
+# comp =len(Touro[1])
 
-for i in range(comp-1,-1,-1):
+# for i in range(comp-1,-1,-1):
 
-    if Touro[2][i] > 154 : 
+#     if Touro[2][i] > 154 : 
     
-        del Touro[0][i]
-        del Touro[1][i]
-        del Touro[2][i]
-        del Touro[3][i]
-        del Touro[4][i]
-        del Touro[5][i]
-        del Touro[6][i]
-        del Touro[7][i]
-        del Touro[8][i]
+#         del Touro[0][i]
+#         del Touro[1][i]
+#         del Touro[2][i]
+#         del Touro[3][i]
+#         del Touro[4][i]
+#         del Touro[5][i]
+#         del Touro[6][i]
+#         del Touro[7][i]
+#         del Touro[8][i]
 
 
 # %% Complete the full time series
@@ -188,5 +188,5 @@ Portodemouros = account_missing_data(Portodemouros,Time_2)
 
 # %% Save Data 
 
-pr.dump( [ Touro , Brandariz , Portodemouros ], open( "Dams.p", "wb" ) )
+pr.dump( [ Touro , Brandariz , Portodemouros ], open( "Dams_with_outliers.p", "wb" ) )
 

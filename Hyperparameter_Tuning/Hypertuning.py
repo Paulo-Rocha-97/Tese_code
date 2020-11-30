@@ -131,15 +131,16 @@ print('Model_1')
 
 tuner_1 = kt.BayesianOptimization(model_creation_1,
                                   objective = 'mse',
-                                  max_trials = 200,
+                                  max_trials = 400,
+                                  num_initial_points=50,
                                   seed=None, 
                                   hyperparameters=None, 
                                   tune_new_entries=True, 
                                   allow_new_entries=True,
                                   directory = path,
-                                  project_name = 'Model_1_HP',
-                                  overwrite=True,
-                                  executions_per_trial=2)
+                                  project_name = 'Model_1_HP(4)',
+                                  overwrite=False,
+                                  executions_per_trial=3)
 
 tuner_1.search(x=Train_in_1,
                y=Train_out_1,
@@ -150,26 +151,20 @@ tuner_1.search(x=Train_in_1,
 print('\nModel_1_Summary\n')
 tuner_1.results_summary()
 
-freq_1 = 200
-freq_2 = 1000  
-duration = 1000  
-winsound.Beep(freq_1, duration)
-winsound.Beep(freq_2, duration)
-winsound.Beep(freq_1, duration)
-
 print('Model_2')
 
 tuner_2 = kt.BayesianOptimization(model_creation_2,
                                   objective = 'mse',
-                                  max_trials = 100,
+                                  max_trials = 200,
+                                  num_initial_points=25,
                                   seed=None, 
                                   hyperparameters=None, 
                                   tune_new_entries=True, 
                                   allow_new_entries=True,
                                   directory = path,
-                                  project_name = 'Model_2_HP',
-                                  overwrite=True,
-                                  executions_per_trial=2)
+                                  project_name = 'Model_2_HP(4)',
+                                  overwrite=False,
+                                  executions_per_trial=3)
 
 tuner_2.search(x=Train_in_2,
                y=Train_out_2,
@@ -180,23 +175,21 @@ tuner_2.search(x=Train_in_2,
 print('\nModel_2_summary\n')
 tuner_2.results_summary()
  
-winsound.Beep(freq_1, duration)
-winsound.Beep(freq_2, duration)
-winsound.Beep(freq_1, duration)
 
 print('Model_3')
 
 tuner_3 = kt.BayesianOptimization(model_creation_3,
                                   objective = 'mse',
-                                  max_trials = 100,
+                                  max_trials = 200,
+                                  num_initial_points=25,
                                   seed=None, 
                                   hyperparameters=None, 
                                   tune_new_entries=True, 
                                   allow_new_entries=True,
                                   directory = path,
-                                  project_name = 'Model_3_HP',
-                                  overwrite=True,
-                                  executions_per_trial=2)
+                                  project_name = 'Model_3_HP(4)',
+                                  overwrite=False,
+                                  executions_per_trial=3)
 
 tuner_3.search(x=Train_in_3,
                y=Train_out_3,
@@ -207,23 +200,20 @@ tuner_3.search(x=Train_in_3,
 print('\nModel_3_summary\n')
 tuner_3.results_summary()
 
-winsound.Beep(freq_1, duration)
-winsound.Beep(freq_2, duration)
-winsound.Beep(freq_1, duration)
-
 print('Model_4')
 
 tuner_4 = kt.BayesianOptimization(model_creation_4,
                                   objective = 'mse',
-                                  max_trials = 100,
+                                  max_trials = 200,
+                                  num_initial_points=25,
                                   seed=None, 
                                   hyperparameters=None, 
                                   tune_new_entries=True, 
                                   allow_new_entries=True,
                                   directory = path,
-                                  project_name = 'Model_4_HP',
-                                  overwrite=True,
-                                  executions_per_trial=2)
+                                  project_name = 'Model_4_HP(4)',
+                                  overwrite=False,
+                                  executions_per_trial=3)
 
 tuner_4.search(x=Train_in_4,
                y=Train_out_4,
@@ -233,21 +223,17 @@ tuner_4.search(x=Train_in_4,
 print('\nModel_4_summary\n')
 tuner_4.results_summary()
 
-print('\n --------------Parameter summary------------ \n')
-print('\n Model 1 Best Parameters \n')
-tuner_1.get_best_hyperparameters(1)[0]
-print('\n Model 2 Best Parameters \n')
-tuner_1.get_best_hyperparameters(1)[0]
-print('\n Model 3 Best Parameters \n')
-tuner_1.get_best_hyperparameters(1)[0]
-print('\n Model 4 Best Parameters \n')
-tuner_1.get_best_hyperparameters(1)[0]
+# print('\n --------------Parameter summary------------ \n')
+# print('\n Model 1 Best Parameters \n')
+# hp_1 = tuner_1.get_best_hyperparameters(1)[0]
+# print(hp_1)
+# print('\n Model 2 Best Parameters \n')
+# hp_2 = tuner_1.get_best_hyperparameters(1)[0]
+# print(hp_2)
+# print('\n Model 3 Best Parameters \n')
+# hp_3 = tuner_1.get_best_hyperparameters(1)[0]
+# print(hp_3)
+# print('\n Model 4 Best Parameters \n')
+# hp_4 = tuner_1.get_best_hyperparameters(1)[0]
+# print(hp_4)
 
-freq_1 = 200
-freq_2 = 1000  
-duration = 1000  
-winsound.Beep(freq_1, duration)
-winsound.Beep(freq_2, duration)
-winsound.Beep(freq_1, duration)
-winsound.Beep(freq_2, duration)
-winsound.Beep(freq_1, duration)

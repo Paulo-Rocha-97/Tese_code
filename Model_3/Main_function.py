@@ -2,8 +2,7 @@
 from tensorflow import keras
 from NN_build import build_MLP_main
 from NN_build import build_MLP_sec
-
-from NN_build import build_LSTM
+import os
 import pickle as pr
 from Data_Prep_Model_3 import generate_data
 
@@ -37,7 +36,7 @@ validation_perentagem = 0.1
     
 #     build_LSTM(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model)
     
-Data= [1,2,1,1,0,0,0,1]
+Data= [2,2,1,1,0,1,2,1]
 
 # data_type = [ day index, type of storage, number of days in the past, 
 #               number of days in the future, outflow type]
@@ -52,7 +51,6 @@ Data= [1,2,1,1,0,0,0,1]
 # remove caudal ecologigo: 0 - not remove; 1 - remove caudal ecologico
    
 
-model_type = 0
              
 save_model = 1
 
@@ -70,61 +68,57 @@ if run_model == 0 or run_model == 2:
     Learning_rate = 0.005
     Momentum = 0.2
     opt = keras.optimizers.RMSprop(learning_rate = Learning_rate, momentum = Momentum)
+            
+    hidden_layer_info=[0,0]
     
-    if model_type == 0:
-        
-        hidden_layer_info=[0,0]
-        
-        hidden_layer_info[0] = [10,'relu']
-        hidden_layer_info[1] = [10,'relu']
-        
-        test_parameters = [500,50]
-        
-        show_progress = 2
-        
-        print('\nMain Model 3')
-        
-        r, RMSE, MAE = build_MLP_main(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model, Data, show_progress)
-
-    else:
-
-        hidden_layer_info=[8]
-        
-        test_parameters = [500,10]
-        
-        r, RMSE, MAE = build_LSTM(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model)
-
-#%% Run Secondary
-
-if run_model == 1 or run_model == 2: 
-    
-    Learning_rate = 0.005
-    Momentum = 0.2
-    opt = keras.optimizers.RMSprop(learning_rate = Learning_rate, momentum = Momentum)
-    
-    hidden_layer_info=[0]
-    
-
-    hidden_layer_info[0] = [2,'relu']
+    hidden_layer_info[0] = [10,'relu']
+    hidden_layer_info[1] = [10,'relu']
     
     test_parameters = [500,50]
     
     show_progress = 2
     
-    print('\nSecondary Model 2\n')
+    print('\nMain Model 3')
+    
+    r, RMSE, MAE = build_MLP_main(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model, Data, show_progress)
+
+#%% Run Secondary
+
+if run_model == 1 or run_model == 2: 
+    
+    Learning_rate = 0.001
+    Momentum = 0.9
+    opt = keras.optimizers.RMSprop(learning_rate = Learning_rate, momentum = Momentum)
+    
+    hidden_layer_info=[0]
+
+    hidden_layer_info[0] = [4,'relu']
+    
+    test_parameters = [600,50]
+    
+    show_progress = 2
+    
+    print('\nSecondary Model 3\n')
     
     r_sec, RMSE_sec, MAE_sec = build_MLP_sec(input_var_sec, output_var_sec, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model, Data, show_progress)
 
 # %% save model
 
-if save_model == 1 and ( run_model == 0 or run_model == 2):
-    
-    pr.dump( [ Data, r, MAE, RMSE ] , open('Results/'+name_model+'/'+'Value_quality.p','wb'))
-    
-elif save_model == 1 and  ( run_model == 0 or run_model == 2):
+path = os.getcwd()
 
-    pr.dump( [ Data, r_sec, MAE_sec, RMSE_sec ] , open('Results/'+name_model+'/'+'Value_quality_sec.p','wb'))
+if save_model == 1 and (run_model == 0 or run_model == 2):
+    
+    if not os.path.exists(path+'Results\\'+name_model):
+        os.makedirs(path+'Results\\'+name_model)
+    
+    pr.dump( [ Data, r, MAE, RMSE ] , open(path+'Results\\'+name_model+'\\'+'Value_quality.p','wb'))
+    
+elif save_model == 1 and (run_model == 1 or run_model == 2):
+
+    if not os.path.exists(path+'\\Results\\'+name_model):
+        os.makedirs(path+'\\Results\\'+name_model)
+    
+    pr.dump( [ Data, r_sec, MAE_sec, RMSE_sec ] , open(path+'\\Results\\'+name_model+'\\'+'Value_quality_sec.p','wb'))
 
     print('\n---------- DONE ----------' )
-
 
