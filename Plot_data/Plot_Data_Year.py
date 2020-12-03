@@ -33,16 +33,16 @@ def split_plot_yearly( Name_element, Value, Type_of_data, dir_ ):
                     Y_name = 'Type'
                     make_plot( dir_plots, Name, Time, Y_name, Y )
                     Y = Value[2][counter[-2]:counter[-1]]
-                    Y_name = 'Heigth (m)'
+                    Y_name = 'Heigth $(m)$'
                     make_plot( dir_plots, Name, Time, Y_name, Y )
                     Y = Value[3][counter[-2]:counter[-1]]
-                    Y_name = 'Volume (Hm^3)'
+                    Y_name = 'Volume $(Hm^3)$'
                     make_plot( dir_plots, Name, Time, Y_name, Y )
                     Y = Value[4][counter[-2]:counter[-1]]
-                    Y_name = 'InFlow (m^3/s)'
+                    Y_name = 'Inflow $(m^3/s)$'
                     make_plot( dir_plots, Name, Time, Y_name, Y )
                     Y = Value[5][counter[-2]:counter[-1]]
-                    Y_name = 'OutFlow (m^3/s)'
+                    Y_name = 'Outflow $(m^3/s)$'
                     make_plot( dir_plots, Name, Time, Y_name, Y )
                     Y_1 = Value[6][counter[-2]:counter[-1]]
                     name_1 = 'Bottom'
@@ -51,7 +51,13 @@ def split_plot_yearly( Name_element, Value, Type_of_data, dir_ ):
                     Y_3 = Value[8][counter[-2]:counter[-1]]
                     name_3 = 'Power'
                     make_plot( dir_plots, Name, Time, Y_name, Y_1, name_1, Y_2, name_2, Y_3, name_3)
-
+                    Y_name = 'Flow $(m^3/s)$'
+                    Y_1 = Value[4][counter[-2]:counter[-1]]
+                    name_1 = 'Inflow'
+                    Y_2 = Value[5][counter[-2]:counter[-1]]
+                    name_2 = 'Outflow'
+                    make_plot( dir_plots, Name, Time, Y_name, Y_1, name_1, Y_2, name_2)
+                    
                     Ano_at = Ano
 
                 elif Type_of_data == 'S':
@@ -65,10 +71,10 @@ def split_plot_yearly( Name_element, Value, Type_of_data, dir_ ):
                     Y_name = 'Type'
                     make_plot( dir_plots, Name, Time, Y_name, Y )
                     Y = Value[2][counter[-2]:counter[-1]]
-                    Y_name = 'Heigth (m)'
+                    Y_name = 'Heigth $(m)$'
                     make_plot( dir_plots, Name, Time, Y_name, Y )
                     Y = Value[3][counter[-2]:counter[-1]]
-                    Y_name = 'OutFlow (m^3/s)'
+                    Y_name = 'Outflow $(m^3/s)$'
                     make_plot( dir_plots, Name, Time, Y_name, Y )
                     
                     Ano_at = Ano
@@ -84,16 +90,16 @@ def split_plot_yearly( Name_element, Value, Type_of_data, dir_ ):
         Y_name = 'Type'
         make_plot( dir_plots, Name, Time, Y_name, Y )
         Y = Value[2][counter[-1]:]
-        Y_name = 'Heigth (m)'
+        Y_name = 'Heigth $(m)$'
         make_plot( dir_plots, Name, Time, Y_name, Y )
         Y = Value[3][counter[-1]:]
-        Y_name = 'Volume (Hm^3)'
+        Y_name = 'Volume $(Hm^3)$'
         make_plot( dir_plots, Name, Time, Y_name, Y )
         Y = Value[4][counter[-1]:]
-        Y_name = 'InFlow (m^3/s)'
+        Y_name = 'Inflow $(m^3/s)$'
         make_plot( dir_plots, Name, Time, Y_name, Y )
         Y = Value[5][counter[-1]:]
-        Y_name = 'OutFlow (m^3/s)'
+        Y_name = 'Outflow $(m^3/s)$'
         make_plot( dir_plots, Name, Time, Y_name, Y )
         Y_1 = Value[6][counter[-1]:]
         name_1 = 'Bottom'
@@ -112,15 +118,15 @@ def split_plot_yearly( Name_element, Value, Type_of_data, dir_ ):
         Y_name = 'Type'
         make_plot( dir_plots, Name, Time, Y_name, Y )
         Y = Value[2][counter[-1]:]
-        Y_name = 'Heigth (m)'
+        Y_name = 'Heigth $(m)$'
         make_plot( dir_plots, Name, Time, Y_name, Y )
         Y = Value[3][counter[-1]:]
-        Y_name = 'OutFlow (m^3/s)'
+        Y_name = 'Outflow $(m^3/s)$'
         make_plot( dir_plots, Name, Time, Y_name, Y )
 
 # %% Comapison bettween MET
 
-def compare_met_yearly( Name_var, Number_var, dir_ , Met_1, Met_2, Met_3, Met_4, Met_5, Met_6):
+def compare_met_yearly( Name_var, Number_var, dir_ , Met_1, Met_2, Met_3, Met_4):
         
     counter = [0]
     
@@ -154,12 +160,8 @@ def compare_met_yearly( Name_var, Number_var, dir_ , Met_1, Met_2, Met_3, Met_4,
                 name_3 = 'Olveda'
                 Y_4 = Met_4[Number_var][counter[-2]:counter[-1]]
                 name_4 = 'Serra do Farro'
-                Y_5 = Met_5[Number_var][counter[-2]:counter[-1]]
-                name_5 = 'Mouriscade'
-                Y_6 = Met_6[Number_var][counter[-2]:counter[-1]]
-                name_6 = 'Camanzo'
                 
-                make_plot( dir_plots, Name, Time, Y_name, Y_1, name_1, Y_2, name_2, Y_3, name_3, Y_4, name_4, Y_5, name_5, Y_6, name_6)
+                make_plot( dir_plots, Name, Time, Y_name, Y_1, name_1, Y_2, name_2, Y_3, name_3, Y_4, name_4)
 
                 Ano_at = Ano
                     
@@ -177,13 +179,32 @@ def compare_met_yearly( Name_var, Number_var, dir_ , Met_1, Met_2, Met_3, Met_4,
     name_3 = 'Olveda'
     Y_4 = Met_4[Number_var][counter[-1]:]
     name_4 = 'Serra do Farro'
-    Y_5 = Met_5[Number_var][counter[-1]:]
-    name_5 = 'Mouriscade'
-    Y_6 = Met_6[Number_var][counter[-1]:]
-    name_6 = 'Camanzo'
-    
-    make_plot( dir_plots, Name, Time, Y_name, Y_1, name_1, Y_2, name_2, Y_3, name_3, Y_4, name_4, Y_5, name_5, Y_6, name_6)
 
+    make_plot( dir_plots, Name, Time, Y_name, Y_1, name_1, Y_2, name_2, Y_3, name_3, Y_4, name_4)
+    
+    if Name_var == 'Irradiation $(kj/m^2.day)$':
+        
+        mylist = Met_3[Number_var][counter[-4]:counter[-3]]
+        Time = Met_3[0][counter[-4]:counter[-3]]
+        N = 40
+        moving_aves = []
+        new_time = []
+        
+        for i in range(len(mylist)):
+            if i>=N:
+                moving_ave = 0
+                c=0
+                for j in range(N):
+                    if mylist[i-j] != None:
+                        moving_ave = moving_ave+mylist[i-j]
+                    else:
+                        c=c+1
+                moving_aves.append(moving_ave/(N-c))
+                new_time.append(Time[i])
+                
+        make_plot( dir_plots, 'Solar_olveda_rolling', new_time, 'Temperature $(ºC)$',  moving_aves)
+        print('made')
+        
 # %% Execute 
     
 St_544, St_546 = pr.load(open ('Stations.p','rb'))
@@ -192,26 +213,27 @@ Touro, Brandariz, Portodemouros = pr.load(open("Dams_with_outliers.p","rb"))
 
 dir_plots = 'C:/Users/Paulo_Rocha/Desktop/Tese/Tese_code/Plot_Data/';
 
-
 # split_plot_yearly( 'Station 544', St_544, 'S', dir_plots )
 # print('Done!')
 # split_plot_yearly( 'Station 546', St_546, 'S', dir_plots )
 # print('Done!')
-split_plot_yearly( 'Touro', Touro, 'D', dir_plots )
-print('Done!')
-split_plot_yearly( 'Brandariz', Brandariz, 'D', dir_plots )
-print('Done!')
+# split_plot_yearly( 'Touro', Touro, 'D', dir_plots )
+# print('Done!')
+# split_plot_yearly( 'Brandariz', Brandariz, 'D', dir_plots )
+# print('Done!')
 # split_plot_yearly( 'Portodemouro', Portodemouros, 'D', dir_plots )
 # print('Done!')
-# compare_met_yearly('Temperature (ºC)', 2, dir_plots, Met_1, Met_2, Met_3, Met_4, Met_5, Met_6)
+# compare_met_yearly('Temperature $(ºC)$', 2, dir_plots, Met_1, Met_2, Met_3, Met_4)
 # print('Done!')
-# compare_met_yearly('Humidity (%)', 3, dir_plots, Met_1, Met_2, Met_3, Met_4, Met_5, Met_6)
+# compare_met_yearly('Humidity (%)', 3, dir_plots, Met_1, Met_2, Met_3, Met_4)
 # print('Done!')
-# compare_met_yearly('Precipitation (L/m^2)', 4, dir_plots, Met_1, Met_2, Met_3, Met_4, Met_5, Met_6)
+# compare_met_yearly('Precipitation $(L/m^2)$', 4, dir_plots, Met_1, Met_2, Met_3, Met_4)
 # print('Done!')
-# compare_met_yearly('Irradiation (kj/m^2.day)', 5, dir_plots, Met_1, Met_2, Met_3, Met_4, Met_5, Met_6)
+compare_met_yearly('Irradiation $(kj/m^2.day)$', 5, dir_plots, Met_1, Met_2, Met_3, Met_4)
+print('Done!')
+# compare_met_yearly('Pessure $(hPa)$', 6, dir_plots, Met_1, Met_2, Met_3, Met_4)
 # print('Done!')
-# compare_met_yearly('Pessure (hPa)', 6, dir_plots, Met_1, Met_2, Met_3, Met_4, Met_5, Met_6)
-# print('Done!')
+
+
 
 

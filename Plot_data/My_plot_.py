@@ -11,6 +11,8 @@ def make_plot_line( path, Name, Time, Y_name, *args ):
     import os
     import matplotlib.pyplot as plt
     
+    plt.rcParams['text.usetex'] = True
+
     comp = len(args)
     
     if comp < 8: 
@@ -29,7 +31,8 @@ def make_plot_line( path, Name, Time, Y_name, *args ):
         
         Y = Y_name.split('(')
         Y_ = Y[0]
-        Y_=Y_.replace('/','_')        
+        Y_=Y_.replace('/','_')
+        Y_=Y_.replace('$','')         
         
         name = Name + '_' + Y_.replace(' ','_')
 
@@ -40,13 +43,16 @@ def make_plot_line( path, Name, Time, Y_name, *args ):
         Y = Y_name.split('(')
         Y_ = Y[0]
         Y_=Y_.replace('/','_')        
+        Y_=Y_.replace('$','')         
+
         
         name = Name + '_' + Y_.replace(' ','_') + 'Compare'
         
         for i in range(comp-1):
             if (i % 2) == 0:
-                plt.plot(Time, args[i], color[i], linewidth=1.4, label = args[i+1])
-
+                plt.plot(Time, args[i], color[i], linewidth=0.8, label = args[i+1])
+        
+        plt.legend()
     plt.xlabel('Date')
     plt.ylabel(Y_name)
     plt.grid(linewidth=1.0)
@@ -55,6 +61,7 @@ def make_plot_line( path, Name, Time, Y_name, *args ):
         os.makedirs(path)
 
     plt.savefig(path+'/'+name+'.png',dpi=300)
+    print(path+'/'+name+'.png')
     plt.close()
     
 def make_plot_marker_line_( path, Name, Time, Y_name, *args ):

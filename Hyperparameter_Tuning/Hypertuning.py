@@ -64,7 +64,7 @@ def model_creation_1(hp):
         model.add(keras.layers.Dense( hp_units_2 , activation=hp_activation_function ))
     model.add(keras.layers.Dense( 1 , activation=hp_activation_function ))
 
-    opt = keras.optimizers.RMSprop(learning_rate = hp_learning_rate)
+    opt = keras.optimizers.SGD(learning_rate = hp_learning_rate)
     model.compile(optimizer=opt, loss='mse', metrics=['mse'])
 
     return model
@@ -83,7 +83,7 @@ def model_creation_2(hp):
         model.add(keras.layers.Dense( hp_units_2 , activation=hp_activation_function ))
     model.add(keras.layers.Dense( 1 , activation=hp_activation_function ))
 
-    opt = keras.optimizers.RMSprop(learning_rate = hp_learning_rate)
+    opt = keras.optimizers.SGD(learning_rate = hp_learning_rate)
     model.compile(optimizer=opt, loss='mse', metrics=['mse'])
 
     return model
@@ -102,7 +102,7 @@ def model_creation_3(hp):
         model.add(keras.layers.Dense( hp_units_2 , activation=hp_activation_function ))
     model.add(keras.layers.Dense( 1 , activation=hp_activation_function ))
 
-    opt = keras.optimizers.RMSprop(learning_rate = hp_learning_rate)
+    opt = keras.optimizers.SGD(learning_rate = hp_learning_rate)
     model.compile(optimizer=opt, loss='mse', metrics=['mse'])
 
     return model
@@ -121,7 +121,7 @@ def model_creation_4(hp):
         model.add(keras.layers.Dense( hp_units_2 , activation=hp_activation_function ))
     model.add(keras.layers.Dense( 1 , activation=hp_activation_function ))
 
-    opt = keras.optimizers.RMSprop(learning_rate = hp_learning_rate)
+    opt = keras.optimizers.SGD(learning_rate = hp_learning_rate)
     model.compile(optimizer=opt, loss='mse', metrics=['mse'])
 
     return model
@@ -138,7 +138,7 @@ tuner_1 = kt.BayesianOptimization(model_creation_1,
                                   tune_new_entries=True, 
                                   allow_new_entries=True,
                                   directory = path,
-                                  project_name = 'Model_1_HP(4)',
+                                  project_name = 'Model_1_SGD',
                                   overwrite=False,
                                   executions_per_trial=3)
 
@@ -162,7 +162,7 @@ tuner_2 = kt.BayesianOptimization(model_creation_2,
                                   tune_new_entries=True, 
                                   allow_new_entries=True,
                                   directory = path,
-                                  project_name = 'Model_2_HP(4)',
+                                  project_name = 'Model_2_SGD',
                                   overwrite=False,
                                   executions_per_trial=3)
 
@@ -187,7 +187,7 @@ tuner_3 = kt.BayesianOptimization(model_creation_3,
                                   tune_new_entries=True, 
                                   allow_new_entries=True,
                                   directory = path,
-                                  project_name = 'Model_3_HP(4)',
+                                  project_name = 'Model_3_SGD',
                                   overwrite=False,
                                   executions_per_trial=3)
 
@@ -211,7 +211,7 @@ tuner_4 = kt.BayesianOptimization(model_creation_4,
                                   tune_new_entries=True, 
                                   allow_new_entries=True,
                                   directory = path,
-                                  project_name = 'Model_4_HP(4)',
+                                  project_name = 'Model_4_SGD',
                                   overwrite=False,
                                   executions_per_trial=3)
 
