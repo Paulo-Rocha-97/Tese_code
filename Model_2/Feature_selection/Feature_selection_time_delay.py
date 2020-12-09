@@ -106,7 +106,7 @@ for i in range(Size_data[0]):
     
         input_size = input_var.shape[1]
     
-        hidden_layers_info[0] = [10 ,'relu']
+        hidden_layers_info[0] = [input_size ,'relu']
         hidden_layers_info[1] = [10,'relu']
         
         test_parameters = [350,50]

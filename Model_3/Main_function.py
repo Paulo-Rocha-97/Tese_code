@@ -36,7 +36,7 @@ validation_perentagem = 0.1
     
 #     build_LSTM(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model)
     
-Data= [2,2,1,1,0,1,2,1]
+Data= [2,1,1,1,0,1,2,1]
 
 # data_type = [ day index, type of storage, number of days in the past, 
 #               number of days in the future, outflow type]
@@ -54,7 +54,7 @@ Data= [2,2,1,1,0,1,2,1]
              
 save_model = 1
 
-name_model = 'Example'
+name_model = 'Sec_storage_model3_2_delay'
 
 run_model = 1
 

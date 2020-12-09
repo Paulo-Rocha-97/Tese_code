@@ -37,8 +37,8 @@ def order_inputs( var_1, var_2, var_3, var_4 , var_5, var_6, output, data_in_use
     var=[]
     out_final = []
     
-    Mins = [1,-5, 0, 15, 35, 800, 0, 0, 0]
-    Maxs = [366, 30, 110, 100, 3200, 1000, 350, 125, 300]
+    Mins = [1,   -5,   0,  15,   30,  920,   0,   0,   0]
+    Maxs = [366, 30, 110, 100, 3350, 1040, 350, 125, 300]
     
     if len(var_1[0]) == len(var_2[0]) and len(var_1[0]) == len(var_3[0]) and len(var_1[0]) == len(var_4[0]):  
         
@@ -303,13 +303,7 @@ def order_inputs( var_1, var_2, var_3, var_4 , var_5, var_6, output, data_in_use
             for j in range(n_days_delayed,0,-1):
                 
                 list_in = list_in + var[i-j]
-                
-            if data_in_use[-1] ==1:
-                
-                x = Normalize_data(output[4][i-1], Maxs[-1], Mins[-1])
-            
-                list_in = list_in + [x]
-            
+                                        
             var_final.append(list_in)
             
             out_none = Normalize_data(output[4][i], Maxs[-1], Mins[-1])
@@ -326,9 +320,29 @@ def order_inputs( var_1, var_2, var_3, var_4 , var_5, var_6, output, data_in_use
 
 # %% Function to simplify function 
     
-def Normalize_data (x,Max,Min):
+def Normalize_data (Var_1,Max_value,Min_value):
     
-    return x
+    # A = 1 / ( Min_value + Max_value ) 
+    # B = - Min_value / ( Min_value + Max_value )
+        
+    # if isinstance(Var_1,list):
+    
+    #     for i in range(len(Var_1)):  
+            
+    #         if Var_1[i] == None: 
+    #             Var_1[i] == None
+    #         else:    
+    #             Var_1[i] = Var_1[i]*A + B
+                
+    # else:
+        
+    #     if Var_1 == None: 
+    #         Var_1 == None
+    #     else:    
+    #         Var_1 = Var_1*A + B
+        
+        
+    return  Var_1
 
 # %% transform into none into nan
     
@@ -353,7 +367,7 @@ def tranform_none (var,type_var):
 
 # %% Execute
     
-data_in_use = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,1,1,1]
+data_in_use = [1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1]
 
 St_544, St_546 = pr.load(open ('Station.p','rb'))
 Met_1, Met_2, Met_3, Met_4,_,_ = pr.load(open('Met.p','rb'))
@@ -370,5 +384,5 @@ output_var = tranform_none(output_var,'out')
 model_1_data  = {'u': input_var,
                  'y':output_var}
 
-savemat("model_1_data.mat", model_1_data)
+savemat("model_1_data_OG.mat", model_1_data)
  

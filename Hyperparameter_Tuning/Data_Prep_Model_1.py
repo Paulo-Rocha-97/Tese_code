@@ -34,8 +34,8 @@ def order_inputs( var_1, var_2, var_3, var_4 , var_5, var_6, output, n_days_dela
     var=[]
     out_final = []
     
-    Mins = [1,-5, 0, 15, 35, 800, 0, 0, 0]
-    Maxs = [366, 30, 110, 100, 3200, 1000, 350, 125, 300]
+    Mins = [1,   -5,   0,  15,   30,  920,   0,   0,   0]
+    Maxs = [366, 30, 110, 100, 3350, 1040, 350, 125, 300]
     
     if len(var_1[0]) == len(var_2[0]) and len(var_1[0]) == len(var_3[0]) and len(var_1[0]) == len(var_4[0]):  
         
@@ -330,7 +330,7 @@ def clean_nan(Input, Output, Time_plot):
     for i in range(X-1,-1,-1):
         
         for j in range(Input.shape[1]):
-
+            
             if np.isnan(Input[i,j]) or np.isnan(Output[i,0]):
                                 
                 Input = np.delete(Input, (i), axis=0)
@@ -370,7 +370,7 @@ def Normalize_data(Var_1,Max_value,Min_value):
 def generate_data( n_days_delays, save, data_in_use):
     
     St_544, St_546 = pr.load(open ('Station.p','rb'))
-    Met_1, Met_2, Met_3, Met_4,_,_ = pr.load(open('Met.p','rb'))
+    Met_1, Met_2, Met_3, Met_4,_,_= pr.load(open("Met.p","rb"))
     _, _, Portodemouros = pr.load(open("Dams.p","rb"))
     
     input_value, output_value = order_inputs( Met_1, Met_2, Met_3, Met_4, St_544, St_546, Portodemouros, n_days_delays, data_in_use )

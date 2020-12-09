@@ -6,7 +6,7 @@ from Data_Prep_Model_2 import generate_data as generate_data_2
 from Data_Prep_Model_3 import generate_data as generate_data_3
 from Data_Prep_Model_4 import generate_data as generate_data_4
 import os 
-
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.chdir('C:\\Users\\Paulo_Rocha\\Desktop\\Tese\\Tese_code\\Hyperparameter_Tuning')
 
 path = 'C:\\Users\\Paulo_Rocha\\Desktop\\Tese\\Tese_code\\Hyperparameter_Tuning\\Results' 
@@ -16,7 +16,7 @@ path = 'C:\\Users\\Paulo_Rocha\\Desktop\\Tese\\Tese_code\\Hyperparameter_Tuning\
 train_percentage = 0.70
 validation_percentage = 0.15
 
-Data_1 = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,1,1,1]
+Data_1 = [1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1]
 Data_2 = [2,1,1,2,0,2,2,1]
 Data_3 = [2,2,1,1,0,1,2,1]
 Data_4 = [1,1,1,2,0,0,0,1]
@@ -51,15 +51,14 @@ Train_in_4, Train_out_4, Val_in_4, Val_out_4, Test_in_4, Test_out_4, input_shape
 #%% Define Model
 
 def model_creation_1(hp):
-    
-    hp_units_1 = hp.Int('units_1', min_value = 2, max_value = 60, step = 2)
-    hp_units_2 = hp.Int('units_2', min_value = 0, max_value = 60, step = 2)
-    
-    hp_learning_rate = hp.Choice('learning_rate', values = [0.1, 0.01, 0.001, 0.0001, 0.00001],default = 0.01)
-    hp_activation_function = hp.Choice('Activation_function', values = ['relu','tanh','sigmoid'])
+
+    hp_units_1 = hp.Int('units_1', min_value = 10, max_value = 50, step = 2)
+    hp_units_2 = hp.Int('units_2', min_value = 0, max_value = 50, step = 2)
+    hp_learning_rate = hp.Choice('learning_rate', values = [0.1, 0.01, 0.001, 0.0001, 0.00001],default = 0.001)
+    hp_activation_function = hp.Choice('Activation_function', values = ['relu','tanh','sigmoid'],default = 'relu' )
     
     model = keras.models.Sequential()
-    model.add(keras.layers.Dense( hp_units_1 , activation=hp_activation_function , input_shape=(59,)))
+    model.add(keras.layers.Dense( hp_units_1 , activation=hp_activation_function , input_shape=(50,)))
     if hp_units_2 != 0:
         model.add(keras.layers.Dense( hp_units_2 , activation=hp_activation_function ))
     model.add(keras.layers.Dense( 1 , activation=hp_activation_function ))
@@ -69,62 +68,62 @@ def model_creation_1(hp):
 
     return model
 
-def model_creation_2(hp):
+# def model_creation_2(hp):
     
-    hp_units_1 = hp.Int('units_1', min_value = 1, max_value = 10, step = 1, default = 8 )
-    hp_units_2 = hp.Int('units_2', min_value = 0, max_value = 10, step = 1, default = 4 )
+#     hp_units_1 = hp.Int('units_1', min_value = 1, max_value = 10, step = 1, default = 8 )
+#     hp_units_2 = hp.Int('units_2', min_value = 0, max_value = 10, step = 1, default = 4 )
     
-    hp_learning_rate = hp.Choice('learning_rate', values = [0.1, 0.01, 0.001, 0.0001, 0.00001],default = 0.01)
-    hp_activation_function = hp.Choice('Activation_function', values = ['relu','tanh','sigmoid'])
+#     hp_learning_rate = hp.Choice('learning_rate', values = [0.1, 0.01, 0.001, 0.0001, 0.00001],default = 0.01)
+#     hp_activation_function = hp.Choice('Activation_function', values = ['relu','tanh','sigmoid'])
     
-    model = keras.models.Sequential()
-    model.add(keras.layers.Dense( hp_units_1 , activation=hp_activation_function , input_shape=(8,)))
-    if hp_units_2 != 0:
-        model.add(keras.layers.Dense( hp_units_2 , activation=hp_activation_function ))
-    model.add(keras.layers.Dense( 1 , activation=hp_activation_function ))
+#     model = keras.models.Sequential()
+#     model.add(keras.layers.Dense( hp_units_1 , activation=hp_activation_function , input_shape=(8,)))
+#     if hp_units_2 != 0:
+#         model.add(keras.layers.Dense( hp_units_2 , activation=hp_activation_function ))
+#     model.add(keras.layers.Dense( 1 , activation=hp_activation_function ))
 
-    opt = keras.optimizers.SGD(learning_rate = hp_learning_rate)
-    model.compile(optimizer=opt, loss='mse', metrics=['mse'])
+#     opt = keras.optimizers.SGD(learning_rate = hp_learning_rate)
+#     model.compile(optimizer=opt, loss='mse', metrics=['mse'])
 
-    return model
+#     return model
 
-def model_creation_3(hp):
+# def model_creation_3(hp):
     
-    hp_units_1 = hp.Int('units_1', min_value = 1, max_value = 10, step = 1, default = 7)
-    hp_units_2 = hp.Int('units_2', min_value = 0, max_value = 10, step = 1, default = 3)
+#     hp_units_1 = hp.Int('units_1', min_value = 1, max_value = 10, step = 1, default = 7)
+#     hp_units_2 = hp.Int('units_2', min_value = 0, max_value = 10, step = 1, default = 3)
 
-    hp_learning_rate = hp.Choice('learning_rate', values = [0.1, 0.01, 0.001, 0.0001, 0.00001],default = 0.01)
-    hp_activation_function = hp.Choice('Activation_function', values = ['relu','tanh','sigmoid'])
+#     hp_learning_rate = hp.Choice('learning_rate', values = [0.1, 0.01, 0.001, 0.0001, 0.00001],default = 0.01)
+#     hp_activation_function = hp.Choice('Activation_function', values = ['relu','tanh','sigmoid'])
     
-    model = keras.models.Sequential()
-    model.add(keras.layers.Dense( hp_units_1 , activation=hp_activation_function , input_shape=(7,)))
-    if hp_units_2 != 0:
-        model.add(keras.layers.Dense( hp_units_2 , activation=hp_activation_function ))
-    model.add(keras.layers.Dense( 1 , activation=hp_activation_function ))
+#     model = keras.models.Sequential()
+#     model.add(keras.layers.Dense( hp_units_1 , activation=hp_activation_function , input_shape=(7,)))
+#     if hp_units_2 != 0:
+#         model.add(keras.layers.Dense( hp_units_2 , activation=hp_activation_function ))
+#     model.add(keras.layers.Dense( 1 , activation=hp_activation_function ))
 
-    opt = keras.optimizers.SGD(learning_rate = hp_learning_rate)
-    model.compile(optimizer=opt, loss='mse', metrics=['mse'])
+#     opt = keras.optimizers.SGD(learning_rate = hp_learning_rate)
+#     model.compile(optimizer=opt, loss='mse', metrics=['mse'])
 
-    return model
+#     return model
 
-def model_creation_4(hp):
+# def model_creation_4(hp):
     
-    hp_units_1 = hp.Int('units_1', min_value = 1, max_value = 10, step = 1, default = 7)
-    hp_units_2 = hp.Int('units_2', min_value = 0, max_value = 10, step = 1, default = 3)
+#     hp_units_1 = hp.Int('units_1', min_value = 1, max_value = 10, step = 1, default = 7)
+#     hp_units_2 = hp.Int('units_2', min_value = 0, max_value = 10, step = 1, default = 3)
     
-    hp_learning_rate = hp.Choice('learning_rate', values = [0.1, 0.01, 0.001, 0.0001, 0.00001], default = 0.01)
-    hp_activation_function = hp.Choice('Activation_function', values = ['relu','tanh','sigmoid'])
+#     hp_learning_rate = hp.Choice('learning_rate', values = [0.1, 0.01, 0.001, 0.0001, 0.00001], default = 0.01)
+#     hp_activation_function = hp.Choice('Activation_function', values = ['relu','tanh','sigmoid'])
     
-    model = keras.models.Sequential()
-    model.add(keras.layers.Dense( hp_units_1 , activation=hp_activation_function , input_shape=(7,)))
-    if hp_units_2 != 0:
-        model.add(keras.layers.Dense( hp_units_2 , activation=hp_activation_function ))
-    model.add(keras.layers.Dense( 1 , activation=hp_activation_function ))
+#     model = keras.models.Sequential()
+#     model.add(keras.layers.Dense( hp_units_1 , activation=hp_activation_function , input_shape=(7,)))
+#     if hp_units_2 != 0:
+#         model.add(keras.layers.Dense( hp_units_2 , activation=hp_activation_function ))
+#     model.add(keras.layers.Dense( 1 , activation=hp_activation_function ))
 
-    opt = keras.optimizers.SGD(learning_rate = hp_learning_rate)
-    model.compile(optimizer=opt, loss='mse', metrics=['mse'])
+#     opt = keras.optimizers.SGD(learning_rate = hp_learning_rate)
+#     model.compile(optimizer=opt, loss='mse', metrics=['mse'])
 
-    return model
+#     return model
 #%% Define Tuner
 
 print('Model_1')
@@ -138,7 +137,7 @@ tuner_1 = kt.BayesianOptimization(model_creation_1,
                                   tune_new_entries=True, 
                                   allow_new_entries=True,
                                   directory = path,
-                                  project_name = 'Model_1_SGD',
+                                  project_name = 'Model_1_SGD_4',
                                   overwrite=False,
                                   executions_per_trial=3)
 
@@ -151,77 +150,77 @@ tuner_1.search(x=Train_in_1,
 print('\nModel_1_Summary\n')
 tuner_1.results_summary()
 
-print('Model_2')
+# print('Model_2')
 
-tuner_2 = kt.BayesianOptimization(model_creation_2,
-                                  objective = 'mse',
-                                  max_trials = 200,
-                                  num_initial_points=25,
-                                  seed=None, 
-                                  hyperparameters=None, 
-                                  tune_new_entries=True, 
-                                  allow_new_entries=True,
-                                  directory = path,
-                                  project_name = 'Model_2_SGD',
-                                  overwrite=False,
-                                  executions_per_trial=3)
+# tuner_2 = kt.BayesianOptimization(model_creation_2,
+#                                   objective = 'mse',
+#                                   max_trials = 200,
+#                                   num_initial_points=25,
+#                                   seed=None, 
+#                                   hyperparameters=None, 
+#                                   tune_new_entries=True, 
+#                                   allow_new_entries=True,
+#                                   directory = path,
+#                                   project_name = 'Model_2_SGD',
+#                                   overwrite=False,
+#                                   executions_per_trial=3)
 
-tuner_2.search(x=Train_in_2,
-               y=Train_out_2,
-               validation_data=(Val_in_2, Val_out_2),
-               verbose = 0)
+# tuner_2.search(x=Train_in_2,
+#                y=Train_out_2,
+#                validation_data=(Val_in_2, Val_out_2),
+#                verbose = 0)
 
 
-print('\nModel_2_summary\n')
-tuner_2.results_summary()
+# print('\nModel_2_summary\n')
+# tuner_2.results_summary()
  
 
-print('Model_3')
+# print('Model_3')
 
-tuner_3 = kt.BayesianOptimization(model_creation_3,
-                                  objective = 'mse',
-                                  max_trials = 200,
-                                  num_initial_points=25,
-                                  seed=None, 
-                                  hyperparameters=None, 
-                                  tune_new_entries=True, 
-                                  allow_new_entries=True,
-                                  directory = path,
-                                  project_name = 'Model_3_SGD',
-                                  overwrite=False,
-                                  executions_per_trial=3)
+# tuner_3 = kt.BayesianOptimization(model_creation_3,
+#                                   objective = 'mse',
+#                                   max_trials = 200,
+#                                   num_initial_points=25,
+#                                   seed=None, 
+#                                   hyperparameters=None, 
+#                                   tune_new_entries=True, 
+#                                   allow_new_entries=True,
+#                                   directory = path,
+#                                   project_name = 'Model_3_SGD',
+#                                   overwrite=False,
+#                                   executions_per_trial=3)
 
-tuner_3.search(x=Train_in_3,
-               y=Train_out_3,
-               validation_data=(Val_in_3, Val_out_3),
-               verbose = 0)
+# tuner_3.search(x=Train_in_3,
+#                y=Train_out_3,
+#                validation_data=(Val_in_3, Val_out_3),
+#                verbose = 0)
 
 
-print('\nModel_3_summary\n')
-tuner_3.results_summary()
+# print('\nModel_3_summary\n')
+# tuner_3.results_summary()
 
-print('Model_4')
+# print('Model_4')
 
-tuner_4 = kt.BayesianOptimization(model_creation_4,
-                                  objective = 'mse',
-                                  max_trials = 200,
-                                  num_initial_points=25,
-                                  seed=None, 
-                                  hyperparameters=None, 
-                                  tune_new_entries=True, 
-                                  allow_new_entries=True,
-                                  directory = path,
-                                  project_name = 'Model_4_SGD',
-                                  overwrite=False,
-                                  executions_per_trial=3)
+# tuner_4 = kt.BayesianOptimization(model_creation_4,
+#                                   objective = 'mse',
+#                                   max_trials = 200,
+#                                   num_initial_points=25,
+#                                   seed=None, 
+#                                   hyperparameters=None, 
+#                                   tune_new_entries=True, 
+#                                   allow_new_entries=True,
+#                                   directory = path,
+#                                   project_name = 'Model_4_SGD',
+#                                   overwrite=False,
+#                                   executions_per_trial=3)
 
-tuner_4.search(x=Train_in_4,
-               y=Train_out_4,
-               validation_data=(Val_in_4, Val_out_4),
-               verbose = 0)
+# tuner_4.search(x=Train_in_4,
+#                y=Train_out_4,
+#                validation_data=(Val_in_4, Val_out_4),
+#                verbose = 0)
 
-print('\nModel_4_summary\n')
-tuner_4.results_summary()
+# print('\nModel_4_summary\n')
+# tuner_4.results_summary()
 
 # print('\n --------------Parameter summary------------ \n')
 # print('\n Model 1 Best Parameters \n')

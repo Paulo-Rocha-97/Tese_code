@@ -114,16 +114,12 @@ def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type
             list_in.append(x)
             x = Normalize_data(Dam[2][i-1], Max[1], Min[1])
             list_in_sec.append(x)
-            x = Normalize_data(Dam[2][i-2], Max[1], Min[1])
-            list_in_sec.append(x)
             y = Normalize_data(Dam[2][i], Max[1], Min[1])
             list_out_sec.append(y)
         elif data_type[1] == 2:
             x = Normalize_data(Dam[3][i-1], Max[2], Min[2])
             list_in.append(x)
             x = Normalize_data(Dam[3][i-1], Max[2], Min[2])
-            list_in_sec.append(x)
-            x = Normalize_data(Dam[3][i-2], Max[2], Min[2])
             list_in_sec.append(x)
             y = Normalize_data(Dam[3][i], Max[2], Min[2])
             list_out_sec.append(y)
@@ -229,7 +225,10 @@ def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type
         y = Normalize_data(Dam[4][i], Max[3], Min[3]) 
         list_in_sec.append(y)
         list_in_sec.append(w) 
-        
+        w = Normalize_data(Dam[5][i-1], Max[4], Min[4])
+        y = Normalize_data(Dam[4][i-1], Max[3], Min[3]) 
+        list_in_sec.append(y)
+        list_in_sec.append(w) 
         
         in_final.append(list_in)
         out_final.append(list_out)

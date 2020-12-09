@@ -2,6 +2,7 @@
 import numpy as np 
 import pickle as pr
 
+
 def feature_selections_results(name_file):
 
     Data, Results_r_t, Results_MAE_t, Results_RMSE , time_taken = pr.load(open(name_file,'rb'))
@@ -62,26 +63,31 @@ def make_plot_point( path, Name, R, MAE, RMSE, R_std, MAE_std, RMSE_std, X_ticks
     for i in range(len(R)):
         X.append(i+1)
     
-    fig, (ax1, ax2, ax3) = plt.subplots(3, sharex=True, figsize=(7,7))
-    fig.suptitle(Name)
+    fig, (ax1, ax2, ax3) = plt.subplots(1,3, sharex=False)
     
-    ax1.errorbar(X, R , yerr=R_std, color ='red', fmt='o', capsize=6)
-    ax1.scatter(X, R , s = 30, color ='red')
+    fig.set_tight_layout(True)
+    
+    ax1.errorbar(X[0:2], R[0:2] , yerr=R_std[0:2], color ='red', fmt='o', capsize=6)
+    ax1.scatter(X[0:2], R[0:2] , s = 30, color ='red')
 
         
-    ax2.errorbar(X, MAE , yerr=MAE_std, color ='blue' , fmt='o', capsize=6)  
-    ax2.scatter(X, MAE, s = 30, color ='blue')
+    ax2.errorbar(X[0:2], MAE[0:2] , yerr=MAE_std[0:2], color ='blue' , fmt='o', capsize=6)  
+    ax2.scatter(X[0:2], MAE[0:2], s = 30, color ='blue')
 
     
-    ax3.errorbar(X, RMSE , yerr=RMSE_std, color ='green', fmt='o', capsize=6)  
-    ax3.scatter(X, RMSE, s = 30, color ='green')
+    ax3.errorbar(X[0:2], RMSE[0:2] , yerr=RMSE_std[0:2], color ='green', fmt='o', capsize=6)  
+    ax3.scatter(X[0:2], RMSE[0:2], s = 30, color ='green')
 
     
-    ax1.set_xticks(X)
-    ax2.set_xticks(X)
-    ax3.set_xticks(X)
-    
-    plt.xticks(X, X_ticks)
+    ax1.set_xticks(X[0:2])
+    ax1.set_xticklabels(X_ticks,)
+
+    ax2.set_xticks(X[0:2])
+    ax2.set_xticklabels(X_ticks)
+
+    ax3.set_xticks(X[0:2])    
+    ax3.set_xticklabels(X_ticks)
+
         
     ax1.minorticks_on()
     ax2.minorticks_on()
@@ -113,8 +119,8 @@ def make_plot_point( path, Name, R, MAE, RMSE, R_std, MAE_std, RMSE_std, X_ticks
 name_file = 'Feature_selection_test.p'
 R_mean, MAE_mean, RMSE_mean, R_std, MAE_std, RMSE_std, N_error_vec_t, Data = feature_selections_results(name_file)
 
-X_1_ticks =['Control','Statistical','Precipitation', 'Temp and Precip']
-Name = 'Tested hipotesis'
+X_1_ticks =['Control','Statistical']
+Name = 'Contro_v_stats'
 path = 'C:/Users/Paulo_Rocha/Desktop/Tese/Tese_code/Model_1/Feature_Selection/Results/Plots'
 
-make_plot_point( path, Name, R_mean, MAE_mean, RMSE_mean, R_std, MAE_std, RMSE_std, X_1_ticks, 'test' )
+make_plot_point( path, Name, R_mean, MAE_mean, RMSE_mean, R_std, MAE_std, RMSE_std, X_1_ticks, 'control_vs_statistical' )

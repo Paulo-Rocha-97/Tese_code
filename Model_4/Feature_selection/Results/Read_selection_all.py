@@ -110,7 +110,7 @@ def make_plot_point( path, Name, R, MAE, RMSE, R_std, MAE_std, RMSE_std, file_na
 
 #%% Execute 
     
-name_file = 'Feature_selection_all.p'
+name_file = 'Feature_selection_all1.p'
 
 R_mean, MAE_mean, RMSE_mean, R_std, MAE_std, RMSE_std, N_error, Data = feature_selections_results(name_file)
 

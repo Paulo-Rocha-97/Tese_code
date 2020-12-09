@@ -81,7 +81,7 @@ def make_plot_point( path, Name, X, Y_1, Y_2, Y_3, X_Axis, Y_name_1, Y_name_2, Y
     if not os.path.exists(path): 
         os.makedirs(path)
 
-    plt.savefig(path+'/'+file_name+'.png')
+    plt.savefig(path+'/'+file_name+'.png',bbox_inches='tight')
     
 # %% To read feature_selection_all_2
 

@@ -1,9 +1,9 @@
+import os
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 from My_plot_ import  make_plot_line as make_plot
-from My_plot_ import  make_plot_line_nosave as make_plot_ns
 
 # %% Function to calculate mean and st dev
 
@@ -69,9 +69,10 @@ def Denormalize_data( Var, Max_value, Min_value ):
 # test parameters (list) -->  [Epochs, Batch size]
 
     
-def build_MLP(input_var, output_var, time_plot, data_index, hidden_layers_info, opt, test_parameters, name_model, data_type, show_progress ):
+def build_MLP(input_var, output_var, time_plot, data_index, hidden_layers_info, opt, test_parameters, name_model, data_type, show_progress, Trial_RMSE ):
 
-
+    tf.keras.backend.clear_session()
+    
     input_shape = input_var.shape
     output_shape = output_var.shape
     
@@ -103,7 +104,6 @@ def build_MLP(input_var, output_var, time_plot, data_index, hidden_layers_info, 
             model.add(layers.Dense( hidden_layers_info[i][0], activation=hidden_layers_info[i][1]))
     
     model.add(layers.Dense( output_shape[1], activation='relu' ))
-
     model.compile(optimizer=opt, loss='mse')
 
     # Fitting
@@ -115,10 +115,10 @@ def build_MLP(input_var, output_var, time_plot, data_index, hidden_layers_info, 
         history = model.fit(Train_in, Train_out, epochs = test_parameters[0], batch_size = test_parameters[1],
                          validation_data = (Val_in, Val_out), verbose=show_progress, use_multiprocessing=True)
             
-    print('\n Fitting Done \n')
-
     # Evaluate
+        
     error = model.evaluate(Test_in, Test_out, verbose=0)
+    Test_out_pred = model.predict(Test_in, verbose=0)
     RMSE = tf.math.sqrt(error)
 
     print('MSE: %3f \nRMSE: %3f'% (error,RMSE))
@@ -144,29 +144,29 @@ def build_MLP(input_var, output_var, time_plot, data_index, hidden_layers_info, 
         
     # Save full model and plots
         
-    Test_out[:,0] = Denormalize_data(Test_out[:,0], 250, 0)
-    Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], 250, 0) 
-    make_plot_ns(path, 'Model_1_Inflow', time_scale, 'Date', 'Inflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Inflow')
+    Test_out[:,0] = Denormalize_data(Test_out[:,0], 300, 0)
+    Test_out_pred[:,0] = Denormalize_data(Test_out_pred[:,0], 300, 0) 
     
     # Introduce save feature here    
-    save_model =int(input('\nDo you wish to save? : '),10)
     
-    if save_model == 1:
-
-        make_plot(path, 'Model_1_Inflow', time_scale, 'Date', 'Inflow (m^3/s)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Total Inflow')
+    if RMSE < Trial_RMSE:
+     
+        make_plot(path, 'Model_1_Inflow', time_scale, 'Date', 'Inflow ($m^3/s$)', Test_out[:,0], 'Real Data', Test_out_pred[:,0], 'Estimation Total Inflow')
        
         # Plot loss while training 
         if data_index[1]==data_index[0]:
             make_plot(path, 'Model_1_training', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'])
         else:
             make_plot(path, 'Model_1_training', Epochs_axis, 'Epochs', 'Loss (mse)', history.history['loss'], 'Training', history.history['val_loss'], 'Validation')
+        
+            File_name = path + "model1_" + name_model +".h5"
             
-        model_json = model.to_json()
-        with open( path + "model1_" + name_model + ".json", "w") as json_file:
-            json_file.write(model_json)
-        model.save_weights( path + "model1_" + name_model +".h5" )
+        if os.path.exists(File_name):
+            os.remove(File_name)
+        
+        model.save( File_name )
         
         print('\n Model Saved')
         
-    return r, RMSE, MAE, save_model
+    return r, RMSE, MAE
 

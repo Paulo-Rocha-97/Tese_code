@@ -106,7 +106,7 @@ def make_plot_point( path, Name, R, MAE, RMSE, R_std, MAE_std, RMSE_std,  X_tick
     if not os.path.exists(path):
         os.makedirs(path)
 
-    plt.savefig(path+'/'+file_name+'.png')
+    plt.savefig(path+'/'+file_name+'.png',bbox_inches='tight')
 
 #%% Execute 
 

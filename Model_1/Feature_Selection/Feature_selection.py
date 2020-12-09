@@ -18,14 +18,17 @@ train_percentage = 0.70
 validation_perentagem = 0.10
   
 Data=np.array([[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-               [1,1,1,1,1,2,2,2,1,2,2,1,1,2,2,2,2,2,2,2,1,1,1],
-               [1,2,2,2,2,2,2,2,2,1,1,1,1,2,2,2,2,2,2,2,1,1,1],
-               [1,1,1,1,1,2,2,2,2,1,1,1,1,2,2,2,2,2,2,2,1,1,1]
+               [1,2,2,2,2,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,1,1,1],
+               [1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,1,1,1],
+               [1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1],
+               [1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+               [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1],
+               [1,0,0,0,0,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,1,1,1],
                ])
 Size_data = Data.shape
 
 save_model = 0
-Number_of_test_for_model = 20
+Number_of_test_for_model = 10
 
 Results_r = np.zeros((Size_data[0],Number_of_test_for_model))
 Results_RMSE = np.zeros((Size_data[0],Number_of_test_for_model))
@@ -75,4 +78,4 @@ time_taken = Final_time - Initial_time
 
 print('\nTime inm seconds to run: %3f'% (time_taken))
 
-pr.dump( [ Data, Results_r, Results_MAE, Results_RMSE , time_taken ] , open('Feature_selection_test.p','wb'))
+pr.dump( [ Data, Results_r, Results_MAE, Results_RMSE , time_taken ] , open('Feature_selection_test_hypothesis.p','wb'))

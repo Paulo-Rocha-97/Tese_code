@@ -93,6 +93,7 @@ def make_plot_point( path, Name, R, MAE, RMSE, R_std, MAE_std, RMSE_std, X_ticks
         
     ax1.set_ylabel('Days of delay')
     ax1.set_ylabel('r')
+    ax3.set_xlabel('Number of delays')
     ax1.grid(b=True,axis='y', which='major', color='#666666', linestyle='-', linewidth=1.0)
     ax1.grid(b=True,axis='y', which='minor', color='#999999', linestyle='-', linewidth=1.0, alpha=0.2)
     ax2.set_ylabel('MAE')
@@ -116,7 +117,7 @@ name_file = 'Feature_selection_delays.p'
 R_mean, MAE_mean, RMSE_mean, R_st, MAE_st, RMSE_st, N_error_vec_t, Data = feature_selections_results(name_file)
 
 X_1_ticks =['1','2','3','4','5','6','7','8','9','10']
-Name_1 = 'Delays'
+Name_1 = ''
 path = 'C:/Users/Paulo_Rocha/Desktop/Tese/Tese_code/Model_1/Feature_Selection/Results/Plots'
 
 make_plot_point( path, Name_1, R_mean, MAE_mean, RMSE_mean, R_st, MAE_st, RMSE_st, X_1_ticks, 'delays' )

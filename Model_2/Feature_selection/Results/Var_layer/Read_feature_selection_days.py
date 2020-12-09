@@ -96,6 +96,8 @@ def make_plot_3d( path, Name, X, Y, Z, X_name, Y_name, Z_name, file_name , extre
     a = ax.scatter( X, Y, c=Z, cmap='tab20', s=50 )
     fig.colorbar(a)
     a = ax.plot( X[index], Y[index] , 'ko' , markersize=25 , fillstyle='none')
+    ax.set_xlabel('Days delays')
+    ax.set_ylabel('Days ahead')
     
     if not os.path.exists(path):
         os.makedirs(path)
@@ -116,17 +118,17 @@ Y=np.array( [0,1,2,3,4,5,0,1,2,3,4,5,0,1,2,3,4,5,0,1,2,3,4,5,0,1,2,3,4,5,0,1,2,3
 X=np.array( [0,0,0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5])
 
 path = 'C:/Users/Paulo_Rocha/Desktop/Tese/Tese_code/Model_2/Feature_Selection/Results/Var_layer/Plots'
-Name_r = 'Number of days before and after (r)'
-plot_name = 'N_days_r'
+Name_r = 'r'
+plot_name = 'N_days_r_p'
 
 make_plot_3d( path, Name_r, X, Y, R, 'Days before', 'Days lags', 'r validation', plot_name ,'max')
 
-Name_r = 'Number of days before and after (RMSE)'
-plot_name = 'N_days_RMSE'
+Name_r = 'RMSE'
+plot_name = 'N_days_RMSE_p'
 
 make_plot_3d( path, Name_r, X, Y, RMSE, 'Days before', 'Days lags', 'r validation', plot_name ,'min')
-Name_r = 'Number of days before and after (MAE)'
-plot_name = 'N_days_MAE'
+Name_r = 'MAE'
+plot_name = 'N_days_MAE_p'
 
 make_plot_3d( path, Name_r, X, Y, MAE, 'Days before', 'Days lags', 'r validation', plot_name ,'min')
 
