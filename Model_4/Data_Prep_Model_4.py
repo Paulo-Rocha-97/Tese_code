@@ -83,8 +83,8 @@ def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type
     # 7 - Out Power
     # 8 - Week days
     
-    Min = [   0, 158, 0.4,   5,   0,  0,   0,  0, 0]
-    Max = [ 365, 171, 3.2, 230, 230, 50, 180, 90, 7]
+    Min = [   0, 140, 2,   5,   0,  0,   0,  0, 0]
+    Max = [ 365, 150, 6, 230, 230, 50, 180, 90, 7]
     
     day_i = day_index()
     

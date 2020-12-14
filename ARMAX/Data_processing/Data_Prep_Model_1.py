@@ -322,24 +322,24 @@ def order_inputs( var_1, var_2, var_3, var_4 , var_5, var_6, output, data_in_use
     
 def Normalize_data (Var_1,Max_value,Min_value):
     
-    # A = 1 / ( Min_value + Max_value ) 
-    # B = - Min_value / ( Min_value + Max_value )
+    A = 1 / ( Min_value + Max_value ) 
+    B = - Min_value / ( Min_value + Max_value )
         
-    # if isinstance(Var_1,list):
+    if isinstance(Var_1,list):
     
-    #     for i in range(len(Var_1)):  
+        for i in range(len(Var_1)):  
             
-    #         if Var_1[i] == None: 
-    #             Var_1[i] == None
-    #         else:    
-    #             Var_1[i] = Var_1[i]*A + B
+            if Var_1[i] == None: 
+                Var_1[i] == None
+            else:    
+                Var_1[i] = Var_1[i]*A + B
                 
-    # else:
+    else:
         
-    #     if Var_1 == None: 
-    #         Var_1 == None
-    #     else:    
-    #         Var_1 = Var_1*A + B
+        if Var_1 == None: 
+            Var_1 == None
+        else:    
+            Var_1 = Var_1*A + B
         
         
     return  Var_1

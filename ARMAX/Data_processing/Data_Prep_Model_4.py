@@ -64,9 +64,8 @@ def month_index(Time):
 # week day info: 0 - week_combine_holiday 1 - week day binary 2 - week day in number 3 - none
 # holiday info: 0 - week_combine_holiday 1 - national holiday 2 - national and galiza holiday 3 - none
 # remove caudal ecologigo: 0 - not remove; 1 - remove caudal ecologico
-
 def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type ):
-    
+  
     in_final=[]
     out_final=[]
     time_plot=[]
@@ -84,13 +83,13 @@ def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type
     # 7 - Out Power
     # 8 - Week days
     
-    Min = [   0, 158, 0.4,   5,   0,  0,   0,  0, 0]
-    Max = [ 365, 171, 3.2, 230, 230, 50, 180, 90, 7]
-    
-    day_i = day_index()
+    Min = [   0, 140, 2,   5,   0,  0,   0,  0, 0]
+    Max = [ 365, 150, 6, 230, 230, 50, 180, 90, 7]
     
     comp = len(Dam[0])
     
+    day_i = day_index()
+        
     # check if predication of the inflow is asked
     if data_type[3] == 0:
         end = 0
@@ -124,15 +123,7 @@ def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type
         if data_type[1] == 1:
             x = Normalize_data(Dam[2][i-1], Max[1], Min[1])
             list_in.append(x)
-            x = Normalize_data(Dam[2][i-1], Max[1], Min[1])
-            list_in_sec.append(x)
-            y = Normalize_data(Dam[2][i], Max[1], Min[1])
-            list_out_sec.append(y)
-        elif data_type[1] == 2:
-            x = Normalize_data(Dam[3][i-1], Max[2], Min[2])
-            list_in.append(x)
-            x = Normalize_data(Dam[3][i-1], Max[2], Min[2])
-            list_in_sec.append(x)
+
             y = Normalize_data(Dam[3][i], Max[2], Min[2])
             list_out_sec.append(y)
             
@@ -176,27 +167,23 @@ def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type
                 
         if data_type[4] == 0:
             
-            if data_type[7] == 1:
+            if data_type[7] == 1: 
                 
-                if Dam[5][i] != None and Dam[5][i-1] != None:
+                if Dam[5][i] != None:
                 
                     month = month_index(Dam[0][i]) - 1
-                    month_ = month_index(Dam[0][i-1]) - 1
                     
                     y = Normalize_data(Dam[5][i] - Eco_outflow[ month ], Max[4], Min[4])
                     list_out.append(y)
-                    x = Normalize_data(Dam[5][i-1] - Eco_outflow[ month_ ], Max[4], Min[4])
-                    list_in.append(x)
+
                     
                 else:
                      list_out.append(None)
-                     list_in.append(None)
                 
             else:
                 y = Normalize_data(Dam[5][i], Max[4], Min[4])
                 list_out.append(y)
-                x = Normalize_data(Dam[5][i-1], Max[4], Min[4])
-                list_in.append(x)
+
                 
         elif data_type[4] ==1:
             
@@ -204,33 +191,25 @@ def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type
             list_out.append(y)
             y = Normalize_data(Dam[7][i], Max[6], Min[6])
             list_out.append(y)
-            x = Normalize_data(Dam[6][i-1], Max[5], Min[5])
-            list_in.append(x)
-            x = Normalize_data(Dam[7][i-1], Max[6], Min[6])
-            list_in.append(x)
             
-            if data_type[7] == 1:
+            if data_type[7] == 1 :
             
-                if Dam[8][i] != None and Dam[8][i-1] != None:
+                if Dam[8][i] != None:
             
                     month = month_index(Dam[0][i]) - 1
-                    month_ = month_index(Dam[0][i-1]) - 1
         
                     y = Normalize_data(Dam[8][i] - Eco_outflow[ month ], Max[7], Min[7])
                     list_out.append(y)
-                    x = Normalize_data(Dam[8][i-1] - Eco_outflow[ month_ ], Max[7], Min[7])
-                    list_in.append(x)
+
                     
                 else:
                      list_out.append(None)
-                     list_in.append(None)
                 
             else:
 
                 y = Normalize_data(Dam[8][i], Max[7], Min[7])
                 list_out.append(y)
-                x = Normalize_data(Dam[8][i-1], Max[7], Min[7])
-                list_in.append(x)
+
             
         w = Normalize_data(Dam[5][i], Max[4], Min[4])
         y = Normalize_data(Dam[4][i], Max[3], Min[3]) 
@@ -249,6 +228,25 @@ def order_vars( Dam, N_holiday, G_holiday, W_n, W_b, W_c, Eco_outflow, data_type
 
 def Normalize_data(Var_1,Max_value,Min_value):
       
+    # A = 1 / ( Min_value + Max_value ) 
+    # B = - Min_value / ( Min_value + Max_value )
+        
+    # if isinstance(Var_1,list):
+    
+    #     for i in range(len(Var_1)):  
+            
+    #         if Var_1[i] == None: 
+    #             Var_1[i] == None
+    #         else:    
+    #             Var_1[i] = Var_1[i]*A + B
+                
+    # else:
+        
+    #     if Var_1 == None: 
+    #         Var_1 == None
+    #     else:    
+    #         Var_1 = Var_1*A + B
+    
     return  Var_1
 
 # %% transform into none into nan
@@ -298,5 +296,5 @@ model_4_data  = {'u': input_var,
                  'u_sec': input_var_sec,
                  'y_sec':output_var_sec,}
 
-savemat("model_4_data.mat", model_4_data)
+savemat("model_4_data_OG.mat", model_4_data)
     

@@ -112,7 +112,7 @@ def model_creation_1(hp):
 #     hp_units_2 = hp.Int('units_2', min_value = 0, max_value = 10, step = 1, default = 3)
     
 #     hp_learning_rate = hp.Choice('learning_rate', values = [0.1, 0.01, 0.001, 0.0001, 0.00001], default = 0.01)
-#     hp_activation_function = hp.Choice('Activation_function', values = ['relu','tanh','sigmoid'])
+#     hp_activation_function = hp.Choice('Activation_function', values = ['relu','sigmoid'])
     
 #     model = keras.models.Sequential()
 #     model.add(keras.layers.Dense( hp_units_1 , activation=hp_activation_function , input_shape=(7,)))
@@ -137,14 +137,14 @@ tuner_1 = kt.BayesianOptimization(model_creation_1,
                                   tune_new_entries=True, 
                                   allow_new_entries=True,
                                   directory = path,
-                                  project_name = 'Model_1_SGD_4',
+                                  project_name = 'Model_1_SGD_2',
                                   overwrite=False,
                                   executions_per_trial=3)
 
-tuner_1.search(x=Train_in_1,
-               y=Train_out_1,
-               validation_data=(Val_in_1, Val_out_1),
-               verbose = 0)
+# tuner_1.search(x=Train_in_1,
+#                y=Train_out_1,
+#                validation_data=(Val_in_1, Val_out_1),
+#                verbose = 0)
 
 
 print('\nModel_1_Summary\n')
@@ -186,14 +186,14 @@ tuner_1.results_summary()
 #                                   tune_new_entries=True, 
 #                                   allow_new_entries=True,
 #                                   directory = path,
-#                                   project_name = 'Model_3_SGD',
+#                                   project_name = 'Model_3_SGD_2',
 #                                   overwrite=False,
 #                                   executions_per_trial=3)
 
-# tuner_3.search(x=Train_in_3,
-#                y=Train_out_3,
-#                validation_data=(Val_in_3, Val_out_3),
-#                verbose = 0)
+# # tuner_3.search(x=Train_in_3,
+# #                y=Train_out_3,
+# #                validation_data=(Val_in_3, Val_out_3),
+# #                verbose = 0)
 
 
 # print('\nModel_3_summary\n')
@@ -210,7 +210,7 @@ tuner_1.results_summary()
 #                                   tune_new_entries=True, 
 #                                   allow_new_entries=True,
 #                                   directory = path,
-#                                   project_name = 'Model_4_SGD',
+#                                   project_name = 'Model_4_SGD_4',
 #                                   overwrite=False,
 #                                   executions_per_trial=3)
 
