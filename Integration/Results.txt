@@ -1,0 +1,21 @@
+--------- Data Results ---------
+Model 1 
+r -  nan
+RMSE - 0.048017
+MAE - 0.023765
+NS -  nan
+Model 2 
+r -  nan
+RMSE - 0.052892
+MAE - 0.030738
+NS -  nan
+Model 3 
+r -  nan
+RMSE - 0.060461
+MAE - 0.033395
+NS -  nan
+Model 4 
+r -  nan
+RMSE - 0.543899
+MAE - 0.463319
+NS -  nan

@@ -1,0 +1,13 @@
+--------- Data Results ---------
+ARMAX Model
+r - 0.935867
+RMSE - 11.372017
+MAE - 7.846203
+RMSprop Model
+r - 0.998511
+RMSE - 1.673991
+MAE - 1.222082
+SGD Model
+r - 0.991156
+RMSE - 5.135587
+MAE - 3.396536

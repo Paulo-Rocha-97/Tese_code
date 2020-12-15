@@ -15,7 +15,7 @@ path = os.getcwd()
 
 # Number_trial = input('Number of trials: ')
 
-name_model = 'RMSprop_best'
+name_model = 'SGD_best'
 
 Number_trial =30
 
@@ -28,7 +28,7 @@ Trial_RMSE = 1
 for i in range(Number_trial):
 
     Learning_rate = 0.1
-    opt = keras.optimizers.RMSprop(learning_rate = Learning_rate)
+    opt = keras.optimizers.SGD(learning_rate = Learning_rate)
     
     train_percentage = 0.70
     validation_perentagem = 0.1
@@ -44,7 +44,7 @@ for i in range(Number_trial):
     
     hidden_layer_info=[0]
     
-    hidden_layer_info[0] = [7,'sigmoid']
+    hidden_layer_info[0] = [10,'relu']
     
     test_parameters = [500,50]
     

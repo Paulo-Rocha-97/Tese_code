@@ -4,12 +4,12 @@ import sklearn.metrics
 import math
 from My_plot_ import make_plot_line as make_plot
 from Create_time_series import create_time 
-from Data_Prep_Model_1 import generate_data
+from Data_Prep_Model_4 import generate_data
 from tensorflow.keras.models import load_model
 
 # This function serves to compare and plot results between models type
 
-len_armax = 498
+len_armax = 499
 
 # %% Function to calculate mean and st dev
 
@@ -50,17 +50,17 @@ def Denormalize_data( Var, Max_value, Min_value ):
 
 # %% Load model NN 
 
-MLP_1 = load_model('model1_RMSprop_best.h5')
-MLP_2 = load_model('model1_SGD_best.h5')
+MLP_1 = load_model('model4_RMSprop_best.h5')
+MLP_2 = load_model('model4_SGD_best.h5')
 
 # %% Load data
 
 train_percentage = 0.70
 validation_perentagem = 0.1
 
-Data = [1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1]
+Data = [1,1,2,1,0,0,0,1]
 
-input_var, output_var, time_plot = generate_data(3, 0, Data)
+input_var, output_var, time_plot, _, _ = generate_data( 0, Data)
 data_index=[int(train_percentage*len(time_plot)),int((train_percentage+validation_perentagem)*len(time_plot))]
 
 Test_in = input_var[data_index[1]+1:,:]
@@ -73,9 +73,9 @@ time_scale = np.transpose(time_scale)
 Y_pred_RMSprop = MLP_1.predict(Test_in)
 Y_pred_SGD = MLP_2.predict(Test_in) 
 
-Test_out[:,0] = Denormalize_data(Test_out[:,0], 300, 0)
-Y_pred_RMSprop[:,0] = Denormalize_data(Y_pred_RMSprop[:,0], 300, 0) 
-Y_pred_SGD[:,0] = Denormalize_data(Y_pred_SGD[:,0], 300, 0) 
+Test_out[:,0] = Denormalize_data(Test_out[:,0], 230, 0)
+Y_pred_RMSprop[:,0] = Denormalize_data(Y_pred_RMSprop[:,0], 230, 0) 
+Y_pred_SGD[:,0] = Denormalize_data(Y_pred_SGD[:,0], 230, 0) 
 
 Test_out = list(Test_out)
 
@@ -85,7 +85,7 @@ for i in range(len(Test_out)):
 
 #%% Load ARMAX resutls 
 
-csv_file = open('Armax_data_model.csv')
+csv_file = open('Armax_data_model_4.csv')
 ARMAX_data_reader = csv.reader(csv_file, delimiter=',')
 
 ARMAX_data = np.empty([len_armax,2])
@@ -128,9 +128,9 @@ for i in range(len(time_armax)):
 
 #%% make plot
 
-path = 'C:\\Users\\Paulo_Rocha\\Desktop\\Tese\\Tese_code\\ARMAX\\Compare_results\\Model_1\\Plot'
+path = 'C:\\Users\\Paulo_Rocha\\Desktop\\Tese\\Tese_code\\ARMAX\\Compare_results\\Model_4\\Plot'
 
-make_plot(path, 'Compare_model_1',time_scale,'Date', 'Inflow ($m^3/s$)',Test_out,'Real Data',Y_RMSprop,'MLP - RMSprop',Y_SGD,'MLP - Mini batch GD')
+make_plot(path, 'Compare_model_4',time_scale,'Date', 'Inflow ($m^3/s$)',Test_out,'Real Data',Y_RMSprop,'MLP - RMSprop',Y_SGD,'MLP - Mini batch GD')
 
 #%% Caclulate metrics
 

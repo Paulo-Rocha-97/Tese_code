@@ -1,0 +1,5 @@
+--------- Data Results ---------
+RMSprop Model
+r - 0.996359
+RMSE - 0.002996
+MAE - 0.003942
