@@ -154,9 +154,9 @@ def make_plot( path, Name, Time_month, Time_year, Y_name, Values ):
     
 #%% execute
 
-_,_,Portodemouros = pr.load(open('Dams.p','rb'))
+_,_,Portodemouros = pr.load(open('Dams_full_time_series.p','rb'))
 
 path = 'C:/Users/Paulo_Rocha/Desktop/Tese/Tese_code/Plot_Data/General_plots';
 
 Values, Time_month, Time_year = define_minimum(Portodemouros)
-make_plot(path, 'Caudal_ecologico_2010_', Time_month, Time_year, r'Outflow (m^3/s)$', Values)
+make_plot(path, 'Caudal_ecologico__', Time_month, Time_year, r'Outflow $(m^3/s)$', Values)

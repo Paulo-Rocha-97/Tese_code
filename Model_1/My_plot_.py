@@ -10,6 +10,10 @@ def make_plot_line( path, Name, Time, Name_time, Y_name, *args ):
     
     import os
     import matplotlib.pyplot as plt
+    import matplotlib
+    
+    font = {'size'   : 13}
+    matplotlib.rc('font', **font)
 
     comp = len(args)
     

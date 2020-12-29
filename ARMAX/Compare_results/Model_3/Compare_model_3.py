@@ -127,10 +127,17 @@ for i in range(len(time_armax)):
             Y_SGD.append(float(Y_pred_SGD[j]))
 
 #%% make plot
+            
+Y_armax = Denormalize_data(Y_armax, 230, 0) 
 
 path = 'C:\\Users\\Paulo_Rocha\\Desktop\\Tese\\Tese_code\\ARMAX\\Compare_results\\Model_3\\Plot'
 
-make_plot(path, 'Compare_model_3',time_scale,'Date', 'Inflow ($m^3/s$)',Test_out,'Real Data',Y_armax,'ARMAX',Y_RMSprop,'MLP - RMSprop',Y_SGD,'MLP - Mini batch GD')
+make_plot(path, 'Model_3_ARMAX_MLP',time_scale,'Date', 'Outflow ($m^3/s$)',Test_out,'Real Data',Y_armax,'ARMAX',Y_SGD,'MLP')
+
+make_plot(path, 'Model_3_algorithms',time_scale,'Date', 'Outflow ($m^3/s$)',Test_out,'Real Data',Y_SGD,'Mini Batch GD',Y_RMSprop,'RMSprop')
+
+make_plot(path, 'Model_3_ARMAX',time_scale,'Date', 'Outflow ($m^3/s$)',Test_out,'Real Data',Y_armax,'Estimated data')
+
 
 #%% Caclulate metrics
 
@@ -152,8 +159,6 @@ def Calculate_metrics(real_data,tested_data):
 
 # %% Execute and print value
     
-Y_armax = Denormalize_data(Y_armax, 230, 0) 
-
 r_a,RMSE_a,MAE_a = Calculate_metrics(Test_out, Y_armax)
 r_s,RMSE_s,MAE_s = Calculate_metrics(Test_out, Y_SGD)
 r_r,RMSE_r,MAE_r = Calculate_metrics(Test_out, Y_RMSprop)

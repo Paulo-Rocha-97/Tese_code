@@ -15,7 +15,7 @@ path = os.getcwd()
 
 # Number_trial = input('Number of trials: ')
 
-name_model = 'RMSProp_best'
+name_model = 'time_test'
 Number_trial =30
 
 Number_trial =int(Number_trial)
@@ -51,8 +51,14 @@ while i != Number_trial:
     test_parameters = [500,50]
     
     show_progress = 0
-        
+    
+            
     r, RMSE, MAE = build_MLP(input_var, output_var, time_plot, data_index, hidden_layer_info, opt, test_parameters, name_model, Data, show_progress, Trial_RMSE)
+    
+    import time
+    start = time.time()    
+    end = time.time()
+    print(end - start)
     
     if RMSE < Trial_RMSE:
 

@@ -9,9 +9,18 @@
 def make_plot_line( path, Name, Time, Y_name, *args ):
     
     import os
+    import matplotlib 
     import matplotlib.pyplot as plt
+    import matplotlib.dates as mdates
+    import matplotlib.cbook as cbook
+    
+    years = mdates.YearLocator()   # every year
+    months = mdates.MonthLocator()  # every month
+    Month = mdates.DateFormatter('%Y')
     
     plt.rcParams['text.usetex'] = True
+    import matplotlib.pyplot as plt
+    plt.rcParams.update({'font.size': 13})
 
     comp = len(args)
     
@@ -36,7 +45,7 @@ def make_plot_line( path, Name, Time, Y_name, *args ):
         
         name = Name + '_' + Y_.replace(' ','_')
 
-        plt.plot(Time, args[0],'r', linewidth=1.4, label = Y_name)
+        plt.plot(Time, args[0],'r', linewidth=1.0, label = Y_name)
 
     else:
         
@@ -46,20 +55,28 @@ def make_plot_line( path, Name, Time, Y_name, *args ):
         Y_=Y_.replace('$','')         
 
         
-        name = Name + '_' + Y_.replace(' ','_') + 'Compare'
+        fig,ax=plt.subplots()
+        
+        name = Name
         
         for i in range(comp-1):
             if (i % 2) == 0:
-                plt.plot(Time, args[i], color[i], linewidth=0.8, label = args[i+1])
+                ax.plot(Time, args[i], color[i], linewidth=0.8, label = args[i+1])
         
         plt.legend()
+    
+    ax.xaxis.set_minor_locator(months)
+    ax.xaxis.set_major_locator(years)
+    ax.xaxis.set_major_formatter(Month)
+
     plt.xlabel('Date')
     plt.ylabel(Y_name)
     plt.grid(linewidth=1.0)
 
     if not os.path.exists(path):
         os.makedirs(path)
-
+    
+    plt.tight_layout()
     plt.savefig(path+'/'+name+'.png',dpi=300)
     print(path+'/'+name+'.png')
     plt.close()
@@ -101,7 +118,7 @@ def make_plot_marker_line_( path, Name, Time, Y_name, *args ):
         Y_ = Y[0]
         Y_=Y_.replace('/','_')        
         
-        name = Name + '_' + Y_.replace(' ','_') + 'Compare'
+        name = Name
         
         for i in range(comp-1):
             if (i % 2) == 0:
@@ -116,6 +133,7 @@ def make_plot_marker_line_( path, Name, Time, Y_name, *args ):
 
     if not os.path.exists(path):
         os.makedirs(path)
-
+    
+    plt.tight_layout()
     plt.savefig(path+'/'+name+'.png', dpi=3000)
     plt.close()

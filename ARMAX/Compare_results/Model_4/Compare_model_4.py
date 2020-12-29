@@ -130,7 +130,11 @@ for i in range(len(time_armax)):
 
 path = 'C:\\Users\\Paulo_Rocha\\Desktop\\Tese\\Tese_code\\ARMAX\\Compare_results\\Model_4\\Plot'
 
-make_plot(path, 'Compare_model_4',time_scale,'Date', 'Inflow ($m^3/s$)',Test_out,'Real Data',Y_RMSprop,'MLP - RMSprop',Y_SGD,'MLP - Mini batch GD')
+make_plot(path, 'Model_4_ARMAX_MLP',time_scale,'Date', 'Outflow ($m^3/s$)',Test_out,'Real Data',Y_armax,'ARMAX',Y_RMSprop,'MLP')
+
+make_plot(path, 'Model_4_algorithms',time_scale,'Date', 'Outflow ($m^3/s$)',Test_out,'Real Data',Y_SGD,'Mini Batch GD',Y_RMSprop,'RMSprop')
+
+make_plot(path, 'Model_4_ARMAX',time_scale,'Date', 'Outflow ($m^3/s$)',Test_out,'Real Data',Y_armax,'Estimated data')
 
 #%% Caclulate metrics
 
@@ -146,7 +150,7 @@ def Calculate_metrics(real_data,tested_data):
     
     Cov = np.cov(real_data,tested_data)
         
-    r = Cov[0][1] /  (St_dev_1 * St_dev_2)
+    r = Cov[0][1] / (St_dev_1 * St_dev_2)
         
     return r,RMSE,MAE
 

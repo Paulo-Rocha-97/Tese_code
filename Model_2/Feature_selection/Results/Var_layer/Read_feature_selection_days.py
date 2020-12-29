@@ -78,6 +78,7 @@ def make_plot_3d( path, Name, X, Y, Z, X_name, Y_name, Z_name, file_name , extre
     
     import os
     import matplotlib.pyplot as plt
+    import matplotlib
     
     if extrema =='min':
         
@@ -88,8 +89,11 @@ def make_plot_3d( path, Name, X, Y, Z, X_name, Y_name, Z_name, file_name , extre
     for i in range(len(Z)):
         if Z[i] == value_index:
             index = i
-        
-    fig = plt.figure()
+    
+    font = {'size'   : 18}
+    matplotlib.rc('font', **font)
+    
+    fig = plt.figure(figsize=(4,4.8))
     ax = plt.axes()
     fig.suptitle(Name)
     
@@ -98,6 +102,7 @@ def make_plot_3d( path, Name, X, Y, Z, X_name, Y_name, Z_name, file_name , extre
     a = ax.plot( X[index], Y[index] , 'ko' , markersize=25 , fillstyle='none')
     ax.set_xlabel('Days delays')
     ax.set_ylabel('Days ahead')
+    plt.xticks([0,1,2,3,4,5])
     
     if not os.path.exists(path):
         os.makedirs(path)

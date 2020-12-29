@@ -10,9 +10,14 @@ dir_plots = 'C:/Users/Paulo_Rocha/Desktop/Tese/Tese_code/Plot_Data/General_plots
 
 # %% Plot compare between PortodeMouros e Brandariz e Touro
 
-make_plot_line( dir_plots, 'Portodemouros vs Brandariz flow data', Portodemouros[0], 'Flow', Portodemouros[5], 'Outflow Portodemouros', Brandariz[4], 'Inflow Brandariz' )
+make_plot_line( dir_plots, 'Portodemouros vs Brandariz flow data_FlowCompare', Portodemouros[0], 'Flow', Portodemouros[5], 'Outflow Portodemouros', Brandariz[4], 'Inflow Brandariz' )
 
-make_plot_line( dir_plots, 'Brandariz vs Touro flow data', Portodemouros[0], 'Flow', Brandariz[5], 'Outflow Brandariz', Touro[4], 'Inflow Touro' )
+make_plot_line( dir_plots, 'Brandariz vs Touro flow data_FlowCompare', Portodemouros[0], 'Flow', Brandariz[5], 'Outflow Brandariz', Touro[4], 'Inflow Touro' )
+
+
+# make_plot_line( dir_plots, 'Brandariz vs Touro flow data', Portodemouros[0], 'Flow', Brandariz[5], 'Outflow Brandariz', Touro[4], 'Inflow Touro' )
+# make_plot_line( dir_plots, 'Brandariz vs Touro flow data', Portodemouros[0], 'Flow', Brandariz[5], 'Outflow Brandariz', Touro[4], 'Inflow Touro' )
+# make_plot_line( dir_plots, 'Brandariz vs Touro flow data', Portodemouros[0], 'Flow', Brandariz[5], 'Outflow Brandariz', Touro[4], 'Inflow Touro' )
 
 
 # %% Necessary function to compare entrada e saida

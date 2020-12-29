@@ -31,6 +31,9 @@ def MEAN_STDEV( Y_values ):
     
     St_dev = np.sqrt( VAR / ( len(Y_values) - 1 ) )
     
+    Mean=float(Mean)
+    St_dev=float(St_dev)
+    
     return Mean, St_dev
 
 
@@ -130,7 +133,11 @@ for i in range(len(time_armax)):
 
 path = 'C:\\Users\\Paulo_Rocha\\Desktop\\Tese\\Tese_code\\ARMAX\\Compare_results\\Model_1\\Plot'
 
-make_plot(path, 'Compare_model_1',time_scale,'Date', 'Inflow ($m^3/s$)',Test_out,'Real Data',Y_RMSprop,'MLP - RMSprop',Y_SGD,'MLP - Mini batch GD')
+make_plot(path, 'Model_1_ARMAX_MLP',time_scale,'Date', 'Inflow ($m^3/s$)',Test_out,'Real Data',Y_armax,'ARMAX',Y_RMSprop,'MLP')
+
+make_plot(path, 'Model_1_algorithms',time_scale,'Date', 'Inflow ($m^3/s$)',Test_out,'Real Data',Y_SGD,'Mini Batch GD',Y_RMSprop,'RMSprop')
+
+make_plot(path, 'Model_1_ARMAX',time_scale,'Date', 'Outflow ($m^3/s$)',Test_out,'Real Data',Y_armax,'Estimated data')
 
 #%% Caclulate metrics
 

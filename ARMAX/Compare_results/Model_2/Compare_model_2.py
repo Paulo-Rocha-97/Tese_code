@@ -130,7 +130,11 @@ for i in range(len(time_armax)):
 
 path = 'C:\\Users\\Paulo_Rocha\\Desktop\\Tese\\Tese_code\\ARMAX\\Compare_results\\Model_2\\Plot'
 
-make_plot(path, 'Compare_model_2',time_scale,'Date', 'Inflow ($m^3/s$)',Test_out,'Real Data',Y_armax,'ARMAX',Y_RMSprop,'MLP - RMSprop',Y_SGD,'MLP - Mini batch GD')
+make_plot(path, 'Model_2_ARMAX_MLP',time_scale,'Date', 'Outflow ($m^3/s$)',Test_out,'Real Data',Y_armax,'ARMAX',Y_RMSprop,'MLP')
+
+make_plot(path, 'Model_2_algorithms',time_scale,'Date', 'Outflow ($m^3/s$)',Test_out,'Real Data',Y_SGD,'Mini Batch GD',Y_RMSprop,'RMSprop')
+
+make_plot(path, 'Model_2_ARMAX',time_scale,'Date', 'Outflow ($m^3/s$)',Test_out,'Real Data',Y_armax,'Estimated data')
 
 #%% Caclulate metrics
 
