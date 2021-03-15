@@ -68,7 +68,7 @@ Touro, Brandariz, Portodemouros = pr.load(open("Dams.p","rb"))
 
 method_ ='ldb'
 
-font = {'size'   : 20}
+font = {'size'   : 10}
 matplotlib.rc('font', **font)
 
 Inflow_P =  np.asarray(clean_None(Portodemouros[4]))

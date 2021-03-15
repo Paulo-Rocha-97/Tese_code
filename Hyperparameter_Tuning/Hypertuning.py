@@ -137,14 +137,14 @@ tuner_1 = kt.BayesianOptimization(model_creation_1,
                                   tune_new_entries=True, 
                                   allow_new_entries=True,
                                   directory = path,
-                                  project_name = 'Model_1_SGD_2',
+                                  project_name = 'Model_1_SGD_69',
                                   overwrite=False,
                                   executions_per_trial=3)
 
-# tuner_1.search(x=Train_in_1,
-#                y=Train_out_1,
-#                validation_data=(Val_in_1, Val_out_1),
-#                verbose = 0)
+tuner_1.search(x=Train_in_1,
+               y=Train_out_1,
+               validation_data=(Val_in_1, Val_out_1),
+               verbose = 1)
 
 
 print('\nModel_1_Summary\n')

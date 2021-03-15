@@ -71,7 +71,7 @@ def make_plot_line( path, Name, Time, Name_time, Y_name, *args ):
     ax1.grid(linewidth=0.5)
     ax2.grid(linewidth=0.5)
     ax1.xaxis.set_major_locator(months)
-    ax1.set_xticks(ax1.get_xticks()[0::2])
+    ax1.set_xticks(ax1.get_xticks()[0::3])
     ax1.xaxis.set_major_formatter(Month)
 
     plt.tight_layout()

@@ -15,7 +15,7 @@ path = os.getcwd()
 
 # Number_trial = input('Number of trials: ')
 
-name_model = 'time_test'
+name_model = 'time_test_____'
 Number_trial =30
 
 Number_trial =int(Number_trial)
